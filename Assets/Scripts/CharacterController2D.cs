@@ -20,11 +20,14 @@ public class CharacterController2D : MonoBehaviour
 	
 	internal EventHandler<bool> OnCrouch;
 	internal EventHandler OnLand;
+	internal EventHandler OnFall;
 
 	private Rigidbody2D rigidBody;
 	private bool isFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
 	private bool isGrounded;            // Whether the player is grounded.
+
+	private bool isFalling;
 	
 	private bool wasCrouching;
 
@@ -38,9 +41,14 @@ public class CharacterController2D : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		bool wasFalling = isFalling;
+		isFalling = rigidBody.linearVelocityY <= -Values.Epsilon;
+		if(isFalling && !wasFalling)
+			OnFall?.Invoke(this,EventArgs.Empty);
+			
 		bool wasGrounded = isGrounded;
 		isGrounded = false;
-
+		
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
 		// This assumes we can only be on one ground at the same time.
@@ -99,7 +107,6 @@ public class CharacterController2D : MonoBehaviour
 			Vector3 targetVelocity = new Vector2(move * 10f, rigidBody.linearVelocity.y);
 			// And then smoothing it out and applying it to the character
 			rigidBody.linearVelocity = Vector3.SmoothDamp(rigidBody.linearVelocity, targetVelocity, ref velocity, movementSmoothing);
-
 			if ((move > 0 && !isFacingRight) || (move < 0 && isFacingRight))
 				Flip();
 		}
