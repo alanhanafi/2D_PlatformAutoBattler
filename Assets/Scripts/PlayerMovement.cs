@@ -3,6 +3,7 @@ using DefaultNamespace;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+	private static readonly int IsOnWall = Animator.StringToHash("IsOnWall");
 	private static readonly int IsFalling = Animator.StringToHash("IsFalling");
 	private static readonly int IsJumping = Animator.StringToHash("IsJumping");
 	private static readonly int IsCrouching = Animator.StringToHash("IsCrouching");
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		controller.OnCrouch += OnCrouching;
 		controller.OnLand += OnLanding;
+		controller.OnTouchWall += OnTouchingWall;
+		controller.OnLeaveWall += OnLeavingWall;
 		controller.OnFall += OnFalling;
 	}
 
@@ -68,6 +71,16 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		animator.SetBool(IsJumping, false);
 		animator.SetBool(IsFalling, false);
+	}
+	
+	private void OnTouchingWall(object sender, EventArgs e)
+	{
+		animator.SetBool(IsOnWall, true);
+	}
+	
+	private void OnLeavingWall(object sender, EventArgs e)
+	{
+		animator.SetBool(IsOnWall, false);
 	}
 
 	private void OnCrouching (object sender, bool isCrouching)
