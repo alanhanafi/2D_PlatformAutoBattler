@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab384d5564d49e897427631cfca93a5, type: 3}
   m_Name: Item 3
   m_EditorClassIdentifier: 
-  <ItemSprite>k__BackingField: {fileID: 21300000, guid: a0325b0374e9ebc458051a5756fdef31, type: 3}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 38f0b4811be7cda469d8899b3f951697, type: 3}
+  <Color>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+  <CooldownInSeconds>k__BackingField: 5

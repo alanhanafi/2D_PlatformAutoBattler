@@ -27,7 +27,7 @@ namespace DefaultNamespace
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                other.GetComponent<InventoryManager>().AddItem(item);
+                InventoryManager.Instance.AddItem(item);
                 Destroy(gameObject);
             }
         }

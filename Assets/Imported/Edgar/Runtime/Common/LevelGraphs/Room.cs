@@ -13,6 +13,12 @@ namespace Edgar.Unity
         ///     Name of the room.
         /// </summary>
         public string Name = "Room";
+        
+        /// <summary>
+        /// The number of rooms separating the room from the Start Room.
+        /// TODO : Update this value
+        /// </summary>
+        public int DistanceFromStartRoom = 0;
 
         /// <summary>
         ///     Room templates assigned to the room.

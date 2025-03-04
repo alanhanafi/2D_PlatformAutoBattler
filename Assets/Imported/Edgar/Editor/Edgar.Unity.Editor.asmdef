@@ -1,7 +1,8 @@
 {
     "name": "Edgar.Unity.Editor",
     "references": [
-        "Edgar.Unity"
+        "Edgar.Unity",
+        "Scripts"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace Edgar.Unity.Examples.Scripts
@@ -23,7 +24,7 @@ namespace Edgar.Unity.Examples.Scripts
             // Find the room with the Entrance type
             var entranceRoomInstance = level
                 .RoomInstances
-                .FirstOrDefault(x => x.Room.GetDisplayName() == "Start");
+                .FirstOrDefault(x => x.Room.GetDisplayName() == Values.StartRoomName);
 
             if (entranceRoomInstance == null)
             {
