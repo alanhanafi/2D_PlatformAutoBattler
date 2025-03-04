@@ -41,6 +41,18 @@ namespace Edgar.Unity
         [SerializeField]
         private ConnectionBase connection;
 
+        internal int GetDistanceFromStart()
+        {
+            int distanceFromStart = 0;
+
+            /*foreach (var connection in Connection)
+            {
+                
+            }*/
+            
+            return distanceFromStart;
+        }
+
         /// <summary>
         ///     Room template that was selected for a given room.
         /// </summary>

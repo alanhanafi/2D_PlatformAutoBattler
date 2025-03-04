@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Edgar.Unity.Examples.Scripts
@@ -10,7 +11,33 @@ namespace Edgar.Unity.Examples.Scripts
     {
         public override void Run(DungeonGeneratorLevelGrid2D level)
         {
+            SetSpawnPosition(level);
             RemoveWallsFromDoors(level);
+        }
+        /// <summary>
+        /// Move the player to the spawn point of the level.
+        /// </summary>
+        /// <param name="level"></param>
+        private void SetSpawnPosition(DungeonGeneratorLevelGrid2D level)
+        {
+            // Find the room with the Entrance type
+            var entranceRoomInstance = level
+                .RoomInstances
+                .FirstOrDefault(x => x.Room.GetDisplayName() == "Start");
+
+            if (entranceRoomInstance == null)
+            {
+                throw new InvalidOperationException("Could not find Entrance room");
+            }
+
+            var roomTemplateInstance = entranceRoomInstance.RoomTemplateInstance;
+
+            // Find the spawn position marker
+            var spawnPosition = roomTemplateInstance.transform.Find("SpawnPosition");
+
+            // Move the player to the spawn position
+            var player = GameObject.FindWithTag("Player");
+            player.transform.position = spawnPosition.position;
         }
 
         private void RemoveWallsFromDoors(DungeonGeneratorLevelGrid2D level)
@@ -21,6 +48,13 @@ namespace Edgar.Unity.Examples.Scripts
             // Go through individual rooms
             foreach (var roomInstance in level.RoomInstances)
             {
+                Debug.Log(roomInstance.Room.GetInstanceID());
+                // Spawn items in each room
+                Transform itemSpawnerTransform = roomInstance.RoomTemplateInstance.transform.Find("ItemSpawner");
+                if (itemSpawnerTransform != null)
+                    itemSpawnerTransform.GetComponent<ItemSpawner>().SpawnItems();
+                    
+                    
                 // Go through individual doors
                 foreach (var doorInstance in roomInstance.Doors)
                 {

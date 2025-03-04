@@ -13,7 +13,7 @@ namespace Edgar.Unity.Examples.Scripts
         {
             if (InputHelper.GetKeyDown(KeyCode.G) && !isGenerating)
             {
-                LoadNextLevel();
+                //LoadNextLevel();
             }
         }
 

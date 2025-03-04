@@ -2,7 +2,8 @@
     "name": "Edgar.Unity.Examples",
     "references": [
         "Edgar.Unity",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Scripts"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

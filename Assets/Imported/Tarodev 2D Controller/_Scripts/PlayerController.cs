@@ -36,9 +36,6 @@ namespace TarodevController
             _col = GetComponent<CapsuleCollider2D>();
 
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
-
-            Application.targetFrameRate = -1;
-            QualitySettings.vSyncCount = 0;
         }
 
         private void Update()
