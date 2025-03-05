@@ -1,16 +1,17 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class BattleItem : MonoBehaviour
+    public class BattleBoardItem : MonoBehaviour
     {
         [SerializeField] private Image objectImage;
         [SerializeField] private Image maskImage;
         [SerializeField] private Image backgroundImage;
         
-        [SerializeField] private Item tempItem;
+        [FormerlySerializedAs("tempItem")] [SerializeField] private BoardItem tempBoardItem;
 
         [SerializeField] private Team team;
 
@@ -20,7 +21,7 @@ namespace DefaultNamespace
         
         private float timerInSeconds = 0;
 
-        private Item item;
+        private BoardItem boardItem;
 
         private bool isActive;
 
@@ -48,27 +49,27 @@ namespace DefaultNamespace
                 
         }
 
-        internal void Initialize(Item item)
+        internal void Initialize(BoardItem boardItem)
         {
-            this.item = item;
+            this.boardItem = boardItem;
             //objectImage.sprite = item.Sprite;
-            backgroundImage.color = item.Color;
-            baseCooldownInSeconds = item.CooldownInSeconds;
+            backgroundImage.color = boardItem.Color;
+            baseCooldownInSeconds = boardItem.CooldownInSeconds;
             AutoBattleManager.Instance.OnGameStarted += OnStartingGame;
             AutoBattleManager.Instance.OnGameEnded += OnEndingGame;
         }
 
         private void StartFight()
         {
-            if(item is null)
-                Initialize(tempItem);
+            if(boardItem is null)
+                Initialize(tempBoardItem);
             isActive = true;
         }
 
         private void TriggerItem()
         {
-            Debug.Log($"Trigger item: {item.name}");
-            AutoBattleManager.Instance.DealDamage(item.Damage, targetTeam);
+            Debug.Log($"Trigger item: {boardItem.name}");
+            AutoBattleManager.Instance.DealDamage(boardItem.Damage, targetTeam);
         }
 
         private void OnStartingGame(object sender, EventArgs e)

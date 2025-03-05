@@ -502,6 +502,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealthText: {fileID: 1851012746}
   enemyHealthText: {fileID: 930556257}
+  playerBoardItemsContainer: {fileID: 5510776148352915449}
+  battleItemPrefab: {fileID: 4383529289007180099, guid: 621c1267a65b28e4f8efdca6f86538d0, type: 3}
 --- !u!4 &1189623271
 Transform:
   m_ObjectHideFlags: 0
@@ -937,6 +939,10 @@ PrefabInstance:
       propertyPath: tempItem
       value: 
       objectReference: {fileID: 11400000, guid: 4c5917b5a93eb8e4a80abeb15af0c426, type: 2}
+    - target: {fileID: 747250808955354036, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+      propertyPath: tempBoardItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c5917b5a93eb8e4a80abeb15af0c426, type: 2}
     - target: {fileID: 837879392699770256, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -971,6 +977,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2560042236677141798, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
       propertyPath: tempItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c5917b5a93eb8e4a80abeb15af0c426, type: 2}
+    - target: {fileID: 2560042236677141798, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+      propertyPath: tempBoardItem
       value: 
       objectReference: {fileID: 11400000, guid: 4c5917b5a93eb8e4a80abeb15af0c426, type: 2}
     - target: {fileID: 3639782038917129458, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
@@ -1069,15 +1079,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6426933354875038365, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6922781880346635263, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8103976625409278521, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
       propertyPath: m_Name
       value: Player Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135983258453451791, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+--- !u!224 &5510776148352915449 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 841238443686794868, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}
+  m_PrefabInstance: {fileID: 5510776148352915448}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

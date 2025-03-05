@@ -49,7 +49,6 @@ namespace Edgar.Unity.Examples.Scripts
             // Go through individual rooms
             foreach (var roomInstance in level.RoomInstances)
             {
-                Debug.Log(roomInstance.Room.GetInstanceID());
                 // Spawn items in each room
                 Transform itemSpawnerTransform = roomInstance.RoomTemplateInstance.transform.Find("ItemSpawner");
                 if (itemSpawnerTransform != null)

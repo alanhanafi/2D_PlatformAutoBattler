@@ -2,8 +2,8 @@
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "Item")]
-    public class Item : ScriptableObject
+    [CreateAssetMenu(fileName = "Board Item", menuName = "Items/Board Item")]
+    public class BoardItem : ScriptableObject
     {
         [field :SerializeField]
         internal Sprite Sprite { get; private set; }
@@ -18,6 +18,8 @@ namespace DefaultNamespace
         
         // Should be handled differently in a trigger function
         internal int Damage => damage;
+        
+        
 
 
     }

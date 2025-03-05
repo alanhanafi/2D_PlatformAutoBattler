@@ -9,9 +9,15 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI playerHealthText;
         [SerializeField] private TextMeshProUGUI enemyHealthText;
         
-        private AutoBattlePlayer Player = new AutoBattlePlayer(150);
+        [SerializeField] private Transform playerBoardItemsContainer;
+        [SerializeField] private GameObject battleItemPrefab;
+        
+        
+        private const int basePlayerHealth = 150;
+        
+        private AutoBattlePlayer Player = new AutoBattlePlayer(basePlayerHealth);
 
-        private AutoBattlePlayer Enemy = new AutoBattlePlayer(150);
+        private AutoBattlePlayer Enemy = new AutoBattlePlayer(basePlayerHealth);
         
         internal EventHandler OnGameStarted;
         
@@ -34,12 +40,39 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            StartGame();
+            InitializePlayerStats();
+            InitializePlayerBoardItems();
             playerHealthText.text = Player.CurrentHealth.ToString();
             enemyHealthText.text = Player.MaxHealth.ToString();
             Player.OnHealthChanged += OnChangingPlayerHealth;
             Enemy.OnHealthChanged += OnChangingEnemyHealth;
+            StartGame();
         }
+
+        private void InitializePlayerBoardItems()
+        {
+            if (InventoryManager.Instance == null)
+                return;
+            foreach (BoardItem boardItem in InventoryManager.Instance.BoardItemList)
+            {
+                Instantiate(battleItemPrefab, playerBoardItemsContainer).GetComponent<BattleBoardItem>().Initialize(boardItem);
+            }
+            
+        }
+
+        private void InitializePlayerStats()
+        {
+            if (InventoryManager.Instance == null)
+                return;
+            int playerBaseHealth = basePlayerHealth;
+            Debug.Log($"BonusItemList {InventoryManager.Instance.BonusItemList.Count}");
+            foreach (BonusItem bonusItem in InventoryManager.Instance.BonusItemList)
+            {
+                playerBaseHealth += bonusItem.BonusHealth;
+            }
+            Player = new AutoBattlePlayer(playerBaseHealth);
+        }
+        
 
         private void OnChangingEnemyHealth(object sender, int newHealth)
         {

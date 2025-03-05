@@ -21,11 +21,19 @@ namespace DefaultNamespace
 
         #endregion
 
-        private List<Item> itemList = new();
+        internal List<BoardItem> BoardItemList { get; } = new();
+        
+        internal List<BonusItem> BonusItemList { get; }= new();
 
-        internal void AddItem(Item item)
+        internal void AddBoardItem(BoardItem boardItem)
         {
-            itemList.Add(item);
+            BoardItemList.Add(boardItem);
+        }
+        
+        internal void AddBonusItem(BonusItem bonusItem)
+        {
+            BonusItemList.Add(bonusItem);
+            Debug.Log($"BonusItemList {BonusItemList.Count}");
         }
     }
 }
