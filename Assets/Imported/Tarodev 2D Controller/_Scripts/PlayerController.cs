@@ -1,4 +1,5 @@
 using System;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace TarodevController
@@ -16,7 +17,12 @@ namespace TarodevController
         [SerializeField] private ScriptableStats _stats;
         private Rigidbody2D _rb;
         private CapsuleCollider2D _col;
-        private FrameInput _frameInput;
+        private FrameInput _frameInput= new()
+        {
+            JumpDown = false,
+            JumpHeld = false,
+            Move = new Vector2(0, 0)
+        };
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
 
@@ -29,6 +35,8 @@ namespace TarodevController
         #endregion
 
         private float _time;
+        
+        private bool areInputsLocked = true;
 
         private void Awake()
         {
@@ -36,10 +44,19 @@ namespace TarodevController
             _col = GetComponent<CapsuleCollider2D>();
 
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+            // Prevent player from jumping with inputs locked
+            _timeJumpWasPressed = - _stats.JumpBuffer;
+        }
+
+        private void Start()
+        {
+            PlatformerManager.Instance.OnUnlockInputs += OnUnlockingInputs;
         }
 
         private void Update()
         {
+            if (areInputsLocked)
+                return;
             _time += Time.deltaTime;
             GatherInput();
         }
@@ -75,6 +92,12 @@ namespace TarodevController
             HandleGravity();
             
             ApplyMovement();
+        }
+        
+
+        private void OnUnlockingInputs(object sender, EventArgs e)
+        {
+            areInputsLocked = false;
         }
 
         #region Collisions

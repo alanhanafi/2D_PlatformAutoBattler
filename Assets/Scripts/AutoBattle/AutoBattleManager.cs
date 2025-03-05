@@ -43,7 +43,7 @@ namespace DefaultNamespace
             InitializePlayerStats();
             InitializePlayerBoardItems();
             playerHealthText.text = Player.CurrentHealth.ToString();
-            enemyHealthText.text = Player.MaxHealth.ToString();
+            enemyHealthText.text = Enemy.MaxHealth.ToString();
             Player.OnHealthChanged += OnChangingPlayerHealth;
             Enemy.OnHealthChanged += OnChangingEnemyHealth;
             StartGame();
@@ -65,7 +65,6 @@ namespace DefaultNamespace
             if (InventoryManager.Instance == null)
                 return;
             int playerBaseHealth = basePlayerHealth;
-            Debug.Log($"BonusItemList {InventoryManager.Instance.BonusItemList.Count}");
             foreach (BonusItem bonusItem in InventoryManager.Instance.BonusItemList)
             {
                 playerBaseHealth += bonusItem.BonusHealth;

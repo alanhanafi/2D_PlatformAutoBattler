@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,13 +12,20 @@ namespace DefaultNamespace
         [SerializeField] private float gameTimer = 30;
         
         [SerializeField] private TextMeshProUGUI timerText;
+        
+        [SerializeField] private CinemachineCamera baseMapVirtualCamera;
+        
+        [SerializeField] private CinemachineCamera gameVirtualCamera;
+
+        public EventHandler OnUnlockInputs;
+        
         private float timer;
         
         private bool isGameRunning = false;
         
         #region Singleton
 
-        internal static PlatformerManager Instance { get; private set; }
+        public static PlatformerManager Instance { get; private set; }
 
         private void Awake()
         {
@@ -30,12 +38,35 @@ namespace DefaultNamespace
 
         private void Start()
         {
+            WaitForZoomThenStartGame().Forget();
+        }
+
+        private void UnlockInputs()
+        {
+            OnUnlockInputs?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async UniTask WaitForZoomThenStartGame()
+        {
+            timerText.gameObject.SetActive(false);
+            
+            // Wait a bit at min zoom to see the whole map
+            await UniTask.WaitForSeconds(2);
+            // Blends to the main game camera
+            baseMapVirtualCamera.Priority -= 1;
+            await UniTask.WaitUntil(() => !baseMapVirtualCamera.IsParticipatingInBlend());
+            
+            // Start game at the end of the blend
+            Debug.Log($"Start game");
+            UnlockInputs();
             isGameRunning = true;
             UpdateTimer(gameTimer);
+            timerText.gameObject.SetActive(true);
         }
 
         private void Update()
         {
+            //baseMapVirtualCamera.Lens.FieldOfView -= Time.deltaTime;
             if (!isGameRunning)
                 return;
             UpdateTimer(timer- Time.deltaTime);
