@@ -16,6 +16,10 @@ namespace DefaultNamespace
         [SerializeField] private CinemachineCamera baseMapVirtualCamera;
         
         [SerializeField] private CinemachineCamera gameVirtualCamera;
+        
+        [SerializeField] private GameObject playerGameObject;
+
+        private Vector3 respawnPosition;
 
         public EventHandler OnUnlockInputs;
         
@@ -38,6 +42,7 @@ namespace DefaultNamespace
 
         private void Start()
         {
+            respawnPosition = playerGameObject.transform.position;
             WaitForZoomThenStartGame().Forget();
         }
 
@@ -84,6 +89,16 @@ namespace DefaultNamespace
         {
             isGameRunning = false;
             SceneManager.LoadScene("AutoBattle");
+        }
+
+        internal void KillPlayer()
+        {
+            Respawn();
+        }
+
+        private void Respawn()
+        {
+            playerGameObject.transform.position = respawnPosition;
         }
     }
 }
