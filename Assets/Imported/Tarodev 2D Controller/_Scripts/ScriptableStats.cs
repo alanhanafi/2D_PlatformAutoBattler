@@ -37,6 +37,7 @@ namespace TarodevController
 
         [Header("JUMP")] [Tooltip("The immediate velocity applied when jumping")]
         public float JumpPower = 36;
+        
 
         [Tooltip("The maximum vertical movement speed")]
         public float MaxFallSpeed = 40;
@@ -52,5 +53,8 @@ namespace TarodevController
 
         [Tooltip("The amount of time we buffer a jump. This allows jump input before actually hitting the ground")]
         public float JumpBuffer = .2f;
+        
+        [Header("JUMP")] [Tooltip("The immediate velocity applied when touching the bumper")]
+        public float BumperPower = 72;
     }
 }

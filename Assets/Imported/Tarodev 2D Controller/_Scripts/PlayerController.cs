@@ -1,5 +1,4 @@
 using System;
-using DefaultNamespace;
 using UnityEngine;
 
 namespace TarodevController
@@ -47,12 +46,7 @@ namespace TarodevController
             // Prevent player from jumping with inputs locked
             _timeJumpWasPressed = - _stats.JumpBuffer;
         }
-
-        private void Start()
-        {
-            PlatformerManager.Instance.OnUnlockInputs += OnUnlockingInputs;
-        }
-
+        
         private void Update()
         {
             if (areInputsLocked)
@@ -82,6 +76,12 @@ namespace TarodevController
                 _timeJumpWasPressed = _time;
             }
         }
+        
+
+        public void UnlockInputs()
+        {
+            areInputsLocked = false;
+        }
 
         private void FixedUpdate()
         {
@@ -92,12 +92,6 @@ namespace TarodevController
             HandleGravity();
             
             ApplyMovement();
-        }
-        
-
-        private void OnUnlockingInputs(object sender, EventArgs e)
-        {
-            areInputsLocked = false;
         }
 
         #region Collisions
@@ -170,6 +164,23 @@ namespace TarodevController
             _frameVelocity.y = _stats.JumpPower;
             Jumped?.Invoke();
         }
+
+        #endregion
+
+        #region Bumper
+
+        public void ExecuteBumper()
+        {
+            _endedJumpEarly = false;
+            _timeJumpWasPressed = 0;
+            _bufferedJumpUsable = false;
+            _coyoteUsable = false;
+            // TODO : think about implementing a jump at the same time as the bumper 
+            _frameVelocity.y = _stats.BumperPower;
+            // Check if we need a jumped event or something else
+            Jumped?.Invoke();
+        }
+        
 
         #endregion
 

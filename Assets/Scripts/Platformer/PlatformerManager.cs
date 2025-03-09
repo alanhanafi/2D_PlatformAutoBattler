@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using TarodevController;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -20,12 +21,12 @@ namespace DefaultNamespace
         [SerializeField] private GameObject playerGameObject;
 
         private Vector3 respawnPosition;
-
-        public EventHandler OnUnlockInputs;
         
         private float timer;
         
         private bool isGameRunning = false;
+
+        private PlayerController playerController;
         
         #region Singleton
 
@@ -36,6 +37,7 @@ namespace DefaultNamespace
             if (Instance != null)
                 return;
             Instance = this;
+            playerController = playerGameObject.GetComponent<PlayerController>();
         }
 
         #endregion
@@ -48,7 +50,7 @@ namespace DefaultNamespace
 
         private void UnlockInputs()
         {
-            OnUnlockInputs?.Invoke(this, EventArgs.Empty);
+            playerController.UnlockInputs();
         }
 
         private async UniTask WaitForZoomThenStartGame()
@@ -58,7 +60,7 @@ namespace DefaultNamespace
             // Wait a bit at min zoom to see the whole map
             await UniTask.WaitForSeconds(2);
             // Blends to the main game camera
-            baseMapVirtualCamera.Priority -= 1;
+            baseMapVirtualCamera.Priority -= 2;
             await UniTask.WaitUntil(() => !baseMapVirtualCamera.IsParticipatingInBlend());
             
             // Start game at the end of the blend
@@ -99,6 +101,11 @@ namespace DefaultNamespace
         private void Respawn()
         {
             playerGameObject.transform.position = respawnPosition;
+        }
+
+        public void BumpPlayer()
+        {
+            playerController.ExecuteBumper();
         }
     }
 }
