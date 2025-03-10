@@ -10,6 +10,8 @@ namespace DefaultNamespace
 {
     public class PlatformerManager : MonoBehaviour
     {
+        [SerializeField] private bool skipFirstPhase = true;
+        
         [SerializeField] private float gameTimer = 30;
         
         [SerializeField] private TextMeshProUGUI timerText;
@@ -55,6 +57,15 @@ namespace DefaultNamespace
 
         private async UniTask WaitForZoomThenStartGame()
         {
+            if (skipFirstPhase)
+            {
+                baseMapVirtualCamera.Priority -= 2;
+                UnlockInputs();
+                isGameRunning = true;
+                UpdateTimer(gameTimer);
+                return;
+            }
+            
             timerText.gameObject.SetActive(false);
             
             // Wait a bit at min zoom to see the whole map
