@@ -35,6 +35,19 @@ namespace TarodevController
         [Tooltip("The detection distance for grounding and roof detection"), Range(0f, 0.5f)]
         public float GrounderDistance = 0.05f;
 
+        [Header("WALLJUMP")] [Tooltip("The immediate Y velocity applied when wall jumping")]
+        public float WallJumpYPower = 36;
+        [Tooltip("The immediate X velocity applied when wall jumping")]
+        public float WallJumpXPower = 18;
+        [Tooltip("The wall jump duration when direction inputs are locked")]
+        public float WallJumpLockTime = .15f;
+        
+        [Tooltip("The maximum slide movement speed")]
+        public float MaxSlideSpeed = 20;
+        
+        [Tooltip("The player's capacity to gain fall speed. a.k.a. In Air Gravity")]
+        public float SlideAcceleration = 50;
+        
         [Header("JUMP")] [Tooltip("The immediate velocity applied when jumping")]
         public float JumpPower = 36;
         

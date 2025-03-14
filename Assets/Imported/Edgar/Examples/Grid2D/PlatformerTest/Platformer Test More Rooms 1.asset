@@ -167,6 +167,16 @@ MonoBehaviour:
   CorridorRoomTemplateSets: []
   DefaultIndividualRoomTemplates:
   - {fileID: 2317301991054277076, guid: 1575bc5e6ab126a4f831ae156af5396c, type: 3}
+  - {fileID: 2317301991054277076, guid: 8b570b5322d967a40adbac485516e4c1, type: 3}
+  - {fileID: 3689777361867823700, guid: f330af8f6a6e80446ae0b227f48506d5, type: 3}
+  - {fileID: 4797816326411932467, guid: e4f31e7fe24852a4f87a40a4541e222d, type: 3}
+  - {fileID: 5480524128429485527, guid: c778cae5571df1948a6b1bef88782288, type: 3}
+  - {fileID: 6076414618681006588, guid: 8e3a63ba7dc0f3c48962a386df0bc8a6, type: 3}
+  - {fileID: 887601073794915853, guid: e2cb8a85873ee4843afc51257209dcb8, type: 3}
+  - {fileID: 159903501671657663, guid: df745b19aa632eb43b7bc2d292133c3d, type: 3}
+  - {fileID: 2317301991054277076, guid: 659a7a6c6a1b1d54581d5a0a73ac1286, type: 3}
+  - {fileID: 3294060495555879295, guid: 9ec45abccc5e45f45b4a0b145304f280, type: 3}
+  - {fileID: 2317301991054277076, guid: a59adc5e1e4c7a04c8d41f67f32e820c, type: 3}
   DefaultRoomTemplateSets: []
   Rooms:
   - {fileID: 114622384622351552}

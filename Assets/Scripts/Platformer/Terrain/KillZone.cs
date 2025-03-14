@@ -13,8 +13,6 @@ namespace DefaultNamespace
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
                 PlatformerManager.Instance.KillPlayer();
-                //InventoryManager.Instance.AddBonusItem(bonusItem);
-                //Destroy(gameObject);
             }
         }
     }

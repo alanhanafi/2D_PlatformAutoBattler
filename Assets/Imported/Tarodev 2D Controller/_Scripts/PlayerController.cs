@@ -29,6 +29,7 @@ namespace TarodevController
 
         public Vector2 FrameInput => _frameInput.Move;
         public event Action<bool, float> GroundedChanged;
+        public event Action<bool> WallSlidingChanged;
         public event Action Jumped;
 
         #endregion
@@ -96,8 +97,10 @@ namespace TarodevController
 
         #region Collisions
         
-        private float _frameLeftGrounded = float.MinValue;
-        private bool _grounded;
+        private float frameLeftGrounded = float.MinValue;
+        private bool isGrounded;
+        private bool isWallSliding;
+        private bool isOnLeftWall;
 
         private void CheckCollisions()
         {
@@ -106,25 +109,45 @@ namespace TarodevController
             // Ground and Ceiling
             bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            bool rightWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            bool leftWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
+            
             // Hit a Ceiling
             if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
 
             // Landed on the Ground
-            if (!_grounded && groundHit)
+            if (!isGrounded && groundHit)
             {
-                _grounded = true;
+                isGrounded = true;
                 _coyoteUsable = true;
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
                 GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+                isWallSliding = false;
             }
             // Left the Ground
-            else if (_grounded && !groundHit)
+            else if (isGrounded && !groundHit)
             {
-                _grounded = false;
-                _frameLeftGrounded = _time;
+                isGrounded = false;
+                frameLeftGrounded = _time;
                 GroundedChanged?.Invoke(false, 0);
+            }
+
+            if (!isGrounded)
+            {
+                if (!isWallSliding && (rightWallHit || leftWallHit))
+                {
+                    isWallSliding = true;
+                    isOnLeftWall = leftWallHit;
+                    _bufferedJumpUsable = true;
+                    _endedJumpEarly = false;
+                    WallSlidingChanged?.Invoke(true);
+                }else if (isWallSliding && !rightWallHit && !leftWallHit)
+                {
+                    isWallSliding = false;
+                    WallSlidingChanged?.Invoke(false);
+                }
             }
 
             Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
@@ -140,28 +163,36 @@ namespace TarodevController
         private bool _endedJumpEarly;
         private bool _coyoteUsable;
         private float _timeJumpWasPressed;
+        private float _timeWallJumpingStarted;
 
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _stats.JumpBuffer;
-        private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _frameLeftGrounded + _stats.CoyoteTime;
+        private bool CanUseCoyote => _coyoteUsable && !isGrounded && _time < frameLeftGrounded + _stats.CoyoteTime;
+        private bool IsWallJumping => !isGrounded && !isWallSliding && _time < _timeWallJumpingStarted + _stats.WallJumpLockTime;
 
         private void HandleJump()
         {
-            if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.linearVelocity.y > 0) _endedJumpEarly = true;
+            if (!_endedJumpEarly && !isGrounded && !isWallSliding && !_frameInput.JumpHeld && _rb.linearVelocity.y > 0) _endedJumpEarly = true;
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
-            if (_grounded || CanUseCoyote) ExecuteJump();
+            if (isGrounded || isWallSliding || CanUseCoyote) ExecuteJump();
 
             _jumpToConsume = false;
         }
 
         private void ExecuteJump()
         {
+            hasUsedBumper = false;
             _endedJumpEarly = false;
             _timeJumpWasPressed = 0;
             _bufferedJumpUsable = false;
             _coyoteUsable = false;
-            _frameVelocity.y = _stats.JumpPower;
+            _frameVelocity.y = isWallSliding ? _stats.WallJumpYPower:_stats.JumpPower;
+            if (isWallSliding)
+            {
+                _frameVelocity.x = isOnLeftWall ? _stats.WallJumpXPower : -_stats.WallJumpXPower;
+                _timeWallJumpingStarted = _time;
+            }
             Jumped?.Invoke();
         }
 
@@ -169,15 +200,18 @@ namespace TarodevController
 
         #region Bumper
 
+        // Determines if the upward velocity is caused by the bumper or the jump
+        private bool hasUsedBumper = false;
+        
         public void ExecuteBumper()
         {
+            hasUsedBumper = true;
             _endedJumpEarly = false;
             _timeJumpWasPressed = 0;
             _bufferedJumpUsable = false;
             _coyoteUsable = false;
-            // TODO : think about implementing a jump at the same time as the bumper 
             _frameVelocity.y = _stats.BumperPower;
-            // Check if we need a jumped event or something else
+            // TODO : Check if we need a jumped event or something else
             Jumped?.Invoke();
         }
         
@@ -188,9 +222,13 @@ namespace TarodevController
 
         private void HandleDirection()
         {
+            //lock direction inputs while wall jumping
+            if (IsWallJumping)
+                return;
+            
             if (_frameInput.Move.x == 0)
             {
-                var deceleration = _grounded ? _stats.GroundDeceleration : _stats.AirDeceleration;
+                var deceleration = isGrounded ? _stats.GroundDeceleration : _stats.AirDeceleration;
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
             }
             else
@@ -205,14 +243,19 @@ namespace TarodevController
 
         private void HandleGravity()
         {
-            if (_grounded && _frameVelocity.y <= 0f)
+            if (isGrounded && _frameVelocity.y <= 0f)
             {
                 _frameVelocity.y = _stats.GroundingForce;
+            }
+            else if (isWallSliding && _frameVelocity.y < 0f)
+            {
+                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_stats.MaxSlideSpeed, _stats.SlideAcceleration * Time.fixedDeltaTime);
             }
             else
             {
                 var inAirGravity = _stats.FallAcceleration;
-                if (_endedJumpEarly && _frameVelocity.y > 0) inAirGravity *= _stats.JumpEndEarlyGravityModifier;
+                if (_endedJumpEarly && _frameVelocity.y > 0 && !hasUsedBumper) 
+                    inAirGravity *= _stats.JumpEndEarlyGravityModifier;
                 _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
             }
         }
