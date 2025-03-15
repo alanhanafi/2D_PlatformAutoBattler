@@ -101,17 +101,23 @@ namespace TarodevController
         private bool isGrounded;
         private bool isWallSliding;
         private bool isOnLeftWall;
+        private RaycastHit2D groundHit;
 
         private void CheckCollisions()
         {
             Physics2D.queriesStartInColliders = false;
 
             // Ground and Ceiling
-            bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool rightWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
             bool leftWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
 
+            if(groundHit)
+                Debug.Log($"groundHit {groundHit.collider.name}");
+            else
+                Debug.Log($"In air");
+            
             
             // Hit a Ceiling
             if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
@@ -229,11 +235,16 @@ namespace TarodevController
             if (_frameInput.Move.x == 0)
             {
                 var deceleration = isGrounded ? _stats.GroundDeceleration : _stats.AirDeceleration;
+                if (groundHit && groundHit.collider.name == "Ice")
+                    deceleration /= 10;
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
             }
             else
             {
-                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
+                float acceleration = _stats.Acceleration;
+                if (groundHit && groundHit.collider.name == "Ice")
+                    acceleration /= 10;
+                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * _stats.MaxSpeed, acceleration * Time.fixedDeltaTime);
             }
         }
 
