@@ -24,10 +24,10 @@ MonoBehaviour:
   AirDeceleration: 30
   GroundingForce: -1.5
   GrounderDistance: 0.05
-  WallJumpYPower: 36
-  WallJumpXPower: 18
-  WallJumpLockTime: 0.05
-  MaxSlideSpeed: 10
+  WallJumpYPower: 25
+  WallJumpXPower: 10
+  WallJumpLockTime: 0.15
+  MaxSlideSpeed: 20
   SlideAcceleration: 50
   JumpPower: 36
   MaxFallSpeed: 40

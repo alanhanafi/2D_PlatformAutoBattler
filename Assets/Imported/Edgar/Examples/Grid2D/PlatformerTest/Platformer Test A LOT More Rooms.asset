@@ -714,8 +714,9 @@ MonoBehaviour:
   - {fileID: 2317301991054277076, guid: 1575bc5e6ab126a4f831ae156af5396c, type: 3}
   - {fileID: 2317301991054277076, guid: 8b570b5322d967a40adbac485516e4c1, type: 3}
   - {fileID: 2317301991054277076, guid: 1004cb4a97399594dad288397073b16a, type: 3}
-  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
   - {fileID: 2317301991054277076, guid: 20cb775805b966845bc4f5ee0bb5eed2, type: 3}
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   DefaultRoomTemplateSets: []
   Rooms:
   - {fileID: 114622384622351552}
