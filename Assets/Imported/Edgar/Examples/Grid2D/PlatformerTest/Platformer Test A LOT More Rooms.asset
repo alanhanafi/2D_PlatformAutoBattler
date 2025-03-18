@@ -15,7 +15,9 @@ MonoBehaviour:
   Position: {x: 1184, y: -112}
   Name: Room
   DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
+  IndividualRoomTemplates:
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-7826770995651053169
 MonoBehaviour:
@@ -269,7 +271,9 @@ MonoBehaviour:
   Position: {x: 624, y: 640}
   Name: Room
   DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
+  IndividualRoomTemplates:
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-5289219721333399001
 MonoBehaviour:
@@ -474,7 +478,9 @@ MonoBehaviour:
   Position: {x: 528, y: -560}
   Name: Room
   DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
+  IndividualRoomTemplates:
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-1770127702428135062
 MonoBehaviour:
@@ -654,13 +660,11 @@ MonoBehaviour:
   - {fileID: 114986333716785486}
   - {fileID: 114446772018196206}
   - {fileID: 114214265033885784}
-  - {fileID: 114227044127252642}
   - {fileID: 114457004960763940}
   - {fileID: 114736483299496484}
   - {fileID: 114242510185525166}
   - {fileID: 114237792551585506}
   - {fileID: 114970523947880760}
-  - {fileID: 114707052487106342}
   - {fileID: 549285974235609394}
   - {fileID: -5869549479791843393}
   - {fileID: -4161053337908700848}
@@ -709,14 +713,13 @@ MonoBehaviour:
   - {fileID: 6076414618681006588, guid: 8e3a63ba7dc0f3c48962a386df0bc8a6, type: 3}
   - {fileID: 887601073794915853, guid: e2cb8a85873ee4843afc51257209dcb8, type: 3}
   - {fileID: 159903501671657663, guid: df745b19aa632eb43b7bc2d292133c3d, type: 3}
-  - {fileID: 2317301991054277076, guid: 659a7a6c6a1b1d54581d5a0a73ac1286, type: 3}
   - {fileID: 3294060495555879295, guid: 9ec45abccc5e45f45b4a0b145304f280, type: 3}
   - {fileID: 2317301991054277076, guid: 1575bc5e6ab126a4f831ae156af5396c, type: 3}
   - {fileID: 2317301991054277076, guid: 8b570b5322d967a40adbac485516e4c1, type: 3}
   - {fileID: 2317301991054277076, guid: 1004cb4a97399594dad288397073b16a, type: 3}
   - {fileID: 2317301991054277076, guid: 20cb775805b966845bc4f5ee0bb5eed2, type: 3}
-  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
-  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
+  - {fileID: 2317301991054277076, guid: a42ed3054044de04ba8a293d45da0aa7, type: 3}
+  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   DefaultRoomTemplateSets: []
   Rooms:
   - {fileID: 114622384622351552}
@@ -727,14 +730,12 @@ MonoBehaviour:
   - {fileID: 114766300384643588}
   - {fileID: 114553599775296944}
   - {fileID: 114155145684142894}
-  - {fileID: 114711180387811236}
   - {fileID: 114646542349933920}
   - {fileID: 114317143011916104}
   - {fileID: 114873879225811832}
   - {fileID: 114895794376292156}
   - {fileID: 114962872021603026}
   - {fileID: 114338880324045952}
-  - {fileID: 114222030857626690}
   - {fileID: -6183516514803588910}
   - {fileID: 6113124025809844181}
   - {fileID: 4461184536220780741}
@@ -770,8 +771,8 @@ MonoBehaviour:
   - {fileID: -5933114921847685562}
   - {fileID: 1221479854420802480}
   EditorData:
-    PanOffset: {x: 701.9354, y: 465.08887}
-    Zoom: 0.6052094
+    PanOffset: {x: 251.07892, y: 748.9813}
+    Zoom: 0.5473406
   RoomType: Edgar.Unity.Room
   ConnectionType: Edgar.Unity.Connection
   IsDirected: 0
@@ -857,38 +858,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   From: {fileID: 114553599775296944}
   To: {fileID: 114155145684142894}
-  RoomTemplates: []
---- !u!114 &114222030857626690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8074dc491ddc34f4e83332d9eae76980, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 672, y: 48}
-  Name: Room
-  DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
-  RoomTemplateSets: []
---- !u!114 &114227044127252642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f692f83df7c1b5468af64edd22287dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  From: {fileID: 114553599775296944}
-  To: {fileID: 114711180387811236}
   RoomTemplates: []
 --- !u!114 &114237118347150360
 MonoBehaviour:
@@ -1066,38 +1035,6 @@ MonoBehaviour:
   From: {fileID: 114915651774173540}
   To: {fileID: 114172135817212446}
   RoomTemplates: []
---- !u!114 &114707052487106342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f692f83df7c1b5468af64edd22287dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  From: {fileID: 114962872021603026}
-  To: {fileID: 114222030857626690}
-  RoomTemplates: []
---- !u!114 &114711180387811236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8074dc491ddc34f4e83332d9eae76980, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position: {x: 336, y: 128}
-  Name: Room
-  DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
-  RoomTemplateSets: []
 --- !u!114 &114736483299496484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1275,7 +1212,9 @@ MonoBehaviour:
   Position: {x: -224, y: 480}
   Name: Room
   DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
+  IndividualRoomTemplates:
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   RoomTemplateSets: []
 --- !u!114 &1354420420946795242
 MonoBehaviour:
@@ -1371,7 +1310,9 @@ MonoBehaviour:
   Position: {x: 1232, y: 288}
   Name: Room
   DistanceFromStartRoom: 0
-  IndividualRoomTemplates: []
+  IndividualRoomTemplates:
+  - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
+  - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
   RoomTemplateSets: []
 --- !u!114 &2936391377878190243
 MonoBehaviour:

@@ -50,7 +50,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -75,10 +75,10 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: a5dca4e12e766b44b9f3d00c735abb44, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 21300404, guid: 429d98e5545399542ba1cea73893600b, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300404, guid: 429d98e5545399542ba1cea73893600b, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300408, guid: 429d98e5545399542ba1cea73893600b, type: 3}
   m_TileMatrixArray:
@@ -2129,6 +2129,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+      propertyPath: pickupItemPrefab
+      value: 
+      objectReference: {fileID: 3673488126363957202, guid: 17f9e1cd2a9d27844a8b4ccd285ba442, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

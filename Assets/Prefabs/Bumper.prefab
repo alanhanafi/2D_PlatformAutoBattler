@@ -175,3 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798ad82ceab042dfb640ae9c83d28b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  triggeredMaxHeight: 0.5
+  maxHeightDuration: 0.2
+  lerpSpeed: 0.5

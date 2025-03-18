@@ -5,6 +5,7 @@ namespace DefaultNamespace
 {
     public class PickupBonusItem : MonoBehaviour, PickupItem
     {
+        [SerializeField] private SpriteRenderer bonusItemSpriteRenderer;
         [SerializeField] private BonusItem[] availableBonusItems;
         
         [SerializeField,HideInInspector]
@@ -15,6 +16,7 @@ namespace DefaultNamespace
             bonusItem = availableBonusItems[Random.Range(0, availableBonusItems.Length)];
             Functions.SetObjectDirty(bonusItem);
             GetComponent<SpriteRenderer>().color = bonusItem.Color;
+            bonusItemSpriteRenderer.sprite = bonusItem.Sprite;
         }
 
         /// <summary>
