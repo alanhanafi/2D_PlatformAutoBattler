@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -6,24 +7,41 @@ namespace DefaultNamespace
 {
     public class AutoBattleManager : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI endGameText;
         [SerializeField] private TextMeshProUGUI playerHealthText;
         [SerializeField] private TextMeshProUGUI enemyHealthText;
         
         [SerializeField] private Transform playerBoardItemsContainer;
         [SerializeField] private GameObject battleItemPrefab;
         
-        
-        private const int basePlayerHealth = 150;
-        
-        private AutoBattlePlayer Player = new AutoBattlePlayer(basePlayerHealth);
+        [SerializeField] private AutoBattlePlayerState playerState;
+        [SerializeField] private AutoBattlePlayerState enemyState;
 
-        private AutoBattlePlayer Enemy = new AutoBattlePlayer(basePlayerHealth);
+        [SerializeField]
+        private float gameStartDelay = 2f;
+        
+        // Delay between each timer is raised, allows to get both players' action that would occur at the same time and allow a draw
+        [SerializeField]
+        private float timerEventDelay = 0.1f;
+        
+        // TODO : Use SO 
+        [SerializeField]
+        private int additionalEnemyPlayerHealth = 50;
+        [SerializeField]
+        private int additionalEnemyAttackDamage = 25;
+        [SerializeField]
+        private float additionalEnemyAttackSpeed = .3f;
+        
+        
+        internal EventHandler<float> OnTimePassed;
         
         internal EventHandler OnGameStarted;
         
         internal EventHandler OnGameEnded;
 
         internal bool IsAutoBattleRunning { get; private set; }= false;
+        
+        private float currentTimer = 0f;
         
         #region Singleton
 
@@ -40,36 +58,75 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            InitializePlayerStats();
+            InitializePlayersStats();
             InitializePlayerBoardItems();
-            playerHealthText.text = Player.CurrentHealth.ToString();
-            enemyHealthText.text = Enemy.MaxHealth.ToString();
-            Player.OnHealthChanged += OnChangingPlayerHealth;
-            Enemy.OnHealthChanged += OnChangingEnemyHealth;
+            playerHealthText.text = playerState.CurrentHealth.ToString();
+            enemyHealthText.text = enemyState.MaxHealth.ToString();
+            playerState.OnHealthChanged += OnChangingPlayerHealth;
+            enemyState.OnHealthChanged += OnChangingEnemyHealth;
+            StartGameAfterDelayAsync().Forget();
+        }
+
+        private void Update()
+        {
+            if (!IsAutoBattleRunning)
+                return;
+            currentTimer += Time.deltaTime;
+            if (currentTimer >= timerEventDelay)
+            {
+                OnTimePassed?.Invoke(this, timerEventDelay);
+                currentTimer -= timerEventDelay;
+                if(playerState.IsDead || enemyState.IsDead)
+                    EndGame();
+            }
+        }
+
+        private async UniTask StartGameAfterDelayAsync()
+        {
+            await UniTask.WaitForSeconds(gameStartDelay);
             StartGame();
         }
 
         private void InitializePlayerBoardItems()
         {
+            // NO board for now
+            return;
             if (InventoryManager.Instance == null)
                 return;
-            foreach (BoardItem boardItem in InventoryManager.Instance.BoardItemList)
+            foreach (MainItem boardItem in InventoryManager.Instance.BoardItemList)
             {
                 Instantiate(battleItemPrefab, playerBoardItemsContainer).GetComponent<BattleBoardItem>().Initialize(boardItem);
             }
-            
         }
 
-        private void InitializePlayerStats()
+        private void InitializePlayersStats()
         {
+            int additionalPlayerHealth = 0;
+            int additionalAttackDamage = 0;
+            float additionalAttackSpeed = 0;
             if (InventoryManager.Instance == null)
-                return;
-            int playerBaseHealth = basePlayerHealth;
-            foreach (BonusItem bonusItem in InventoryManager.Instance.BonusItemList)
             {
-                playerBaseHealth += bonusItem.BonusHealth;
+                additionalPlayerHealth = additionalEnemyPlayerHealth;
+                additionalAttackDamage =additionalEnemyAttackDamage;
+                additionalAttackSpeed = additionalEnemyAttackSpeed;
             }
-            Player = new AutoBattlePlayer(playerBaseHealth);
+            else
+            {
+                foreach (BonusItem bonusItem in InventoryManager.Instance.BonusItemList)
+                {
+                    additionalPlayerHealth += bonusItem.BonusHealth;
+                    additionalAttackDamage += bonusItem.BonusDamage;
+                    additionalAttackSpeed += bonusItem.BonusAttackSpeed;
+                }
+                playerState.mainItemsList = InventoryManager.Instance.BoardItemList;
+            }
+            playerState.InitializeStats(additionalPlayerHealth, additionalAttackDamage, additionalAttackSpeed);
+            enemyState.InitializeStats(additionalEnemyPlayerHealth,additionalEnemyAttackDamage, additionalEnemyAttackSpeed);
+        }
+
+        internal AutoBattlePlayerState GetPlayerState(Team playerTeam)
+        {
+            return playerTeam == Team.Player ? playerState : enemyState;
         }
         
 
@@ -88,23 +145,26 @@ namespace DefaultNamespace
             IsAutoBattleRunning = true;
             OnGameStarted?.Invoke(this, EventArgs.Empty);
         }
-
-        internal void DealDamage(int damage, Team targetTeam)
-        {
-            if (targetTeam == Team.Enemy)
-                Enemy.TakeDamage(damage);
-            else if (targetTeam == Team.Player)
-                Player.TakeDamage(damage);
-            if(Player.IsDead || Enemy.IsDead)
-                EndGame();
-                
-        }
         
-        internal void EndGame()
+        private void EndGame()
         {
             IsAutoBattleRunning = false;
-            Team winner = Player.IsDead?Team.Enemy:Team.Player;
-            Debug.Log($"{winner} won !");
+            switch (playerState.IsDead)
+            {
+                case true when enemyState.IsDead:
+                    endGameText.text = "DRAW !";
+                    break;
+                case true:
+                    endGameText.text = "YOU LOST !";
+                    break;
+                default:
+                {
+                    if(enemyState.IsDead)
+                        endGameText.text = "YOU WON !";
+                    break;
+                }
+            }
+            endGameText.gameObject.SetActive(true);
             OnGameEnded?.Invoke(this, EventArgs.Empty);
         }
     }

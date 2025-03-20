@@ -21,13 +21,13 @@ namespace DefaultNamespace
 
         #endregion
 
-        internal List<BoardItem> BoardItemList { get; } = new();
+        internal List<MainItem> BoardItemList { get; } = new();
         
         internal List<BonusItem> BonusItemList { get; }= new();
 
-        internal void AddBoardItem(BoardItem boardItem)
+        internal void AddBoardItem(MainItem mainItem)
         {
-            BoardItemList.Add(boardItem);
+            BoardItemList.Add(mainItem);
         }
         
         internal void AddBonusItem(BonusItem bonusItem)

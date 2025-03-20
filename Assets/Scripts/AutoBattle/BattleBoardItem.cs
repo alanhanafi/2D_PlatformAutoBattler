@@ -11,7 +11,7 @@ namespace DefaultNamespace
         [SerializeField] private Image maskImage;
         [SerializeField] private Image backgroundImage;
         
-        [FormerlySerializedAs("tempItem")] [SerializeField] private BoardItem tempBoardItem;
+        [FormerlySerializedAs("tempBoardItem")] [FormerlySerializedAs("tempItem")] [SerializeField] private MainItem tempMainItem;
 
         [SerializeField] private Team team;
 
@@ -21,7 +21,7 @@ namespace DefaultNamespace
         
         private float timerInSeconds = 0;
 
-        private BoardItem boardItem;
+        private MainItem mainItem;
 
         private bool isActive;
 
@@ -49,27 +49,24 @@ namespace DefaultNamespace
                 
         }
 
-        internal void Initialize(BoardItem boardItem)
+        internal void Initialize(MainItem mainItem)
         {
-            this.boardItem = boardItem;
-            //objectImage.sprite = item.Sprite;
-            backgroundImage.color = boardItem.Color;
-            baseCooldownInSeconds = boardItem.CooldownInSeconds;
+            this.mainItem = mainItem;
             AutoBattleManager.Instance.OnGameStarted += OnStartingGame;
             AutoBattleManager.Instance.OnGameEnded += OnEndingGame;
         }
 
         private void StartFight()
         {
-            if(boardItem is null)
-                Initialize(tempBoardItem);
+            if(mainItem is null)
+                Initialize(tempMainItem);
             isActive = true;
         }
 
         private void TriggerItem()
         {
-            Debug.Log($"Trigger item: {boardItem.name}");
-            AutoBattleManager.Instance.DealDamage(boardItem.Damage, targetTeam);
+            Debug.Log($"Trigger item: {mainItem.name}");
+            //AutoBattleManager.Instance.DealDamage(boardItem.Damage, targetTeam);
         }
 
         private void OnStartingGame(object sender, EventArgs e)

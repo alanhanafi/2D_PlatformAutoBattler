@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -9,16 +10,16 @@ namespace DefaultNamespace
     [RequireComponent(typeof(SpriteRenderer))][RequireComponent(typeof(Collider2D))]
     public class PickupBoardItem : MonoBehaviour, PickupItem
     {
-        [SerializeField] private BoardItem[] availableItems;
+        [SerializeField] private MainItem[] availableItems;
         
-        [SerializeField,HideInInspector]
-        private BoardItem boardItem;
+        [FormerlySerializedAs("boardItem")] [SerializeField,HideInInspector]
+        private MainItem mainItem;
 
         public void Initialize()
         {
-            boardItem = availableItems[Random.Range(0, availableItems.Length)];
-            Functions.SetObjectDirty(boardItem);
-            GetComponent<SpriteRenderer>().color = boardItem.Color;
+            mainItem = availableItems[Random.Range(0, availableItems.Length)];
+            Functions.SetObjectDirty(mainItem);
+            GetComponent<SpriteRenderer>().sprite = mainItem.Sprite;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace DefaultNamespace
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                InventoryManager.Instance.AddBoardItem(boardItem);
+                InventoryManager.Instance.AddBoardItem(mainItem);
                 Destroy(gameObject);
             }
         }

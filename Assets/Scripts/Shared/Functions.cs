@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using TMPro;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace DefaultNamespace
 {
     public static class Functions
     {
+        
         /// <summary>
         /// Checks if the layer is in the layerMask.
         /// </summary>
@@ -27,6 +29,13 @@ namespace DefaultNamespace
             var newColor = spriteRenderer.color;
             newColor.a = newAlpha;
             spriteRenderer.color = newColor;
+        }
+        
+        public static void ChangeAlpha(TextMeshProUGUI textMeshProUGUI, float newAlpha)
+        {
+            var newColor = textMeshProUGUI.color;
+            newColor.a = newAlpha;
+            textMeshProUGUI.color = newColor;
         }
         
         
