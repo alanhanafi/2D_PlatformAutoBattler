@@ -30,6 +30,8 @@ namespace TarodevController
         public Vector2 FrameInput => _frameInput.Move;
         public event Action<bool, float> GroundedChanged;
         public event Action<bool> WallSlidingChanged;
+        
+        public event Action WallJumped;
         public event Action Jumped;
 
         #endregion
@@ -198,6 +200,7 @@ namespace TarodevController
             {
                 _frameVelocity.x = isOnLeftWall ? _stats.WallJumpXPower : -_stats.WallJumpXPower;
                 _timeWallJumpingStarted = _time;
+                WallJumped?.Invoke();
             }
             Jumped?.Invoke();
         }
@@ -295,6 +298,8 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
 
         public event Action Jumped;
+        public event Action<bool> WallSlidingChanged;
+        public event Action WallJumped;
         public Vector2 FrameInput { get; }
     }
 }

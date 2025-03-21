@@ -2,11 +2,14 @@
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
     public class AutoBattleManager : MonoBehaviour
     {
+        [SerializeField] private Button replayButton;
         [SerializeField] private TextMeshProUGUI endGameText;
         [SerializeField] private TextMeshProUGUI playerHealthText;
         [SerializeField] private TextMeshProUGUI enemyHealthText;
@@ -166,6 +169,14 @@ namespace DefaultNamespace
             }
             endGameText.gameObject.SetActive(true);
             OnGameEnded?.Invoke(this, EventArgs.Empty);
+            replayButton.gameObject.SetActive(true);
+        }
+
+        public void ReplayGame()
+        {
+            if(InventoryManager.Instance != null)
+                Destroy(InventoryManager.Instance.gameObject);
+            SceneManager.LoadScene("Test Generation");
         }
     }
     internal enum Team { Player, Enemy };

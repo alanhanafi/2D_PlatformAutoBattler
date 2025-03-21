@@ -1,8 +1,9 @@
 ﻿using TMPro;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 namespace DefaultNamespace
 {
     public static class Functions
@@ -38,7 +39,7 @@ namespace DefaultNamespace
             textMeshProUGUI.color = newColor;
         }
         
-        
+        #if UNITY_EDITOR
         public static void SetObjectDirty(Object o) {
             EditorUtility.SetDirty(o);
         }
@@ -52,5 +53,6 @@ namespace DefaultNamespace
             EditorUtility.SetDirty(comp);
             EditorSceneManager.MarkSceneDirty(comp.gameObject.scene); //This used to happen automatically from SetDirty
         }
+        #endif
     }
 }

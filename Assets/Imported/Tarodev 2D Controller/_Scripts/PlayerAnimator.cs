@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TarodevController
 {
@@ -26,36 +28,41 @@ namespace TarodevController
         [Header("Audio Clips")] [SerializeField]
         private AudioClip[] _footsteps;
 
-        private AudioSource _source;
-        private IPlayerController _player;
-        private bool _grounded;
-        private ParticleSystem.MinMaxGradient _currentGradient;
+        private AudioSource audioSource;
+        private IPlayerController player;
+        private Rigidbody2D rigidbody2D;
+        private bool grounded;
+        private ParticleSystem.MinMaxGradient currentGradient;
 
         private void Awake()
         {
-            _source = GetComponent<AudioSource>();
-            _player = GetComponentInParent<IPlayerController>();
+            audioSource = GetComponent<AudioSource>();
+            player = GetComponentInParent<IPlayerController>();
+            rigidbody2D  = GetComponentInParent<Rigidbody2D>();
         }
 
         private void OnEnable()
         {
-            _player.Jumped += OnJumped;
-            _player.GroundedChanged += OnGroundedChanged;
-
+            player.Jumped += OnJumped;
+            player.GroundedChanged += OnGroundedChanged;
+            player.WallSlidingChanged += OnWallSlidingChanged;
+            player.WallJumped += OnWallJump;
             _moveParticles.Play();
         }
 
         private void OnDisable()
         {
-            _player.Jumped -= OnJumped;
-            _player.GroundedChanged -= OnGroundedChanged;
+            player.Jumped -= OnJumped;
+            player.GroundedChanged -= OnGroundedChanged;
+            player.WallSlidingChanged -= OnWallSlidingChanged;
+            player.WallJumped -= OnWallJump;
 
             _moveParticles.Stop();
         }
 
         private void Update()
         {
-            if (_player == null) return;
+            if (player == null) return;
 
             DetectGroundColor();
 
@@ -63,24 +70,42 @@ namespace TarodevController
 
             HandleIdleSpeed();
 
-            HandleCharacterTilt();
+            HandleVelocity();
+
+            //HandleCharacterTilt();
+        }
+
+        private void HandleVelocity()
+        {
+            _anim.SetFloat(XVelocityKey, Math.Abs(rigidbody2D.linearVelocityX));
+            _anim.SetFloat(YVelocityKey, grounded?0:rigidbody2D.linearVelocityY);
         }
 
         private void HandleSpriteFlip()
         {
-            if (_player.FrameInput.x != 0) _sprite.flipX = _player.FrameInput.x < 0;
+            if (player.FrameInput.x != 0) _sprite.flipX = player.FrameInput.x < 0;
+        }
+
+        private void OnWallJump()
+        {
+            FlipSprite();
+        }
+
+        public void FlipSprite()
+        {
+            _sprite.flipX = !_sprite.flipX;
         }
 
         private void HandleIdleSpeed()
         {
-            var inputStrength = Mathf.Abs(_player.FrameInput.x);
+            var inputStrength = Mathf.Abs(player.FrameInput.x);
             _anim.SetFloat(IdleSpeedKey, Mathf.Lerp(1, _maxIdleSpeed, inputStrength));
             _moveParticles.transform.localScale = Vector3.MoveTowards(_moveParticles.transform.localScale, Vector3.one * inputStrength, 2 * Time.deltaTime);
         }
 
         private void HandleCharacterTilt()
         {
-            var runningTilt = _grounded ? Quaternion.Euler(0, 0, _maxTilt * _player.FrameInput.x) : Quaternion.identity;
+            var runningTilt = grounded ? Quaternion.Euler(0, 0, _maxTilt * player.FrameInput.x) : Quaternion.identity;
             _anim.transform.up = Vector3.RotateTowards(_anim.transform.up, runningTilt * Vector2.up, _tiltSpeed * Time.deltaTime, 0f);
         }
 
@@ -88,9 +113,10 @@ namespace TarodevController
         {
             _anim.SetTrigger(JumpKey);
             _anim.ResetTrigger(GroundedKey);
+            _anim.SetBool(WallSlidingKey,false);
 
 
-            if (_grounded) // Avoid coyote
+            if (grounded) // Avoid coyote
             {
                 SetColor(_jumpParticles);
                 SetColor(_launchParticles);
@@ -100,7 +126,7 @@ namespace TarodevController
 
         private void OnGroundedChanged(bool grounded, float impact)
         {
-            _grounded = grounded;
+            this.grounded = grounded;
             
             if (grounded)
             {
@@ -108,7 +134,8 @@ namespace TarodevController
                 SetColor(_landParticles);
 
                 _anim.SetTrigger(GroundedKey);
-                _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
+                _anim.SetBool(WallSlidingKey,false);
+                //audioSource.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
                 _moveParticles.Play();
 
                 _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, 40, impact);
@@ -119,6 +146,15 @@ namespace TarodevController
                 _moveParticles.Stop();
             }
         }
+        
+        private bool isWallSliding = false;
+
+        private void OnWallSlidingChanged(bool isWallSliding)
+        {
+            this.isWallSliding = isWallSliding;
+            // Add particles on wall
+            _anim.SetBool(WallSlidingKey, isWallSliding);
+        }
 
         private void DetectGroundColor()
         {
@@ -126,18 +162,21 @@ namespace TarodevController
 
             if (!hit || hit.collider.isTrigger || !hit.transform.TryGetComponent(out SpriteRenderer r)) return;
             var color = r.color;
-            _currentGradient = new ParticleSystem.MinMaxGradient(color * 0.9f, color * 1.2f);
+            currentGradient = new ParticleSystem.MinMaxGradient(color * 0.9f, color * 1.2f);
             SetColor(_moveParticles);
         }
 
         private void SetColor(ParticleSystem ps)
         {
             var main = ps.main;
-            main.startColor = _currentGradient;
+            main.startColor = currentGradient;
         }
 
         private static readonly int GroundedKey = Animator.StringToHash("Grounded");
+        private static readonly int WallSlidingKey = Animator.StringToHash("WallSliding");
         private static readonly int IdleSpeedKey = Animator.StringToHash("IdleSpeed");
         private static readonly int JumpKey = Animator.StringToHash("Jump");
+        private static readonly int XVelocityKey = Animator.StringToHash("XVelocity");
+        private static readonly int YVelocityKey = Animator.StringToHash("YVelocity");
     }
 }

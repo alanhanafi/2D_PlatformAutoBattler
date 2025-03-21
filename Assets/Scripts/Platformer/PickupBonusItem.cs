@@ -21,7 +21,9 @@ namespace DefaultNamespace
         public void Initialize(List<MainItem> spawnedItems)
         {
             bonusItem = availableBonusItems[Random.Range(0, availableBonusItems.Length)];
+            #if UNITY_EDITOR
             Functions.SetObjectDirty(bonusItem);
+            #endif
             GetComponent<SpriteRenderer>().color = bonusItem.Color;
             bonusItemSpriteRenderer.sprite = bonusItem.Sprite;
         }

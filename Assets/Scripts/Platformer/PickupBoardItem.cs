@@ -28,7 +28,9 @@ namespace DefaultNamespace
         {
             var spawnableItems = availableItems.Where(item=> !spawnedItems.Contains(item)).ToArray();
             mainItem = spawnableItems[Random.Range(0, spawnableItems.Length)];
+            #if UNITY_EDITOR
             Functions.SetObjectDirty(mainItem);
+            #endif
             spriteRenderer.sprite = mainItem.Sprite;
             spawnedItems.Add(mainItem);
         }
