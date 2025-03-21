@@ -6,6 +6,8 @@ namespace DefaultNamespace
 {
     public class InventoryManager : MonoBehaviour
     {
+        [SerializeField] private PickupItemPopup pickupItemPopup;
+        
         #region Singleton
 
         internal static InventoryManager Instance { get; private set; }
@@ -25,14 +27,17 @@ namespace DefaultNamespace
         
         internal List<BonusItem> BonusItemList { get; }= new();
 
-        internal void AddBoardItem(MainItem mainItem)
+        internal void AddBoardItem(PickupBoardItem pickupBoardItem)
         {
-            BoardItemList.Add(mainItem);
+            pickupItemPopup.DisplayItemPopup(pickupBoardItem);
+            BoardItemList.Add(pickupBoardItem.MainItem);
         }
         
-        internal void AddBonusItem(BonusItem bonusItem)
+        internal void AddBonusItem(PickupBonusItem pickupBonusItem)
         {
-            BonusItemList.Add(bonusItem);
+            // Do not show popup for bonus item, too intrusive
+            //pickupItemPopup.DisplayItemPopup(pickupBonusItem);
+            BonusItemList.Add(pickupBonusItem.BonusItem);
             Debug.Log($"BonusItemList {BonusItemList.Count}");
         }
     }

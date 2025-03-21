@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
@@ -46,15 +47,16 @@ namespace Edgar.Unity.Examples.Scripts
             // Get the tilemap that we want to delete tiles from
             var walls = level.GetSharedTilemaps().Single(x => x.name == "Walls");
 
+            List<MainItem> spawnedItems = new List<MainItem>();
+            
             // Go through individual rooms
             foreach (var roomInstance in level.RoomInstances)
             {
                 // Spawn items in each room
                 Transform itemSpawnerTransform = roomInstance.RoomTemplateInstance.transform.Find("ItemSpawner");
                 if (itemSpawnerTransform != null)
-                    itemSpawnerTransform.GetComponent<ItemSpawner>().SpawnItems();
-                    
-                    
+                    itemSpawnerTransform.GetComponent<ItemSpawner>().SpawnItems(spawnedItems);
+                
                 // Go through individual doors
                 foreach (var doorInstance in roomInstance.Doors)
                 {

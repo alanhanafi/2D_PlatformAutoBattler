@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -8,10 +9,16 @@ namespace DefaultNamespace
         [SerializeField] private SpriteRenderer bonusItemSpriteRenderer;
         [SerializeField] private BonusItem[] availableBonusItems;
         
+        public Sprite ItemSprite => bonusItem.Sprite;
+        public string ItemName => bonusItem.Name;
+        public string ItemDescription => bonusItem.Description;
+        
         [SerializeField,HideInInspector]
         private BonusItem bonusItem;
+        
+        internal BonusItem BonusItem => bonusItem;
 
-        public void Initialize()
+        public void Initialize(List<MainItem> spawnedItems)
         {
             bonusItem = availableBonusItems[Random.Range(0, availableBonusItems.Length)];
             Functions.SetObjectDirty(bonusItem);
@@ -28,7 +35,7 @@ namespace DefaultNamespace
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                InventoryManager.Instance.AddBonusItem(bonusItem);
+                InventoryManager.Instance.AddBonusItem(this);
                 Destroy(gameObject);
             }
         }

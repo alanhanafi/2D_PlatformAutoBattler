@@ -18,5 +18,10 @@ namespace DefaultNamespace
         [field: SerializeField] 
         internal Sprite Sprite { get; private set; }
         
+        [field: SerializeField] 
+        internal string Name { get; private set; }
+        [field: SerializeField] 
+        internal string Description { get; private set; }
+        
     }
 }

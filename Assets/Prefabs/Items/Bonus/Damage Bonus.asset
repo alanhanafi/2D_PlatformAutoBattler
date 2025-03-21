@@ -17,3 +17,5 @@ MonoBehaviour:
   <BonusAttackSpeed>k__BackingField: 0
   <Color>k__BackingField: {r: 0.8113208, g: 0, b: 0.04335435, a: 1}
   <Sprite>k__BackingField: {fileID: 21300000, guid: 89dd4a800a1284643810830004eb8885, type: 3}
+  <Name>k__BackingField: Damage Bonus
+  <Description>k__BackingField: "+10 D\xE9g\xE2ts par attaque"

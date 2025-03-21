@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
@@ -7,10 +8,10 @@ public class ItemSpawner : MonoBehaviour
         
     [SerializeField] private GameObject pickupItemPrefab;
 
-    public void SpawnItems()
+    public void SpawnItems(List<MainItem> spawnedItems)
     {
         Transform itemSpawnerTransform = spawnTransforms[Random.Range(0, spawnTransforms.Length)];
         var pickupItem = Instantiate(pickupItemPrefab, itemSpawnerTransform);
-        pickupItem.GetComponent<PickupItem>().Initialize();
+        pickupItem.GetComponent<PickupItem>().Initialize(spawnedItems);
     }
 }

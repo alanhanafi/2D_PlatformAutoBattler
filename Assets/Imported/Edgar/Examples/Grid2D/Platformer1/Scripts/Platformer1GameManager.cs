@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Edgar.Unity.Examples.Scripts
 {
@@ -19,6 +20,7 @@ namespace Edgar.Unity.Examples.Scripts
 
         public override void LoadNextLevel()
         {
+            Debug.Log("LoadNextLevel");
             isGenerating = true;
 
             // Show loading screen

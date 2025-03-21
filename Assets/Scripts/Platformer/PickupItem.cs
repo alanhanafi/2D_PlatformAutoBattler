@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
     public interface PickupItem
     {
-        public void Initialize();
+        public Sprite ItemSprite { get;  }
+        public string ItemName { get;  }
+        public string ItemDescription { get;  }
+        
+        public void Initialize(List<MainItem> spawnedItems);
         
         public void OnTriggerEnter2D(Collider2D other);
     }

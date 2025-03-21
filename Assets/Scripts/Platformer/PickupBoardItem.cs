@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,15 +13,24 @@ namespace DefaultNamespace
     public class PickupBoardItem : MonoBehaviour, PickupItem
     {
         [SerializeField] private MainItem[] availableItems;
+        [SerializeField] private SpriteRenderer spriteRenderer;
         
-        [FormerlySerializedAs("boardItem")] [SerializeField,HideInInspector]
+        [SerializeField,HideInInspector]
         private MainItem mainItem;
+        
+        public MainItem MainItem => mainItem;
+        
+        public Sprite ItemSprite => mainItem.Sprite;
+        public string ItemName => mainItem.Name;
+        public string ItemDescription => mainItem.Description;
 
-        public void Initialize()
+        public void Initialize(List<MainItem> spawnedItems)
         {
-            mainItem = availableItems[Random.Range(0, availableItems.Length)];
+            var spawnableItems = availableItems.Where(item=> !spawnedItems.Contains(item)).ToArray();
+            mainItem = spawnableItems[Random.Range(0, spawnableItems.Length)];
             Functions.SetObjectDirty(mainItem);
-            GetComponent<SpriteRenderer>().sprite = mainItem.Sprite;
+            spriteRenderer.sprite = mainItem.Sprite;
+            spawnedItems.Add(mainItem);
         }
 
         /// <summary>
@@ -31,7 +42,7 @@ namespace DefaultNamespace
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                InventoryManager.Instance.AddBoardItem(mainItem);
+                InventoryManager.Instance.AddBoardItem(this);
                 Destroy(gameObject);
             }
         }
