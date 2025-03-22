@@ -18,6 +18,7 @@ MonoBehaviour:
   IndividualRoomTemplates:
   - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
   - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
+  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-7826770995651053169
 MonoBehaviour:
@@ -242,6 +243,7 @@ MonoBehaviour:
   IndividualRoomTemplates:
   - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
   - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
+  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-5289219721333399001
 MonoBehaviour:
@@ -449,6 +451,7 @@ MonoBehaviour:
   IndividualRoomTemplates:
   - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
   - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
+  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   RoomTemplateSets: []
 --- !u!114 &-1770127702428135062
 MonoBehaviour:
@@ -682,7 +685,6 @@ MonoBehaviour:
   - {fileID: 2317301991054277076, guid: 1004cb4a97399594dad288397073b16a, type: 3}
   - {fileID: 2317301991054277076, guid: 20cb775805b966845bc4f5ee0bb5eed2, type: 3}
   - {fileID: 2317301991054277076, guid: a42ed3054044de04ba8a293d45da0aa7, type: 3}
-  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   DefaultRoomTemplateSets: []
   Rooms:
   - {fileID: 114622384622351552}
@@ -729,8 +731,8 @@ MonoBehaviour:
   - {fileID: 3699131009450440794}
   - {fileID: -5801190424441867801}
   EditorData:
-    PanOffset: {x: 203.82065, y: 248.8257}
-    Zoom: 0.47797567
+    PanOffset: {x: 592.26184, y: 566.799}
+    Zoom: 0.40909508
   RoomType: Edgar.Unity.Room
   ConnectionType: Edgar.Unity.Connection
   IsDirected: 0
@@ -1205,6 +1207,7 @@ MonoBehaviour:
   IndividualRoomTemplates:
   - {fileID: 2317301991054277076, guid: 7b2fa9653c99e644ea52d1fbcf269be1, type: 3}
   - {fileID: 2317301991054277076, guid: 78dc5c69c9863054ebcb9135fe914518, type: 3}
+  - {fileID: 2317301991054277076, guid: 2d656e8fadbcad5449c4a2e807ebe0f2, type: 3}
   RoomTemplateSets: []
 --- !u!114 &2936391377878190243
 MonoBehaviour:
