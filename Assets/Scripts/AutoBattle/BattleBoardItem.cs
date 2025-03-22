@@ -27,10 +27,10 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            if(AutoBattleManager.Instance.IsAutoBattleRunning)
+            if(AutoBattleGameManager.Instance.IsAutoBattleRunning)
                 StartFight();
             else
-                AutoBattleManager.Instance.OnGameStarted += OnStartingGame;
+                AutoBattleGameManager.Instance.OnGameStarted += OnStartingGame;
         }
 
         // TODO : Replace this by an event in autobattle manager that handles all the items during each frame,
@@ -52,8 +52,8 @@ namespace DefaultNamespace
         internal void Initialize(MainItem mainItem)
         {
             this.mainItem = mainItem;
-            AutoBattleManager.Instance.OnGameStarted += OnStartingGame;
-            AutoBattleManager.Instance.OnGameEnded += OnEndingGame;
+            AutoBattleGameManager.Instance.OnGameStarted += OnStartingGame;
+            AutoBattleGameManager.Instance.OnGameEnded += OnEndingGame;
         }
 
         private void StartFight()

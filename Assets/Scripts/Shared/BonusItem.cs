@@ -6,6 +6,8 @@ namespace DefaultNamespace
     public class BonusItem : ScriptableObject
     {
         [field: SerializeField] 
+        internal BonusType BonusType { get; private set; }
+        [field: SerializeField] 
         internal int BonusHealth { get; private set; } = 10;
         [field: SerializeField] 
         internal int BonusDamage { get; private set; } = 10;
@@ -22,6 +24,8 @@ namespace DefaultNamespace
         internal string Name { get; private set; }
         [field: SerializeField] 
         internal string Description { get; private set; }
-        
     }
+    
+        
+    internal enum BonusType { Health, Damage, AttackSpeed}
 }

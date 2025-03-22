@@ -11,7 +11,7 @@ namespace DefaultNamespace
         private const float critMultiplier = 1.5f;
         private const int basePlayerHealth = 500;
         private const float baseAttackSpeed = .5f;
-        private const int baseAttackDamage = 10;
+        private const int baseAttackDamage = 20;
         private const float attackTimerTriggerInSeconds = 1;
 
         [SerializeField] private Team team;
@@ -52,7 +52,7 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            AutoBattleManager.Instance.OnTimePassed += OnTimePassing;
+            AutoBattleGameManager.Instance.OnTimePassed += OnTimePassing;
         }
 
         private void OnTimePassing(object sender, float timePassed)
@@ -72,7 +72,7 @@ namespace DefaultNamespace
 
         private void TriggerAttack()
         {
-            DealDamage(AutoBattleManager.Instance.GetPlayerState(enemyTeam),AttackDamage,true);
+            DealDamage(AutoBattleGameManager.Instance.GetPlayerState(enemyTeam),AttackDamage,true);
             playerView.PlayAttackAnimation();
         }
 

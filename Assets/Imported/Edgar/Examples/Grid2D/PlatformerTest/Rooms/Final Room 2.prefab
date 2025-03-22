@@ -363,28 +363,12 @@ MonoBehaviour:
   DistanceFromCorners: 1
   DoorLength: 1
   DoorsList:
-  - From: {x: -11, y: 0, z: 0}
-    To: {x: -11, y: -2, z: 0}
+  - From: {x: 15, y: -3, z: 0}
+    To: {x: 17, y: -3, z: 0}
     Direction: 0
     Socket: {fileID: 0}
-  - From: {x: 2, y: 0, z: 0}
-    To: {x: 2, y: -2, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
-  - From: {x: -8, y: 2, z: 0}
-    To: {x: -6, y: 2, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
-  - From: {x: -1, y: 2, z: 0}
-    To: {x: -3, y: 2, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
-  - From: {x: -10, y: -3, z: 0}
-    To: {x: -8, y: -3, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
-  - From: {x: -1, y: -3, z: 0}
-    To: {x: 1, y: -3, z: 0}
+  - From: {x: 21, y: -2, z: 0}
+    To: {x: 21, y: 0, z: 0}
     Direction: 0
     Socket: {fileID: 0}
   Socket: {fileID: 0}
@@ -10017,7 +10001,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6370879726765151174, guid: a7eb3860506a01846a76f4aa8496d8c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.62
+      value: 3.91
       objectReference: {fileID: 0}
     - target: {fileID: 6370879726765151174, guid: a7eb3860506a01846a76f4aa8496d8c7, type: 3}
       propertyPath: m_LocalPosition.y
