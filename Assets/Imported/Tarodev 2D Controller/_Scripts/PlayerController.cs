@@ -60,6 +60,7 @@ namespace TarodevController
 
         private void GatherInput()
         {
+            // TODO : Update Input system
             _frameInput = new FrameInput
             {
                 JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),

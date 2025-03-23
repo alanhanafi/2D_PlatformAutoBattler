@@ -97,6 +97,9 @@ namespace DefaultNamespace
             //baseMapVirtualCamera.Lens.FieldOfView -= Time.deltaTime;
             if (!isGameRunning)
                 return;
+            // TODO : Update Input system
+            if (Input.GetKeyDown(KeyCode.R))
+                AutoBattleGameManager.ReplayGame((int)InventoryManager.CurrentDifficulty);
             UpdateTimer(timer- Time.deltaTime);
             if (timer <=0)
                 EndSpeedrun();

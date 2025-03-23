@@ -27,8 +27,8 @@ MonoBehaviour:
   WallJumpYPower: 20
   WallJumpXPower: 10
   WallJumpLockTime: 0.15
-  MaxSlideSpeed: 20
-  SlideAcceleration: 50
+  MaxSlideSpeed: 1
+  SlideAcceleration: 10
   JumpPower: 25
   MaxFallSpeed: 40
   FallAcceleration: 60

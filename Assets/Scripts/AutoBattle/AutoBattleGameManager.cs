@@ -9,7 +9,6 @@ namespace DefaultNamespace
 {
     public class AutoBattleGameManager : MonoBehaviour
     {
-        
         [SerializeField] private AutoBattlePlayerState playerState;
         [SerializeField] private AutoBattlePlayerState enemyState;
 
@@ -121,7 +120,7 @@ namespace DefaultNamespace
             OnGameEnded?.Invoke(this, EventArgs.Empty);
         }
 
-        public void ReplayGame(int difficulty)
+        public static void ReplayGame(int difficulty)
         {
             if(difficulty<0)
                 difficulty = 0;
