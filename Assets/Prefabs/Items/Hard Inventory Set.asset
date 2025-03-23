@@ -18,3 +18,4 @@ MonoBehaviour:
   MainItems:
   - {fileID: 11400000, guid: 845ea6520601ef246835df5a2b7c36cd, type: 2}
   - {fileID: 11400000, guid: 59cf7d6826906b940a2b05e726590fa0, type: 2}
+  - {fileID: 11400000, guid: ffffe8493d79f5240b28ce6e887bfa65, type: 2}
