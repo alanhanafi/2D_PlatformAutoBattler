@@ -1,6 +1,8 @@
 ﻿using TMPro;
 using UnityEditor;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine;
 
 namespace Shared
