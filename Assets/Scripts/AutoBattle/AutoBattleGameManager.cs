@@ -46,6 +46,9 @@ namespace DefaultNamespace
 
         private void Start()
         {
+            // Shows the cursor during the auto battler
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             InitializePlayersStats();
             AutoBattleUIManager.Instance.Initialize(playerState,enemyState);
             StartGameAfterDelayAsync().Forget();

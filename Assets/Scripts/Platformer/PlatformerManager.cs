@@ -47,6 +47,12 @@ namespace DefaultNamespace
 
         #endregion
 
+        private void Start()
+        {
+            // Hide the cursor during the platformer
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         public void StartGameAfterProceduralGeneration()
         {
