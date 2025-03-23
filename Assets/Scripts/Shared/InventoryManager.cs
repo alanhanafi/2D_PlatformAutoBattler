@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoBattle;
+using Platformer;
+using Shared.Main_Items;
 using TMPro;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared
 {
     public class InventoryManager : MonoBehaviour
     {
-        internal static Difficulty CurrentDifficulty = Difficulty.Easy;
+        internal static Difficulty CurrentDifficulty = Difficulty.Hard;
         
         [SerializeField] private PickupItemPopup pickupItemPopup;
         
@@ -22,9 +25,9 @@ namespace DefaultNamespace
         
         internal List<MainItem> EnemyMainItemList { get; private set; }
         internal List<BonusItem> EnemyBonusItemList { get; private set; }
-        [SerializeField] private BonusItem BaseHealthBonusItem;
-        [SerializeField] private BonusItem BaseDamageBonusItem;
-        [SerializeField] private BonusItem BaseAttackSpeedItem;
+        [SerializeField] private BonusItem baseHealthBonusItem;
+        [SerializeField] private BonusItem baseDamageBonusItem;
+        [SerializeField] private BonusItem baseAttackSpeedItem;
 
         [SerializeField] private InventorySet[] EnemyInventorySet;
         
@@ -61,15 +64,15 @@ namespace DefaultNamespace
             EnemyBonusItemList = new List<BonusItem>();
             for (int i = 0; i < EnemyInventorySet[(int)difficulty].DamageBonusCount; i++)
             {
-                EnemyBonusItemList.Add(BaseDamageBonusItem);
+                EnemyBonusItemList.Add(baseDamageBonusItem);
             }
             for (int i = 0; i < EnemyInventorySet[(int)difficulty].HealthBonusCount; i++)
             {
-                EnemyBonusItemList.Add(BaseHealthBonusItem);
+                EnemyBonusItemList.Add(baseHealthBonusItem);
             }
             for (int i = 0; i < EnemyInventorySet[(int)difficulty].AttackSpeedBonusCount; i++)
             {
-                EnemyBonusItemList.Add(BaseAttackSpeedItem);
+                EnemyBonusItemList.Add(baseAttackSpeedItem);
             }
             EnemyMainItemList = EnemyInventorySet[(int)difficulty].MainItems;
         }

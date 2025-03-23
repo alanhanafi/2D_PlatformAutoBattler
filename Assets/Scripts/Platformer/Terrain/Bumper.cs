@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace DefaultNamespace
+namespace Platformer.Terrain
 {
     public class Bumper : MonoBehaviour
     {

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Shared.Main_Items;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     public class MainItemUI : MonoBehaviour
     {

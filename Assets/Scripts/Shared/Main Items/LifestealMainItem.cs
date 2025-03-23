@@ -1,7 +1,8 @@
 ﻿using System;
+using AutoBattle;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared.Main_Items
 {
     [CreateAssetMenu(fileName = "LifeSteal Item", menuName = "Items/Main Item/LifeSteal Item")]
     public class LifestealMainItem : MainItem

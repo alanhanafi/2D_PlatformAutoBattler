@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
-using DefaultNamespace;
+using Platformer;
 using UnityEngine;
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;

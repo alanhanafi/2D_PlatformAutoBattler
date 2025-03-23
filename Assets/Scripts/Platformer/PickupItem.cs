@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Shared.Main_Items;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     public interface PickupItem
     {

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using AutoBattle;
+using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared.Main_Items
 {
     public abstract class MainItem : ScriptableObject
     {

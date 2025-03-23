@@ -1,11 +1,10 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using TMPro;
+using Shared;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace AutoBattle
 {
     public class AutoBattleGameManager : MonoBehaviour
     {

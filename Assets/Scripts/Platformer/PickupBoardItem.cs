@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using Shared;
+using Shared.Main_Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(SpriteRenderer))][RequireComponent(typeof(Collider2D))]
     public class PickupBoardItem : MonoBehaviour, PickupItem
     {
         [SerializeField] private MainItem[] availableItems;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private SpriteRenderer[] spriteRenderers;
         
         [SerializeField,HideInInspector]
         private MainItem mainItem;
@@ -31,7 +30,10 @@ namespace DefaultNamespace
             #if UNITY_EDITOR
             Functions.SetObjectDirty(mainItem);
             #endif
-            spriteRenderer.sprite = mainItem.Sprite;
+            foreach (SpriteRenderer spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.sprite = mainItem.Sprite;
+            }
             spawnedItems.Add(mainItem);
         }
 

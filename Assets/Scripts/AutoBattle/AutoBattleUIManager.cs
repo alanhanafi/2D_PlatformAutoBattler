@@ -1,9 +1,11 @@
 ﻿using System;
+using Platformer;
+using Shared;
+using Shared.Main_Items;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace AutoBattle
 {
     public class AutoBattleUIManager : MonoBehaviour
     {

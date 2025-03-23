@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Platformer.Terrain
 {
     /// <summary>
     /// When the player touches the collider, he dies.

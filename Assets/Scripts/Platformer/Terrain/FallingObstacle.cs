@@ -1,8 +1,6 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Platformer.Terrain
 {
     public class FallingObstacle : KillZone
     {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
+using Shared;
+using Shared.Main_Items;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     public class PickupBonusItem : MonoBehaviour, PickupItem
     {

@@ -1,7 +1,8 @@
 ﻿using System;
+using AutoBattle;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared.Main_Items
 {
     /// <summary>
     /// Applies poison on each hit.

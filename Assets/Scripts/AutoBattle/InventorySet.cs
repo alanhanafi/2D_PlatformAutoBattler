@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Shared.Main_Items;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace AutoBattle
 {
     [CreateAssetMenu(fileName = "Inventory Set", menuName = "Items/Inventory Set")]
     public class InventorySet : ScriptableObject

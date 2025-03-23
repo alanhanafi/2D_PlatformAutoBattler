@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Main_Items;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace AutoBattle
 {
     [RequireComponent(typeof(AutoBattlePlayerView))]
     public class AutoBattlePlayerState : MonoBehaviour

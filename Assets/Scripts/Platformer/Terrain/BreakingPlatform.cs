@@ -1,9 +1,8 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using Shared;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace DefaultNamespace
+namespace Platformer.Terrain
 {
     public class BreakingPlatform : MonoBehaviour
     {

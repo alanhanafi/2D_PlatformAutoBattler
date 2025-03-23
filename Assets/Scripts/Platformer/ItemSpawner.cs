@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
-using DefaultNamespace;
+using Shared.Main_Items;
 using UnityEngine;
 
-public class ItemSpawner : MonoBehaviour
+namespace Platformer
 {
-    [SerializeField] private Transform[] spawnTransforms;
-        
-    [SerializeField] private GameObject pickupItemPrefab;
-
-    public void SpawnItems(List<MainItem> spawnedItems)
+    public class ItemSpawner : MonoBehaviour
     {
-        Transform itemSpawnerTransform = spawnTransforms[Random.Range(0, spawnTransforms.Length)];
-        var pickupItem = Instantiate(pickupItemPrefab, itemSpawnerTransform);
-        pickupItem.GetComponent<PickupItem>().Initialize(spawnedItems);
+        [SerializeField] private Transform[] spawnTransforms;
+        
+        [SerializeField] private GameObject pickupItemPrefab;
+
+        public void SpawnItems(List<MainItem> spawnedItems)
+        {
+            Transform itemSpawnerTransform = spawnTransforms[Random.Range(0, spawnTransforms.Length)];
+            var pickupItem = Instantiate(pickupItemPrefab, itemSpawnerTransform);
+            pickupItem.GetComponent<PickupItem>().Initialize(spawnedItems);
+        }
     }
 }

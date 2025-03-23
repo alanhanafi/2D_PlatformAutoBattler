@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using AutoBattle;
+using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared.Main_Items
 {
     [CreateAssetMenu(fileName = "Crit Item", menuName = "Items/Main Item/Crit Item")]
     public class CritMainItem : MainItem

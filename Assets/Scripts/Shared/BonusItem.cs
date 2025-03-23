@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared
 {
     [CreateAssetMenu(fileName = "Bonus Item", menuName = "Items/Bonus Item")]
     public class BonusItem : ScriptableObject

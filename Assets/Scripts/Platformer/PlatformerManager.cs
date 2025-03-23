@@ -1,12 +1,13 @@
-﻿using System;
+﻿using AutoBattle;
 using Cysharp.Threading.Tasks;
+using Shared;
 using TarodevController;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     public class PlatformerManager : MonoBehaviour
     {
@@ -88,6 +89,11 @@ namespace DefaultNamespace
             Debug.Log($"Start game");
             UnlockInputs();
             isGameRunning = true;
+            int layer = LayerMask.NameToLayer($"BaseCameraVisible");
+            if (Camera.main != null) 
+                Camera.main.cullingMask &= ~(1 << layer);
+            else
+                Debug.Log("");
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
         }

@@ -1,7 +1,8 @@
 ﻿using System;
+using AutoBattle;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace Shared.Main_Items
 {
     /// <summary>
     /// Increase the attack damage with each direct hit received.

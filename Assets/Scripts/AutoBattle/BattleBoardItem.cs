@@ -1,9 +1,10 @@
 ﻿using System;
+using Shared.Main_Items;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace DefaultNamespace
+namespace AutoBattle
 {
     public class BattleBoardItem : MonoBehaviour
     {

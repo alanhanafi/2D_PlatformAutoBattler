@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DefaultNamespace;
+using Platformer;
+using Shared;
+using Shared.Main_Items;
 using UnityEngine;
 
 namespace Edgar.Unity.Examples.Scripts

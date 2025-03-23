@@ -1,9 +1,6 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Platformer
 {
     public class FadeOutUI : MonoBehaviour
     {
