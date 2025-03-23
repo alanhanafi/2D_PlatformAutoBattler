@@ -102,8 +102,8 @@ namespace TarodevController
         
         private float frameLeftGrounded = float.MinValue;
         private bool isGrounded;
-        private bool isWallSliding;
-        private bool isOnLeftWall;
+        public bool IsWallSliding { get; private set; }
+        public bool IsOnLeftWall{ get; private set; }
         private RaycastHit2D groundHit;
 
         private void CheckCollisions()
@@ -132,7 +132,7 @@ namespace TarodevController
                 _bufferedJumpUsable = true;
                 _endedJumpEarly = false;
                 GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
-                isWallSliding = false;
+                IsWallSliding = false;
             }
             // Left the Ground
             else if (isGrounded && !groundHit)
@@ -144,16 +144,16 @@ namespace TarodevController
 
             if (!isGrounded)
             {
-                if (!isWallSliding && (rightWallHit || leftWallHit))
+                if (!IsWallSliding && (rightWallHit || leftWallHit))
                 {
-                    isWallSliding = true;
-                    isOnLeftWall = leftWallHit;
+                    IsWallSliding = true;
+                    IsOnLeftWall = leftWallHit;
                     _bufferedJumpUsable = true;
                     _endedJumpEarly = false;
                     WallSlidingChanged?.Invoke(true);
-                }else if (isWallSliding && !rightWallHit && !leftWallHit)
+                }else if (IsWallSliding && !rightWallHit && !leftWallHit)
                 {
-                    isWallSliding = false;
+                    IsWallSliding = false;
                     WallSlidingChanged?.Invoke(false);
                 }
             }
@@ -175,15 +175,15 @@ namespace TarodevController
 
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _stats.JumpBuffer;
         private bool CanUseCoyote => _coyoteUsable && !isGrounded && _time < frameLeftGrounded + _stats.CoyoteTime;
-        private bool IsWallJumping => !isGrounded && !isWallSliding && _time < _timeWallJumpingStarted + _stats.WallJumpLockTime;
+        private bool IsWallJumping => !isGrounded && !IsWallSliding && _time < _timeWallJumpingStarted + _stats.WallJumpLockTime;
 
         private void HandleJump()
         {
-            if (!_endedJumpEarly && !isGrounded && !isWallSliding && !_frameInput.JumpHeld && _rb.linearVelocity.y > 0) _endedJumpEarly = true;
+            if (!_endedJumpEarly && !isGrounded && !IsWallSliding && !_frameInput.JumpHeld && _rb.linearVelocity.y > 0) _endedJumpEarly = true;
 
             if (!_jumpToConsume && !HasBufferedJump) return;
 
-            if (isGrounded || isWallSliding || CanUseCoyote) ExecuteJump();
+            if (isGrounded || IsWallSliding || CanUseCoyote) ExecuteJump();
 
             _jumpToConsume = false;
         }
@@ -195,10 +195,10 @@ namespace TarodevController
             _timeJumpWasPressed = 0;
             _bufferedJumpUsable = false;
             _coyoteUsable = false;
-            _frameVelocity.y = isWallSliding ? _stats.WallJumpYPower:_stats.JumpPower;
-            if (isWallSliding)
+            _frameVelocity.y = IsWallSliding ? _stats.WallJumpYPower:_stats.JumpPower;
+            if (IsWallSliding)
             {
-                _frameVelocity.x = isOnLeftWall ? _stats.WallJumpXPower : -_stats.WallJumpXPower;
+                _frameVelocity.x = IsOnLeftWall ? _stats.WallJumpXPower : -_stats.WallJumpXPower;
                 _timeWallJumpingStarted = _time;
                 WallJumped?.Invoke();
             }
@@ -261,9 +261,14 @@ namespace TarodevController
             {
                 _frameVelocity.y = _stats.GroundingForce;
             }
-            else if (isWallSliding && _frameVelocity.y < 0f)
+            else if (IsWallSliding && _frameVelocity.y < 0f)
             {
-                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_stats.MaxSlideSpeed, _stats.SlideAcceleration * Time.fixedDeltaTime);
+                float wallSlidingYTargetVelocity = -_stats.MaxSlideSpeed;
+                if(_frameInput.Move.y < 0f)
+                    wallSlidingYTargetVelocity = -_stats.MaxFallSpeed;
+                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, wallSlidingYTargetVelocity, _stats.SlideAcceleration * Time.fixedDeltaTime);
+                if (_frameVelocity.y < wallSlidingYTargetVelocity)
+                    _frameVelocity.y = wallSlidingYTargetVelocity;
             }
             else
             {
@@ -301,5 +306,7 @@ namespace TarodevController
         public event Action<bool> WallSlidingChanged;
         public event Action WallJumped;
         public Vector2 FrameInput { get; }
+        public bool IsWallSliding { get;  }
+        public bool IsOnLeftWall{ get;  }
     }
 }

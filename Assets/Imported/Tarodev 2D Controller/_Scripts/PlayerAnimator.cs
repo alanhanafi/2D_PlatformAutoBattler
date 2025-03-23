@@ -84,6 +84,8 @@ namespace TarodevController
         private void HandleSpriteFlip()
         {
             if (player.FrameInput.x != 0) _sprite.flipX = player.FrameInput.x < 0;
+            if(player.IsWallSliding)
+                _sprite.flipX = player.IsOnLeftWall;
         }
 
         private void OnWallJump()
