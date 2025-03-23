@@ -108,17 +108,16 @@ namespace TarodevController
         private void CheckCollisions()
         {
             Physics2D.queriesStartInColliders = false;
-
+            int collidableLayers = ~_stats.PlayerLayer;
+            collidableLayers &= ~(1 << LayerMask.NameToLayer($"IsTrigger"));
+            
+            int ceilingCollidableLayers = collidableLayers & ~(1 << LayerMask.NameToLayer($"Platform"));
             // Ground and Ceiling
-            groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            bool rightWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            bool leftWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, collidableLayers);
+            RaycastHit2D ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ceilingCollidableLayers);
+            bool rightWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, collidableLayers);
+            bool leftWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance,collidableLayers);
 
-            if(groundHit)
-                Debug.Log($"groundHit {groundHit.collider.name}");
-            else
-                Debug.Log($"In air");
             
             
             // Hit a Ceiling

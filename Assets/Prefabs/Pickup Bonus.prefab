@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2562237392893760000}
   - component: {fileID: -1689623955393131875}
   - component: {fileID: 1422668979716245240}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pickup Bonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4577540847913541216}
   - component: {fileID: 5985421924569036310}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bonus Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

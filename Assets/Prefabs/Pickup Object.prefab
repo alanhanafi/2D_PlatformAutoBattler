@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4983900147402803444}
   - component: {fileID: 5763203195149600507}
   - component: {fileID: 7425244288093217643}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Pickup Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 632473185546595470}
   - component: {fileID: 5143147875577606357}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

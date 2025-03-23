@@ -14,6 +14,8 @@ namespace DefaultNamespace
         
         [SerializeField] private float gameTimer = 30;
         
+        [SerializeField] private float delayBeforeZoomingIn = 3;
+        
         [SerializeField] private TextMeshProUGUI timerText;
         
         [SerializeField] private CinemachineCamera baseMapVirtualCamera;
@@ -21,7 +23,6 @@ namespace DefaultNamespace
         [SerializeField] private CinemachineCamera gameVirtualCamera;
         
         [SerializeField] private GameObject playerGameObject;
-
         private Vector3 respawnPosition;
         
         private float timer;
@@ -29,6 +30,8 @@ namespace DefaultNamespace
         private bool isGameRunning = false;
 
         private PlayerController playerController;
+        
+        private bool isGenerating;
         
         #region Singleton
 
@@ -44,7 +47,8 @@ namespace DefaultNamespace
 
         #endregion
 
-        private void Start()
+
+        public void StartGameAfterProceduralGeneration()
         {
             respawnPosition = playerGameObject.transform.position;
             WaitForZoomThenStartGame().Forget();
@@ -69,7 +73,7 @@ namespace DefaultNamespace
             timerText.gameObject.SetActive(false);
             
             // Wait a bit at min zoom to see the whole map
-            await UniTask.WaitForSeconds(2);
+            await UniTask.WaitForSeconds(delayBeforeZoomingIn);
             // Blends to the main game camera
             baseMapVirtualCamera.Priority -= 2;
             await UniTask.WaitUntil(() => !baseMapVirtualCamera.IsParticipatingInBlend());

@@ -30,7 +30,7 @@ namespace TarodevController
 
         private AudioSource audioSource;
         private IPlayerController player;
-        private Rigidbody2D rigidbody2D;
+        private Rigidbody2D rb2D;
         private bool grounded;
         private ParticleSystem.MinMaxGradient currentGradient;
 
@@ -38,7 +38,7 @@ namespace TarodevController
         {
             audioSource = GetComponent<AudioSource>();
             player = GetComponentInParent<IPlayerController>();
-            rigidbody2D  = GetComponentInParent<Rigidbody2D>();
+            rb2D  = GetComponentInParent<Rigidbody2D>();
         }
 
         private void OnEnable()
@@ -77,8 +77,8 @@ namespace TarodevController
 
         private void HandleVelocity()
         {
-            _anim.SetFloat(XVelocityKey, Math.Abs(rigidbody2D.linearVelocityX));
-            _anim.SetFloat(YVelocityKey, grounded?0:rigidbody2D.linearVelocityY);
+            _anim.SetFloat(XVelocityKey, Math.Abs(rb2D.linearVelocityX));
+            _anim.SetFloat(YVelocityKey, grounded?0:rb2D.linearVelocityY);
         }
 
         private void HandleSpriteFlip()

@@ -1,5 +1,6 @@
 {
     "name": "Edgar.Unity.Examples",
+    "rootNamespace": "",
     "references": [
         "Edgar.Unity",
         "Unity.InputSystem",
