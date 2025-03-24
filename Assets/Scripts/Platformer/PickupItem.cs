@@ -10,7 +10,7 @@ namespace Platformer
         public string ItemName { get;  }
         public string ItemDescription { get;  }
         
-        public void Initialize(List<MainItem> spawnedItems);
+        public void Initialize(List<MainItem> spawnedItems, bool isIntermediateRoom = false);
         
         public void OnTriggerEnter2D(Collider2D other);
     }

@@ -14,7 +14,12 @@ namespace Shared.Main_Items
         [field :SerializeField]
         internal string Description { get; private set; }
 
-        internal void SubscribeToEvents(AutoBattlePlayerState owner)
+
+        internal virtual string GetDescription()
+        {
+            return Description;
+        }
+        internal virtual void InitializeForAutoBattle(AutoBattlePlayerState owner)
         {
             owner.OnDamageDealt += OnDealingDamage;
             owner.OnDamageReceived += OnReceivingDamage;

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3327883028017096932}
   - component: {fileID: 7575036355257389222}
   - component: {fileID: 3887234346103198842}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KillZones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4186,7 +4186,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -5427,6 +5427,14 @@ PrefabInstance:
       propertyPath: spawnTransforms.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+      propertyPath: bonusSpawnTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+      propertyPath: 'bonusSpawnTransforms.Array.data[0]'
+      value: 
+      objectReference: {fileID: 9114571072261330985}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5435,6 +5443,11 @@ PrefabInstance:
 --- !u!4 &8437074246033996015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2216461524332477586, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+  m_PrefabInstance: {fileID: 7770106081020970109}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9114571072261330985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1560919798901873748, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
   m_PrefabInstance: {fileID: 7770106081020970109}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7818226632299585126

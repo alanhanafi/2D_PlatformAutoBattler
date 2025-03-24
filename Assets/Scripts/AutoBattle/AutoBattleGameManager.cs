@@ -74,31 +74,15 @@ namespace AutoBattle
 
         private void InitializePlayersStats()
         {
-            int additionalPlayerHealth = 0;
-            int additionalPlayerAttackDamage = 0;
-            float additionalPlayerAttackSpeed = 0;
-            int additionalEnemyHealth = 0;
-            int additionalEnemyAttackDamage = 0;
-            float additionalEnemyAttackSpeed = 0;
             if (InventoryManager.Instance != null)
             {
-                foreach (BonusItem bonusItem in InventoryManager.Instance.PlayerBonusItemList)
-                {
-                    additionalPlayerHealth += bonusItem.BonusHealth;
-                    additionalPlayerAttackDamage += bonusItem.BonusDamage;
-                    additionalPlayerAttackSpeed += bonusItem.BonusAttackSpeed;
-                }
-                foreach (BonusItem bonusItem in InventoryManager.Instance.EnemyBonusItemList)
-                {
-                    additionalEnemyHealth += bonusItem.BonusHealth;
-                    additionalEnemyAttackDamage += bonusItem.BonusDamage;
-                    additionalEnemyAttackSpeed += bonusItem.BonusAttackSpeed;
-                }
-                playerState.mainItemsList = InventoryManager.Instance.PlayerMainItemList;
-                enemyState.mainItemsList = InventoryManager.Instance.EnemyMainItemList;
+                playerState.BonusItemsList = InventoryManager.Instance.PlayerBonusItemList;
+                playerState.MainItemsList = InventoryManager.Instance.PlayerMainItemList;
+                enemyState.BonusItemsList = InventoryManager.Instance.EnemyBonusItemList;
+                enemyState.MainItemsList = InventoryManager.Instance.EnemyMainItemList;
             }
-            playerState.InitializeStats(additionalPlayerHealth, additionalPlayerAttackDamage, additionalPlayerAttackSpeed);
-            enemyState.InitializeStats(additionalEnemyHealth,additionalEnemyAttackDamage, additionalEnemyAttackSpeed);
+            playerState.InitializeStats();
+            enemyState.InitializeStats();
         }
 
         internal AutoBattlePlayerState GetPlayerState(Team playerTeam)

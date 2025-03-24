@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breakSpeedInSeconds: 2
-  rebuildSpeedInSeconds: 5
+  rebuildSpeedInSeconds: 3
   breakingPlatformAlpha: 0.5
   brokenPlatformAlpha: 0.1
 --- !u!61 &4382322720890535812

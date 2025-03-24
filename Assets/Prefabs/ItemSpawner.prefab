@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ae80dea03e482dbee359bda3aa60a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTransforms:
-  - {fileID: 1560919798901873748}
-  pickupItemPrefab: {fileID: 3673488126363957202, guid: 6ba6c5d6dbbee7a4a93b8b286d587ed7, type: 3}
+  mainSpawnTransforms: []
+  bonusSpawnTransforms: []
+  pickupMainItemPrefab: {fileID: 3673488126363957202, guid: 6ba6c5d6dbbee7a4a93b8b286d587ed7, type: 3}
+  pickupBonusItemPrefab: {fileID: 3673488126363957202, guid: 17f9e1cd2a9d27844a8b4ccd285ba442, type: 3}
 --- !u!1 &3446793453782145173
 GameObject:
   m_ObjectHideFlags: 0

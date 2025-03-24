@@ -264,11 +264,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24777047e5a447e084d0aaf0cca51844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableItems:
+  availableFinalItems:
+  - {fileID: 11400000, guid: ed433de01f464ed4caa9be4c6452a9df, type: 2}
+  - {fileID: 11400000, guid: 4a3c174eb0ebdfb4ca420fc54cc9500c, type: 2}
   - {fileID: 11400000, guid: 845ea6520601ef246835df5a2b7c36cd, type: 2}
-  - {fileID: 11400000, guid: 79dbbde97a62fb9459975e2d2137e966, type: 2}
-  - {fileID: 11400000, guid: 59cf7d6826906b940a2b05e726590fa0, type: 2}
+  - {fileID: 11400000, guid: 196b5e75719e3584c96a1e1ef8a29d35, type: 2}
+  - {fileID: 11400000, guid: 3d8e335f71072204a89633b90a5ecdc7, type: 2}
+  - {fileID: 11400000, guid: 393f81e11eda7c1459e28f7251ba3c1b, type: 2}
+  - {fileID: 11400000, guid: 66d936426787ab94babe257970741bc7, type: 2}
   - {fileID: 11400000, guid: ffffe8493d79f5240b28ce6e887bfa65, type: 2}
+  availableIntermediateItems:
+  - {fileID: 11400000, guid: 59cf7d6826906b940a2b05e726590fa0, type: 2}
+  - {fileID: 11400000, guid: 79dbbde97a62fb9459975e2d2137e966, type: 2}
   spriteRenderers:
   - {fileID: 5143147875577606357}
   - {fileID: 8488911119151193042}

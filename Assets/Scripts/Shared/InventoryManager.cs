@@ -81,8 +81,10 @@ namespace Shared
         
         internal List<BonusItem> PlayerBonusItemList { get; }= new();
 
-        internal void AddMainItem(PickupBoardItem pickupMainItem)
+        internal void AddMainItem(PickupMainItem pickupMainItem)
         {
+            if (pickupMainItem.MainItem is TimeScalingBonusMainItem timeScalingBonusMainItem)
+                timeScalingBonusMainItem.TimePassedAtPickup = PlatformerManager.Instance.TimePassed;
             pickupItemPopup.DisplayItemPopup(pickupMainItem);
             PlayerMainItemList.Add(pickupMainItem.MainItem);
             Instantiate(mainItemUIGameObject, mainItemsParent).GetComponent<MainItemUI>().Initialize(pickupMainItem.MainItem);

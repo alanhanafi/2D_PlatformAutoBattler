@@ -19,7 +19,7 @@ namespace Platformer
         
         internal BonusItem BonusItem => bonusItem;
 
-        public void Initialize(List<MainItem> spawnedItems)
+        public void Initialize(List<MainItem> spawnedItems, bool isIntermediateRoom = false)
         {
             bonusItem = availableBonusItems[Random.Range(0, availableBonusItems.Length)];
             #if UNITY_EDITOR

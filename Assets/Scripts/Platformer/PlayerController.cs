@@ -54,7 +54,6 @@ namespace Platformer
 
         private void GatherInput()
         {
-            // TODO : Update Input system
             _frameInput = new FrameInput
             {
                 JumpDown = platformerInput.GetJumpPressed(),

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared;
 using Shared.Main_Items;
 using UnityEngine;
 
@@ -17,9 +18,9 @@ namespace AutoBattle
 
         [SerializeField] private Team team;
         
-        // SerializeField for test purposes
-        [SerializeField] 
-        internal List<MainItem> mainItemsList = new();
+        internal List<BonusItem> BonusItemsList { get; set; } = new();
+        
+        internal List<MainItem> MainItemsList { get; set; } = new();
         
         internal int MaxHealth { get; set; }
         internal int AttackDamage { get; set; }
@@ -96,22 +97,31 @@ namespace AutoBattle
                 OnDeath?.Invoke(this, null);
         }
 
-        internal void InitializeStats(int additionalHealth, int additionalAttackDamage, float additionalAttackSpeed)
+        internal void InitializeStats()
         {
+            int additionalHealth = 0;
+            int additionalDamage = 0;
+            float additionalAttackSpeed = 0;
+            foreach (BonusItem bonusItem in BonusItemsList)
+            {
+                additionalHealth += bonusItem.BonusHealth;
+                additionalDamage += bonusItem.BonusDamage;
+                additionalAttackSpeed += bonusItem.BonusAttackSpeed;
+            }
             MaxHealth = basePlayerHealth + additionalHealth;
             CurrentHealth = MaxHealth;
-            AttackDamage = baseAttackDamage + additionalAttackDamage;
+            AttackDamage = baseAttackDamage + additionalDamage;
             AttackSpeed = baseAttackSpeed + additionalAttackSpeed;
-            foreach (MainItem mainItem in mainItemsList)
+            foreach (MainItem mainItem in MainItemsList)
             {
-                mainItem.SubscribeToEvents(this);
+                mainItem.InitializeForAutoBattle(this);
             }
         }
         
         
         internal void DealDamage(AutoBattlePlayerState target, int damage, bool isDirect)
         {
-            if (mainItemsList.Any(item => item is CritMainItem))
+            if (MainItemsList.Any(item => item is CritMainItem))
                 damage = (int)Math.Round(damage*critMultiplier, MidpointRounding.AwayFromZero);
             target.TakeDamage(damage);
             target.ShowDamageText(damage);

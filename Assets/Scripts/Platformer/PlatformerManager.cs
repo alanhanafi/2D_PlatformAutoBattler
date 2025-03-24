@@ -5,34 +5,32 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Platformer
 {
     public class PlatformerManager : MonoBehaviour
     {
         [SerializeField] private bool skipFirstPhase = true;
-        
-        [SerializeField] private float gameTimer = 30;
-        
+        [SerializeField] private float gameTimer = 90;
         [SerializeField] private float delayBeforeZoomingIn = 3;
-        
         [SerializeField] private TextMeshProUGUI timerText;
-        
         [SerializeField] private CinemachineCamera baseMapVirtualCamera;
-        
         [SerializeField] private CinemachineCamera gameVirtualCamera;
-        
         [SerializeField] private GameObject playerGameObject;
         [SerializeField] private PlatformerInput platformerInput;
+        
         private Vector3 respawnPosition;
         
-        private float timer;
+        private float remainingTime;
         
         private bool isGameRunning = false;
 
         private PlayerController playerController;
         
         private bool isGenerating;
+        
+        internal float TimePassed => gameTimer - remainingTime;
         
         #region Singleton
 
@@ -53,6 +51,8 @@ namespace Platformer
             // Hide the cursor during the platformer
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            if (skipFirstPhase)
+                StartGameAfterProceduralGeneration();
         }
 
         public void StartGameAfterProceduralGeneration()
@@ -89,32 +89,31 @@ namespace Platformer
             Debug.Log($"Start game");
             UnlockInputs();
             isGameRunning = true;
+            // Hide big sized main items from the game camera
             int layer = LayerMask.NameToLayer($"BaseCameraVisible");
             if (Camera.main != null) 
                 Camera.main.cullingMask &= ~(1 << layer);
             else
-                Debug.Log("");
+                Debug.Log("Camera.main is null");
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
         }
 
         private void Update()
         {
-            //baseMapVirtualCamera.Lens.FieldOfView -= Time.deltaTime;
             if (!isGameRunning)
                 return;
-            // TODO : Update Input system
             if (platformerInput.GetResetPressed())
                 AutoBattleGameManager.ReplayGame((int)InventoryManager.CurrentDifficulty);
-            UpdateTimer(timer- Time.deltaTime);
-            if (timer <=0)
+            UpdateTimer(remainingTime- Time.deltaTime);
+            if (remainingTime <=0)
                 EndSpeedrun();
         }
 
         private void UpdateTimer(float newTime)
         {
-            timer = newTime;
-            timerText.text = timer.ToString("0.00");
+            remainingTime = newTime;
+            timerText.text = remainingTime.ToString("0.00");
         }
 
         private void EndSpeedrun()

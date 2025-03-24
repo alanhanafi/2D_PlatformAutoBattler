@@ -35,4 +35,4 @@ MonoBehaviour:
   JumpEndEarlyGravityModifier: 3
   CoyoteTime: 0.15
   JumpBuffer: 0.2
-  BumperPower: 45
+  BumperPower: 35

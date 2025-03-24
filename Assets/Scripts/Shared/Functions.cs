@@ -1,14 +1,21 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEditor;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Shared
 {
     public static class Functions
     {
+
+        internal static int GetUpRoundedValue(float floatValue)
+        {
+            return (int)Math.Round(floatValue,MidpointRounding.AwayFromZero);
+        }
         
         /// <summary>
         /// Checks if the layer is in the layerMask.
