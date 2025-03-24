@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Platformer
@@ -25,6 +25,12 @@ namespace Platformer
         internal bool GetJumpDown()
         {
             return playerInputActions.Player.Jump.IsPressed();
+        }
+        
+
+        internal bool GetResetPressed()
+        {
+            return playerInputActions.Player.Reset.WasPressedThisFrame();
         }
     }
 }

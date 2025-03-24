@@ -23,6 +23,7 @@ namespace Platformer
         [SerializeField] private CinemachineCamera gameVirtualCamera;
         
         [SerializeField] private GameObject playerGameObject;
+        [SerializeField] private PlatformerInput platformerInput;
         private Vector3 respawnPosition;
         
         private float timer;
@@ -103,7 +104,7 @@ namespace Platformer
             if (!isGameRunning)
                 return;
             // TODO : Update Input system
-            if (Input.GetKeyDown(KeyCode.R))
+            if (platformerInput.GetResetPressed())
                 AutoBattleGameManager.ReplayGame((int)InventoryManager.CurrentDifficulty);
             UpdateTimer(timer- Time.deltaTime);
             if (timer <=0)
