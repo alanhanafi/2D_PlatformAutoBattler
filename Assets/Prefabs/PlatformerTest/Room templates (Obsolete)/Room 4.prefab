@@ -1987,14 +1987,6 @@ MonoBehaviour:
     To: {x: -3, y: -14, z: 0}
     Direction: 0
     Socket: {fileID: 0}
-  - From: {x: -2, y: -15, z: 0}
-    To: {x: 0, y: -15, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
-  - From: {x: 8, y: -15, z: 0}
-    To: {x: 6, y: -15, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
   - From: {x: 9, y: -12, z: 0}
     To: {x: 9, y: -14, z: 0}
     Direction: 0
@@ -2003,16 +1995,24 @@ MonoBehaviour:
     To: {x: -3, y: -5, z: 0}
     Direction: 0
     Socket: {fileID: 0}
-  - From: {x: 1, y: -1, z: 0}
-    To: {x: 3, y: -1, z: 0}
-    Direction: 0
-    Socket: {fileID: 0}
   - From: {x: 11, y: -2, z: 0}
     To: {x: 11, y: -4, z: 0}
     Direction: 0
     Socket: {fileID: 0}
-  - From: {x: 10, y: -1, z: 0}
-    To: {x: 8, y: -1, z: 0}
+  - From: {x: -1, y: -15, z: 0}
+    To: {x: 1, y: -15, z: 0}
+    Direction: 0
+    Socket: {fileID: 0}
+  - From: {x: 5, y: -15, z: 0}
+    To: {x: 7, y: -15, z: 0}
+    Direction: 0
+    Socket: {fileID: 0}
+  - From: {x: 7, y: 0, z: 0}
+    To: {x: 9, y: 0, z: 0}
+    Direction: 0
+    Socket: {fileID: 0}
+  - From: {x: 1, y: 0, z: 0}
+    To: {x: 3, y: 0, z: 0}
     Direction: 0
     Socket: {fileID: 0}
   Socket: {fileID: 0}
@@ -4535,11 +4535,24 @@ PrefabInstance:
       propertyPath: pickupItemPrefab
       value: 
       objectReference: {fileID: 3673488126363957202, guid: 17f9e1cd2a9d27844a8b4ccd285ba442, type: 3}
+    - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+      propertyPath: bonusSpawnTransforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+      propertyPath: 'bonusSpawnTransforms.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4825551405558757279}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+--- !u!4 &4825551405558757279 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1560919798901873748, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
+  m_PrefabInstance: {fileID: 6295554158034217931}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5304177294862227289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2216461524332477586, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}

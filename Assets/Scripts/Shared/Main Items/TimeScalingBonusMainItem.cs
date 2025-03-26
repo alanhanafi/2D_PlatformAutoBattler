@@ -79,7 +79,9 @@ namespace Shared.Main_Items
 
         internal override string GetDescription()
         {
-            return Description.Replace("{type}",GetType().ToString()).Replace("{value}",$"{Functions.GetUpRoundedValue(GetBonusValue())}");
+            BonusType bonusType = GetBonusType();
+            string valueString = bonusType==BonusType.AttackSpeed ? $"{GetBonusValue()}" : $"{Functions.GetUpRoundedValue(GetBonusValue())}";
+            return Description.Replace("{type}",bonusType.ToString()).Replace("{value}",valueString);
         }
     }
 }

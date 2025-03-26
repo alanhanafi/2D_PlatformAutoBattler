@@ -26,7 +26,7 @@ namespace Platformer
             if (bonusSpawnTransforms.Length == 0)
                 return;
             Transform itemSpawnerTransform = bonusSpawnTransforms[Random.Range(0, bonusSpawnTransforms.Length)];
-            var pickupItem = Instantiate(pickupMainItemPrefab, itemSpawnerTransform);
+            var pickupItem = Instantiate(pickupBonusItemPrefab, itemSpawnerTransform);
             pickupItem.GetComponent<PickupItem>().Initialize(spawnedItems,isIntermediateRoom);
         }
 

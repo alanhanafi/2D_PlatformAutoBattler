@@ -28,9 +28,14 @@ namespace Platformer
         }
         
 
-        internal bool GetResetPressed()
+        internal bool GetReplayPressed()
         {
-            return playerInputActions.Player.Reset.WasPressedThisFrame();
+            return playerInputActions.Player.Replay.WasPressedThisFrame();
+        }
+
+        public bool GetMinimapButtonPressed()
+        {
+            return playerInputActions.Player.Minimap.WasPressedThisFrame();
         }
     }
 }

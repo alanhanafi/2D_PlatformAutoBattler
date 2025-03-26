@@ -34,17 +34,15 @@ namespace Shared.Main_Items
 
         internal override string GetDescription()
         {
-            return Description.Replace("{type}", BonusType.ToString()).Replace("{value}", valuePerBonus.ToString());
+            return Description.Replace("{type}", BonusType.ToString()).Replace("{value}", $"{valuePerBonus}");
         }
 
         internal override void OnReceivingDamage(object sender, (AutoBattlePlayerState source, int damage, bool isDirect) eventArgs)
         {
-            throw new System.NotImplementedException();
         }
 
         internal override void OnDealingDamage(object sender, (AutoBattlePlayerState target, int damage, bool isDirect) eventArgs)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -16,4 +16,4 @@ MonoBehaviour:
   <Name>k__BackingField: Attack Speed Bonus Scaling
   <Description>k__BackingField: Increase {type} by {value} per {type} bonus collected
   <BonusType>k__BackingField: 2
-  valuePerBonus: 0.025
+  valuePerBonus: 0.02

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Sprite>k__BackingField: {fileID: -3551433282220424145, guid: e9311a4dd640bdd41a6b910e15471573, type: 3}
   <Name>k__BackingField: Damage Armor Item
-  <Description>k__BackingField: "Augmente l'attaque de 5% par attaque re\xE7ue"
-  attackIncreasePercent: 5
+  <Description>k__BackingField: "Augmente l'attaque de 10% par attaque re\xE7ue"
+  attackIncreasePercent: 10

@@ -16,4 +16,4 @@ MonoBehaviour:
   <Name>k__BackingField: Damage Bonus Scaling
   <Description>k__BackingField: Increase {type} by {value} per {type} bonus collected
   <BonusType>k__BackingField: 1
-  valuePerBonus: 2.5
+  valuePerBonus: 2

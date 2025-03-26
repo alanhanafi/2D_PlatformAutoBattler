@@ -11,7 +11,7 @@ namespace Shared
 {
     public class InventoryManager : MonoBehaviour
     {
-        internal static Difficulty CurrentDifficulty = Difficulty.Hard;
+        internal static Difficulty CurrentDifficulty = Difficulty.Easy;
         
         [SerializeField] private PickupItemPopup pickupItemPopup;
         

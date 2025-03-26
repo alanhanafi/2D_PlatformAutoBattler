@@ -19,6 +19,10 @@ namespace Platformer
         [SerializeField] private CinemachineCamera gameVirtualCamera;
         [SerializeField] private GameObject playerGameObject;
         [SerializeField] private PlatformerInput platformerInput;
+        [SerializeField] private GameObject centerMinimapGameObject;
+        [SerializeField] private GameObject cornerMinimapGameObject;
+        [SerializeField] private Camera centerMinimapCamera;
+        [SerializeField] private Camera cornerMinimapCamera;
         
         private Vector3 respawnPosition;
         
@@ -29,6 +33,8 @@ namespace Platformer
         private PlayerController playerController;
         
         private bool isGenerating;
+        
+        private bool isMinimapCentered => centerMinimapGameObject.activeSelf;
         
         internal float TimePassed => gameTimer - remainingTime;
         
@@ -58,6 +64,7 @@ namespace Platformer
         public void StartGameAfterProceduralGeneration()
         {
             respawnPosition = playerGameObject.transform.position;
+            centerMinimapCamera.transform.position = respawnPosition;
             WaitForZoomThenStartGame().Forget();
         }
 
@@ -103,11 +110,32 @@ namespace Platformer
         {
             if (!isGameRunning)
                 return;
-            if (platformerInput.GetResetPressed())
-                AutoBattleGameManager.ReplayGame((int)InventoryManager.CurrentDifficulty);
+            if (platformerInput.GetMinimapButtonPressed())
+                SwapMinimap();
+            // Always replay in hardest difficulty
+            if (platformerInput.GetReplayPressed())
+                AutoBattleGameManager.ReplayGame((int)Difficulty.Hard);
             UpdateTimer(remainingTime- Time.deltaTime);
             if (remainingTime <=0)
                 EndSpeedrun();
+        }
+
+        private void SwapMinimap()
+        {
+            if (isMinimapCentered)
+            {
+                centerMinimapGameObject.SetActive(false);
+                centerMinimapCamera.gameObject.SetActive(false);
+                cornerMinimapGameObject.SetActive(true);
+                cornerMinimapCamera.gameObject.SetActive(true);
+            }
+            else
+            {
+                centerMinimapGameObject.SetActive(true);
+                centerMinimapCamera.gameObject.SetActive(true);
+                cornerMinimapGameObject.SetActive(false);
+                cornerMinimapCamera.gameObject.SetActive(true);
+            }
         }
 
         private void UpdateTimer(float newTime)

@@ -16,6 +16,6 @@ MonoBehaviour:
   <Name>k__BackingField: Health Time Scaling
   <Description>k__BackingField: Increase {type} by {value}, scaling with the time
     passed.
-  healthTimePassedScaling: 10
+  healthTimePassedScaling: 5
   damageTimePassedScaling: 0
   attackSpeedTimePassedScaling: 0

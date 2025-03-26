@@ -18,4 +18,4 @@ MonoBehaviour:
     passed.
   healthTimePassedScaling: 0
   damageTimePassedScaling: 0
-  attackSpeedTimePassedScaling: 0.18
+  attackSpeedTimePassedScaling: 0.005
