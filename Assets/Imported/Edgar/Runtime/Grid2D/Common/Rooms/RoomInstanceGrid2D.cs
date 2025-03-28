@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shared.Main_Items;
 using UnityEngine;
 
 namespace Edgar.Unity
@@ -11,6 +12,16 @@ namespace Edgar.Unity
     [Serializable]
     public class RoomInstanceGrid2D
     {
+        public MainItem MainItem => mainItem;
+        
+        [SerializeField]
+        private MainItem mainItem;
+
+        public void UpdateMainItem(MainItem mainItem)
+        {
+            this.mainItem = mainItem;
+        }
+        
         /// <summary>
         ///     The room associated with this room instance.
         /// </summary>
@@ -40,18 +51,6 @@ namespace Edgar.Unity
 
         [SerializeField]
         private ConnectionBase connection;
-
-        internal int GetDistanceFromStart()
-        {
-            int distanceFromStart = 0;
-
-            /*foreach (var connection in Connection)
-            {
-                
-            }*/
-            
-            return distanceFromStart;
-        }
 
         /// <summary>
         ///     Room template that was selected for a given room.

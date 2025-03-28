@@ -5369,7 +5369,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1560919798901873748, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.55
+      value: -0.41
       objectReference: {fileID: 0}
     - target: {fileID: 1560919798901873748, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5417,7 +5417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524740473926660556, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: m_Name
-      value: ItemSpawner
+      value: Room Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: pickupItemPrefab

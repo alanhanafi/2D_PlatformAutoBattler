@@ -1,16 +1,19 @@
-﻿using AutoBattle;
+﻿using System;
+using System.Collections.Generic;
+using AutoBattle;
 using Cysharp.Threading.Tasks;
 using Shared;
+using Shared.Main_Items;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace Platformer
 {
     public class PlatformerManager : MonoBehaviour
     {
+        [SerializeField] private bool isMinimapActive;
         [SerializeField] private bool skipFirstPhase = true;
         [SerializeField] private float gameTimer = 90;
         [SerializeField] private float delayBeforeZoomingIn = 3;
@@ -38,6 +41,7 @@ namespace Platformer
         
         internal float TimePassed => gameTimer - remainingTime;
         
+        
         #region Singleton
 
         public static PlatformerManager Instance { get; private set; }
@@ -54,6 +58,13 @@ namespace Platformer
 
         private void Start()
         {
+            if (!isMinimapActive)
+            {
+                centerMinimapCamera.gameObject.SetActive(false);
+                cornerMinimapCamera.gameObject.SetActive(false);
+                centerMinimapGameObject.SetActive(false);
+                cornerMinimapGameObject.SetActive(false);
+            }
             // Hide the cursor during the platformer
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -110,7 +121,7 @@ namespace Platformer
         {
             if (!isGameRunning)
                 return;
-            if (platformerInput.GetMinimapButtonPressed())
+            if (platformerInput.GetMinimapButtonPressed() && isMinimapActive)
                 SwapMinimap();
             // Always replay in hardest difficulty
             if (platformerInput.GetReplayPressed())
@@ -163,6 +174,14 @@ namespace Platformer
         public void BumpPlayer()
         {
             playerController.ExecuteBumper();
+        }
+
+        public void EnterRoom(List<(Vector3,MainItem)> itemsInPath)
+        {
+            foreach (var itemInfo in itemsInPath)
+            {
+               Debug.Log($"item {itemInfo.Item2.Name} is at position {itemInfo.Item1}"); 
+            }
         }
     }
 }

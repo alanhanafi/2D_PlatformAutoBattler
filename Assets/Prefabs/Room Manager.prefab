@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2216461524332477586}
   - component: {fileID: 8232768898049841308}
+  - component: {fileID: 6290481807404742259}
   m_Layer: 0
-  m_Name: ItemSpawner
+  m_Name: Room Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,10 +46,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ae80dea03e482dbee359bda3aa60a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isIntermediateRoom: 0
   mainSpawnTransforms: []
   bonusSpawnTransforms: []
-  pickupMainItemPrefab: {fileID: 3673488126363957202, guid: 6ba6c5d6dbbee7a4a93b8b286d587ed7, type: 3}
-  pickupBonusItemPrefab: {fileID: 3673488126363957202, guid: 17f9e1cd2a9d27844a8b4ccd285ba442, type: 3}
+  pickupMainItemPrefab: {fileID: 7425244288093217643, guid: 6ba6c5d6dbbee7a4a93b8b286d587ed7, type: 3}
+  pickupBonusItemPrefab: {fileID: 1422668979716245240, guid: 17f9e1cd2a9d27844a8b4ccd285ba442, type: 3}
+--- !u!114 &6290481807404742259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524740473926660556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76368357d95746d99a75e0938e1c5d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3446793453782145173
 GameObject:
   m_ObjectHideFlags: 0

@@ -7270,7 +7270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2524740473926660556, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: m_Name
-      value: ItemSpawner
+      value: Room Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8232768898049841308, guid: 6d93181118cf7b240a03616d572fe55c, type: 3}
       propertyPath: pickupItemPrefab

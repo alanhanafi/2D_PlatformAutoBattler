@@ -4,7 +4,8 @@
     "references": [
         "Edgar.Unity",
         "Unity.InputSystem",
-        "Scripts"
+        "Scripts",
+        "NaughtyAttributes.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
