@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Platformer;
 using Shared.Main_Items;
 using UnityEngine;
 
@@ -12,6 +13,15 @@ namespace Edgar.Unity
     [Serializable]
     public class RoomInstanceGrid2D
     {
+        public Transform RoomCenterTransform => roomCenterTransform;
+        
+        [SerializeField] private Transform roomCenterTransform;
+        
+        public void UpdateRoomCenterTransform()
+        {
+            roomCenterTransform = roomTemplateInstance.GetComponent<RoomCenterTracker>().RoomCenterTransform;
+        }
+        
         public MainItem MainItem => mainItem;
         
         [SerializeField]

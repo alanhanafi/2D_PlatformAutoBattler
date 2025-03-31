@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 4622707586974631245}
   - component: {fileID: 270915053879387323}
   - component: {fileID: 2834822675857761214}
+  - component: {fileID: 7510752661092736853}
   m_Layer: 0
   m_Name: Final Room 3
   m_TagString: Untagged
@@ -334,6 +335,7 @@ Transform:
   - {fileID: 9151106546071557150}
   - {fileID: 5691002927370314690}
   - {fileID: 1556478584213665510}
+  - {fileID: 4742204059876633031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &270915053879387323
@@ -397,6 +399,19 @@ MonoBehaviour:
       Enabled: 1
   DefaultSocket: {fileID: 0}
   DefaultDirection: 0
+--- !u!114 &7510752661092736853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2317301991054277076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d5231f0c1ca40acad7a12b156f32850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomCenterTransform: {fileID: 4742204059876633031}
 --- !u!1 &3544368546330212016
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,6 +456,37 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &5648441367708413300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4742204059876633031}
+  m_Layer: 0
+  m_Name: Center Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4742204059876633031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648441367708413300}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8.04, y: 4.33, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4622707586974631245}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5751807096621361953
 GameObject:
   m_ObjectHideFlags: 0

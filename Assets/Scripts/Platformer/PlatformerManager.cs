@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoBattle;
 using Cysharp.Threading.Tasks;
 using Shared;
@@ -26,20 +27,23 @@ namespace Platformer
         [SerializeField] private GameObject cornerMinimapGameObject;
         [SerializeField] private Camera centerMinimapCamera;
         [SerializeField] private Camera cornerMinimapCamera;
-        
-        private Vector3 respawnPosition;
-        
-        private float remainingTime;
-        
-        private bool isGameRunning = false;
+        [SerializeField] private MainItemDirection[] mainItemDirections;
 
-        private PlayerController playerController;
-        
-        private bool isGenerating;
-        
-        private bool isMinimapCentered => centerMinimapGameObject.activeSelf;
+        public EventHandler OnGameStart;
         
         internal float TimePassed => gameTimer - remainingTime;
+        internal Vector3 PlayerPosition => playerGameObject.transform.position;
+        
+        internal readonly List<MainItem> AvailableMainItems = new List<MainItem>();
+        private Vector3 respawnPosition;
+        private float remainingTime;
+        private bool isGameRunning = false;
+        private PlayerController playerController;
+        private bool isGenerating;
+        
+        
+        
+        private bool isMinimapCentered => centerMinimapGameObject.activeSelf;
         
         
         #region Singleton
@@ -84,14 +88,22 @@ namespace Platformer
             playerController.UnlockInputs();
         }
 
+        internal void PickupMainItem(MainItem mainItem)
+        {
+            AvailableMainItems.Remove(mainItem);
+        }
+        
+        public void AddAvailableMainItem(MainItem mainItem)
+        {
+            AvailableMainItems.Add(mainItem);
+        }
+
         private async UniTask WaitForZoomThenStartGame()
         {
             if (skipFirstPhase)
             {
                 baseMapVirtualCamera.Priority -= 2;
-                UnlockInputs();
-                isGameRunning = true;
-                UpdateTimer(gameTimer);
+                StartGame();
                 return;
             }
             
@@ -105,14 +117,20 @@ namespace Platformer
             
             // Start game at the end of the blend
             Debug.Log($"Start game");
-            UnlockInputs();
-            isGameRunning = true;
             // Hide big sized main items from the game camera
             int layer = LayerMask.NameToLayer($"BaseCameraVisible");
             if (Camera.main != null) 
                 Camera.main.cullingMask &= ~(1 << layer);
             else
                 Debug.Log("Camera.main is null");
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            UnlockInputs();
+            isGameRunning = true;
+            OnGameStart?.Invoke(this, EventArgs.Empty);
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
         }
@@ -176,11 +194,40 @@ namespace Platformer
             playerController.ExecuteBumper();
         }
 
-        public void EnterRoom(List<(Vector3,MainItem)> itemsInPath)
+        public void EnterRoom(Dictionary<MainItem,Vector3> itemsInPath)
         {
-            foreach (var itemInfo in itemsInPath)
+            Vector3 startRoomDirection = itemsInPath.FirstOrDefault(item => item.Key == null).Value;
+            
+            Dictionary<Vector3, List<MainItem>> itemsDirectionInfo = new();
+
+            foreach (MainItem availableMainItem in AvailableMainItems)
             {
-               Debug.Log($"item {itemInfo.Item2.Name} is at position {itemInfo.Item1}"); 
+                if (itemsInPath.Keys.Contains(availableMainItem))
+                {
+                    if(itemsDirectionInfo.Keys.Contains(itemsInPath[availableMainItem]))
+                        itemsDirectionInfo[itemsInPath[availableMainItem]].Add(availableMainItem);
+                    else
+                        itemsDirectionInfo.TryAdd(itemsInPath[availableMainItem],new List<MainItem> {availableMainItem});
+                }
+                else
+                {
+                    if(itemsDirectionInfo.Keys.Contains(startRoomDirection))
+                        itemsDirectionInfo[startRoomDirection].Add(availableMainItem);
+                    else
+                        itemsDirectionInfo.TryAdd(startRoomDirection,new List<MainItem> {availableMainItem});
+                }
+            }
+
+            int j = 0;
+            foreach (var itemDirectionInfo in itemsDirectionInfo)
+            {
+                mainItemDirections[j].UpdateDirection(itemDirectionInfo.Key, itemDirectionInfo.Value);
+                j++;
+            }
+
+            for (int i = mainItemDirections.Length-1; i > itemsDirectionInfo.Keys.Count; i--)
+            {
+                mainItemDirections[i].gameObject.SetActive(false);
             }
         }
     }

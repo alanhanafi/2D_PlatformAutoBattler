@@ -771,23 +771,12 @@ MonoBehaviour:
   - {fileID: -7253464430431331600}
   - {fileID: -320919902669679729}
   - {fileID: 8333871403854403416}
-  CorridorIndividualRoomTemplates:
-  - {fileID: 7118016259895855096, guid: 1d3dd59e7a40832429fce0ae13886e68, type: 3}
-  - {fileID: 3192965893854616625, guid: ce4a646be414b3e42b3c30be557ba5e1, type: 3}
-  CorridorRoomTemplateSets: []
-  DefaultIndividualRoomTemplates:
-  - {fileID: 3689777361867823700, guid: f330af8f6a6e80446ae0b227f48506d5, type: 3}
-  - {fileID: 4797816326411932467, guid: e4f31e7fe24852a4f87a40a4541e222d, type: 3}
-  - {fileID: 5480524128429485527, guid: c778cae5571df1948a6b1bef88782288, type: 3}
-  - {fileID: 6076414618681006588, guid: 8e3a63ba7dc0f3c48962a386df0bc8a6, type: 3}
-  - {fileID: 887601073794915853, guid: e2cb8a85873ee4843afc51257209dcb8, type: 3}
-  - {fileID: 159903501671657663, guid: df745b19aa632eb43b7bc2d292133c3d, type: 3}
-  - {fileID: 3294060495555879295, guid: 9ec45abccc5e45f45b4a0b145304f280, type: 3}
-  - {fileID: 2317301991054277076, guid: 1575bc5e6ab126a4f831ae156af5396c, type: 3}
-  - {fileID: 2317301991054277076, guid: 1004cb4a97399594dad288397073b16a, type: 3}
-  - {fileID: 2317301991054277076, guid: 20cb775805b966845bc4f5ee0bb5eed2, type: 3}
-  - {fileID: 2317301991054277076, guid: a42ed3054044de04ba8a293d45da0aa7, type: 3}
-  DefaultRoomTemplateSets: []
+  CorridorIndividualRoomTemplates: []
+  CorridorRoomTemplateSets:
+  - {fileID: 11400000, guid: 876c8dce88d24c34eb8a6ae3b49439f6, type: 2}
+  DefaultIndividualRoomTemplates: []
+  DefaultRoomTemplateSets:
+  - {fileID: 11400000, guid: 444f0bad05980a24bb8afd4434307578, type: 2}
   Rooms:
   - {fileID: 114622384622351552}
   - {fileID: 114915651774173540}
@@ -837,8 +826,8 @@ MonoBehaviour:
   - {fileID: 8005403205385546921}
   - {fileID: 816443560274825310}
   EditorData:
-    PanOffset: {x: 726.06067, y: 610.17017}
-    Zoom: 0.33092207
+    PanOffset: {x: 849.1083, y: 977.2382}
+    Zoom: 0.4004157
   RoomType: Edgar.Unity.Room
   ConnectionType: Edgar.Unity.Connection
   IsDirected: 0

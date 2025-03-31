@@ -87,6 +87,7 @@ namespace Shared
                 timeScalingBonusMainItem.TimePassedAtPickup = PlatformerManager.Instance.TimePassed;
             pickupItemPopup.DisplayItemPopup(pickupMainItem);
             PlayerMainItemList.Add(pickupMainItem.MainItem);
+            PlatformerManager.Instance.PickupMainItem(pickupMainItem.MainItem);
             Instantiate(mainItemUIGameObject, mainItemsParent).GetComponent<MainItemUI>().Initialize(pickupMainItem.MainItem);
         }
         

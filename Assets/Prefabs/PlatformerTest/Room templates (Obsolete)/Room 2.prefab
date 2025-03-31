@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &933010364309799608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3708679980969162531}
+  m_Layer: 0
+  m_Name: Center Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3708679980969162531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933010364309799608}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.24, y: -2.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 756132435481531605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2839335445473343989
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +473,7 @@ GameObject:
   - component: {fileID: 756132435481531605}
   - component: {fileID: 5539090740927716557}
   - component: {fileID: 1095471552076380445}
+  - component: {fileID: 5740674456333416788}
   m_Layer: 0
   m_Name: Room 2
   m_TagString: Untagged
@@ -464,6 +496,7 @@ Transform:
   m_Children:
   - {fileID: 8649571903447215068}
   - {fileID: 7574737202557292584}
+  - {fileID: 3708679980969162531}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5539090740927716557
@@ -551,6 +584,19 @@ MonoBehaviour:
       Enabled: 1
   DefaultSocket: {fileID: 0}
   DefaultDirection: 0
+--- !u!114 &5740674456333416788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4797816326411932467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d5231f0c1ca40acad7a12b156f32850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomCenterTransform: {fileID: 3708679980969162531}
 --- !u!1 &6666099486447049653
 GameObject:
   m_ObjectHideFlags: 0

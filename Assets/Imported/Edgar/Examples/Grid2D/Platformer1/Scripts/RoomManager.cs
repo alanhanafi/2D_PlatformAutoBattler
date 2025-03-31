@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NaughtyAttributes;
 using Platformer;
 using Shared;
@@ -16,6 +17,17 @@ namespace Edgar.Unity.Examples.Scripts
             this.roomInstance = roomInstance;
             var mainItemSpawned = GetComponent<ItemSpawner>().SpawnItems(spawnedItems);
             roomInstance.UpdateMainItem(mainItemSpawned);
+            roomInstance.UpdateRoomCenterTransform();
+            if(mainItemSpawned != null)
+                PlatformerManager.Instance.AddAvailableMainItem(mainItemSpawned);
+            // Enters the start room on game start
+            if (this.roomInstance.Room.GetDisplayName() == Values.StartRoomName)
+                PlatformerManager.Instance.OnGameStart += OnGameStarting;
+        }
+
+        private void OnGameStarting(object sender, EventArgs e)
+        {
+            OnRoomEntered();
         }
 
         [Button]
@@ -24,25 +36,29 @@ namespace Edgar.Unity.Examples.Scripts
             PlatformerManager.Instance.EnterRoom(FindObjectsInPath());
         }
 
-        private List<(Vector3, MainItem)> FindObjectsInPath()
+        // TODO : Update position of the next room properly
+        private Dictionary<MainItem,Vector3> FindObjectsInPath()
         {
-            var itemsInfoInPath = new List<(Vector3, MainItem)>();
+            var itemsInfoInPath = new Dictionary<MainItem,Vector3>();
             foreach (var currentRoomDoor in roomInstance.Doors)
             {
                 ExploreRooms(roomInstance, currentRoomDoor.ConnectedRoomInstance,
-                    currentRoomDoor.ConnectedRoomInstance.Position, itemsInfoInPath);
+                    currentRoomDoor.ConnectedRoomInstance.RoomCenterTransform.position, itemsInfoInPath);
             }
             if(roomInstance.MainItem!=null)
-                itemsInfoInPath.Add((roomInstance.Position, roomInstance.MainItem));
+                itemsInfoInPath.Add(roomInstance.MainItem,roomInstance.Position +roomInstance.RoomTemplateInstance.gameObject.transform.position);
             return itemsInfoInPath;
         }
 
-        private void ExploreRooms(RoomInstanceGrid2D roomInstanceGrid2D, RoomInstanceGrid2D connectedRoomInstance, Vector3Int nextRoomPosition, List<(Vector3, MainItem)> itemsInfoInPath)
+        private void ExploreRooms(RoomInstanceGrid2D roomInstanceGrid2D, RoomInstanceGrid2D connectedRoomInstance, Vector3 nextRoomPosition, Dictionary<MainItem,Vector3> itemsInfoInPath)
         {
             if (connectedRoomInstance.Room.GetDisplayName() == Values.StartRoomName)
+            {
+                itemsInfoInPath.Add(null!,nextRoomPosition);
                 return;
+            }
             if(connectedRoomInstance.MainItem!=null)
-                itemsInfoInPath.Add((nextRoomPosition, connectedRoomInstance.MainItem));
+                itemsInfoInPath.Add(connectedRoomInstance.MainItem,nextRoomPosition);
             
             foreach (var doorInstance in connectedRoomInstance.Doors)
             {
