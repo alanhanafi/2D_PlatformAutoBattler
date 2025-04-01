@@ -8,6 +8,7 @@ namespace Platformer
     {
         [SerializeField] private ScriptableStats _stats;
         [SerializeField] private PlatformerInput platformerInput;
+        [SerializeField] private bool areInitialInputsLocked = true;
         private Rigidbody2D _rb;
         private CapsuleCollider2D _col;
         private FrameInput _frameInput= new()
@@ -42,6 +43,7 @@ namespace Platformer
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
             // Prevent player from jumping with inputs locked
             _timeJumpWasPressed = - _stats.JumpBuffer;
+            areInputsLocked = areInitialInputsLocked;
         }
         
         private void Update()

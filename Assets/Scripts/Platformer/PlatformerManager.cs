@@ -29,6 +29,8 @@ namespace Platformer
         [SerializeField] private Camera centerMinimapCamera;
         [SerializeField] private Camera cornerMinimapCamera;
         [SerializeField] private MainItemDirection[] mainItemDirections;
+        [SerializeField] private GameObject mainCanvas;
+        [SerializeField] private GameObject mainMenu;
 
         public EventHandler OnGameStart;
         public EventHandler OnRespawn;
@@ -42,14 +44,13 @@ namespace Platformer
         public bool IsGameRunning { get; private set; }
         private PlayerController playerController;
         private bool isGenerating;
+        private bool isMenuOpen;
         public Transform StartRoomTransform { get; set; }
         
-        internal Camera GameCamera { get; private set; }
         
         
         
         private bool isMinimapCentered => centerMinimapGameObject.activeSelf;
-        
         
         #region Singleton
 
@@ -62,8 +63,12 @@ namespace Platformer
             Instance = this;
             playerController = playerGameObject.GetComponent<PlayerController>();
         }
-
+        
         #endregion
+        
+        
+        
+        
 
         private void Start()
         {
@@ -74,17 +79,23 @@ namespace Platformer
                 centerMinimapGameObject.SetActive(false);
                 cornerMinimapGameObject.SetActive(false);
             }
-            // Hide the cursor during the platformer
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            Functions.HideCursor();
             if (skipFirstPhase)
                 StartGameAfterProceduralGeneration();
         }
 
         public void StartGameAfterProceduralGeneration()
         {
-            respawnPosition = playerGameObject.transform.position;
             centerMinimapCamera.transform.position = respawnPosition;
+            playerGameObject.transform.position = respawnPosition;
+            if (SandboxManager.Instance != null)
+                SandboxManager.Instance.OnSandboxExit += OnExitingSandbox;
+            else
+                WaitForZoomThenStartGame().Forget();
+        }
+
+        private void OnExitingSandbox(object sender, EventArgs e)
+        {
             WaitForZoomThenStartGame().Forget();
         }
 
@@ -138,6 +149,7 @@ namespace Platformer
             OnGameStart?.Invoke(this, EventArgs.Empty);
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
+            mainCanvas.SetActive(true);
         }
 
         private void Update()
@@ -146,13 +158,37 @@ namespace Platformer
                 return;
             if (platformerInput.GetMinimapButtonPressed() && isMinimapActive)
                 SwapMinimap();
-            // Always replay in hardest difficulty
-            if (platformerInput.GetReplayPressed())
-                AutoBattleGameManager.ReplayGame((int)Difficulty.Hard);
+            if (platformerInput.GetMenuButtonPressed())
+            {
+                if(isMenuOpen)
+                    CloseMenu();
+                else
+                    OpenMenu();
+            }
             UpdateTimer(remainingTime- Time.deltaTime);
             if (remainingTime <=0)
                 EndSpeedrun();
         }
+
+        public void ReplayGameInHardMode()
+        {
+            AutoBattleGameManager.ReplayGame((int)Difficulty.Hard);
+        }
+        private void OpenMenu()
+        {
+            Functions.ShowCursor();
+            mainMenu.gameObject.SetActive(true);
+            isMenuOpen = true;
+        }
+
+        private void CloseMenu()
+        {
+            Functions.HideCursor();
+            mainMenu.gameObject.SetActive(false);
+            isMenuOpen = false;
+        }
+        
+        
 
         private void SwapMinimap()
         {
@@ -236,6 +272,11 @@ namespace Platformer
             {
                 mainItemDirections[i].gameObject.SetActive(false);
             }
+        }
+
+        public void SetRespawnPosition(Vector3 respawnPosition)
+        {
+            this.respawnPosition = respawnPosition;
         }
     }
 }

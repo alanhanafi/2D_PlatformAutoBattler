@@ -11,6 +11,17 @@ namespace Shared
 {
     public static class Functions
     {
+        internal static void HideCursor()
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        
+        internal static void ShowCursor()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
 
         internal static int GetUpRoundedValue(float floatValue)
         {

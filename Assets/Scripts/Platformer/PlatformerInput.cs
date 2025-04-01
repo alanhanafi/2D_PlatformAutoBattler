@@ -10,6 +10,7 @@ namespace Platformer
         {
             playerInputActions = new PlayerInputActions();
             playerInputActions.Player.Enable();
+            playerInputActions.UI.Enable();
         }
 
         internal Vector2 GetMovementVector()
@@ -36,6 +37,18 @@ namespace Platformer
         public bool GetMinimapButtonPressed()
         {
             return playerInputActions.Player.Minimap.WasPressedThisFrame();
+        }
+        
+
+        public bool GetMenuButtonPressed()
+        {
+            return playerInputActions.UI.Menu.WasPressedThisFrame();
+        }
+
+        private void OnDestroy()
+        {
+            playerInputActions.Player.Disable();
+            playerInputActions.UI.Disable();
         }
     }
 }

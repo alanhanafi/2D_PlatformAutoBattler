@@ -843,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 399318583}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &778947696
@@ -1716,7 +1716,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  mainItemsList: []
 --- !u!1 &1279282347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3078,9 +3077,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  mainItemsList:
-  - {fileID: 11400000, guid: 845ea6520601ef246835df5a2b7c36cd, type: 2}
-  - {fileID: 11400000, guid: ffffe8493d79f5240b28ce6e887bfa65, type: 2}
 --- !u!224 &2778758623620333639 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4925973872197232327, guid: 3b3b086ab09123948aec5bcabba9e2a3, type: 3}

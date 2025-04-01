@@ -7,12 +7,17 @@ namespace Platformer.Terrain
     /// </summary>
     public class KillZone : MonoBehaviour
     {
+        [SerializeField] private bool isSandbox;
+        
         public virtual void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                PlatformerManager.Instance.KillPlayer();
+                if (isSandbox)
+                    SandboxManager.Instance.RespawnPlayer();
+                else
+                    PlatformerManager.Instance.KillPlayer();
             }
         }
     }

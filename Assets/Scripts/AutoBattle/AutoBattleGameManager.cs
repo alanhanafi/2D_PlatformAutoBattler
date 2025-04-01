@@ -44,9 +44,7 @@ namespace AutoBattle
 
         private void Start()
         {
-            // Shows the cursor during the auto battler
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            Functions.ShowCursor();
             InitializePlayersStats();
             AutoBattleUIManager.Instance.Initialize(playerState,enemyState);
             StartGameAfterDelayAsync().Forget();
@@ -112,7 +110,7 @@ namespace AutoBattle
             if(InventoryManager.Instance != null)
                 Destroy(InventoryManager.Instance.gameObject);
             InventoryManager.CurrentDifficulty = (Difficulty)difficulty;
-            SceneManager.LoadScene("Test Generation");
+            SceneManager.LoadScene("Sandbox");
         }
     }
     internal enum Team { Player, Enemy };

@@ -1166,6 +1166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fbd9cb80a849b3be71d221a590c2ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSandbox: 0
 --- !u!1 &2317301991054277076
 GameObject:
   m_ObjectHideFlags: 0

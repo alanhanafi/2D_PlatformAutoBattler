@@ -39,9 +39,7 @@ namespace Edgar.Unity.Examples.Scripts
             // Find the spawn position marker
             var spawnPosition = roomTemplateInstance.transform.Find("SpawnPosition");
 
-            // Move the player to the spawn position
-            var player = GameObject.FindWithTag("Player");
-            player.transform.position = spawnPosition.position;
+            PlatformerManager.Instance.SetRespawnPosition(spawnPosition.position);
         }
 
         private void RemoveWallsFromDoors(DungeonGeneratorLevelGrid2D level)

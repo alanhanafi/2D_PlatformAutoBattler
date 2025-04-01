@@ -54,8 +54,10 @@ namespace Edgar.Unity.Examples.Scripts
                 ExploreRooms(roomInstance, currentRoomDoor.ConnectedRoomInstance,
                     currentRoomDoor.ConnectedRoomInstance.IsCorridor?null :currentRoomDoor.ConnectedRoomInstance.RoomCenterTransform.position, itemsInfoInPath);
             }
+            /* Do not show item direction if the player is in the item's room
             if(roomInstance.MainItem!=null)
                 itemsInfoInPath.Add(roomInstance.MainItem,roomInstance.Position +roomInstance.RoomTemplateInstance.gameObject.transform.position);
+            */
             return itemsInfoInPath;
         }
 

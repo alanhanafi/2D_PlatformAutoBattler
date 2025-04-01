@@ -12,6 +12,8 @@ namespace Platformer.Terrain
         
         [SerializeField] private float lerpSpeed = .5f;
         
+        [SerializeField] private bool isSandbox;
+        
         private SpriteRenderer spriteRenderer;
 
         private float baseBumperHeight;
@@ -32,7 +34,10 @@ namespace Platformer.Terrain
             if (other.gameObject.CompareTag("Player"))
             {
                 Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                PlatformerManager.Instance.BumpPlayer();
+                if(isSandbox)
+                    SandboxManager.Instance.BumpPlayer();
+                else
+                    PlatformerManager.Instance.BumpPlayer();
                 if(currentBumperUpdate.Status == UniTaskStatus.Pending)
                     cancellationTokenSource.Cancel();
                 cancellationTokenSource = new CancellationTokenSource();
