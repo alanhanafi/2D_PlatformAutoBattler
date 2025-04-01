@@ -9,6 +9,7 @@ using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Platformer
 {
@@ -30,6 +31,7 @@ namespace Platformer
         [SerializeField] private MainItemDirection[] mainItemDirections;
 
         public EventHandler OnGameStart;
+        public EventHandler OnRespawn;
         
         internal float TimePassed => gameTimer - remainingTime;
         internal Vector3 PlayerPosition => playerGameObject.transform.position;
@@ -37,9 +39,12 @@ namespace Platformer
         internal readonly List<MainItem> AvailableMainItems = new List<MainItem>();
         private Vector3 respawnPosition;
         private float remainingTime;
-        private bool isGameRunning = false;
+        public bool IsGameRunning { get; private set; }
         private PlayerController playerController;
         private bool isGenerating;
+        public Transform StartRoomTransform { get; set; }
+        
+        internal Camera GameCamera { get; private set; }
         
         
         
@@ -129,7 +134,7 @@ namespace Platformer
         private void StartGame()
         {
             UnlockInputs();
-            isGameRunning = true;
+            IsGameRunning = true;
             OnGameStart?.Invoke(this, EventArgs.Empty);
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
@@ -137,7 +142,7 @@ namespace Platformer
 
         private void Update()
         {
-            if (!isGameRunning)
+            if (!IsGameRunning)
                 return;
             if (platformerInput.GetMinimapButtonPressed() && isMinimapActive)
                 SwapMinimap();
@@ -175,7 +180,7 @@ namespace Platformer
 
         private void EndSpeedrun()
         {
-            isGameRunning = false;
+            IsGameRunning = false;
             SceneManager.LoadScene("AutoBattle");
         }
 
@@ -187,6 +192,7 @@ namespace Platformer
         private void Respawn()
         {
             playerGameObject.transform.position = respawnPosition;
+            OnRespawn?.Invoke(this, EventArgs.Empty);
         }
 
         public void BumpPlayer()
@@ -194,11 +200,11 @@ namespace Platformer
             playerController.ExecuteBumper();
         }
 
-        public void EnterRoom(Dictionary<MainItem,Vector3> itemsInPath)
+        public void EnterRoom(Dictionary<MainItem,Vector3?> itemsInPath)
         {
-            Vector3 startRoomDirection = itemsInPath.FirstOrDefault(item => item.Key == null).Value;
-            
-            Dictionary<Vector3, List<MainItem>> itemsDirectionInfo = new();
+            if (!IsGameRunning)
+                return;
+            Dictionary<Vector3?, List<MainItem>> itemsDirectionInfo = new();
 
             foreach (MainItem availableMainItem in AvailableMainItems)
             {
@@ -209,23 +215,24 @@ namespace Platformer
                     else
                         itemsDirectionInfo.TryAdd(itemsInPath[availableMainItem],new List<MainItem> {availableMainItem});
                 }
+                /* Do not show the items that are not on the current path
                 else
                 {
-                    if(itemsDirectionInfo.Keys.Contains(startRoomDirection))
-                        itemsDirectionInfo[startRoomDirection].Add(availableMainItem);
+                    if(itemsDirectionInfo.Keys.Contains(StartRoomTransform.position))
+                        itemsDirectionInfo[StartRoomTransform.position].Add(availableMainItem);
                     else
-                        itemsDirectionInfo.TryAdd(startRoomDirection,new List<MainItem> {availableMainItem});
-                }
+                        itemsDirectionInfo.TryAdd(StartRoomTransform.position,new List<MainItem> {availableMainItem});
+                }*/
             }
 
             int j = 0;
             foreach (var itemDirectionInfo in itemsDirectionInfo)
             {
-                mainItemDirections[j].UpdateDirection(itemDirectionInfo.Key, itemDirectionInfo.Value);
+                mainItemDirections[j].UpdateRoomTargetPosition(itemDirectionInfo.Key.Value, itemDirectionInfo.Value);
                 j++;
             }
 
-            for (int i = mainItemDirections.Length-1; i > itemsDirectionInfo.Keys.Count; i--)
+            for (int i = j; i < mainItemDirections.Length; i++)
             {
                 mainItemDirections[i].gameObject.SetActive(false);
             }

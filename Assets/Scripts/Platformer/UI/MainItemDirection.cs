@@ -13,50 +13,56 @@ namespace Platformer
         [SerializeField] private GameObject duoImageDirection;
         [SerializeField] private Image duoFirstImage;
         [SerializeField] private Image duoSecondImage;
-        
-        
-        private Vector3 playerPosition; 
+        [SerializeField] private int borderPadding = 10;
+        [SerializeField] private RectTransform arrowToRotate;
+
+
+        private Vector3 playerPosition => PlatformerManager.Instance.PlayerPosition; 
         private Vector3? targetItemPosition; 
-        private RectTransform arrowUI;
-        private Vector3 screenCenter;
+        private RectTransform rectTransform;
+        
+        private Camera mainCamera;
 
         private void Start()
         {
-            screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            arrowUI = GetComponent<RectTransform>();
+            mainCamera = Camera.main;
+            rectTransform = GetComponent<RectTransform>();
         }
 
         void Update()
         {
             if (targetItemPosition == null) return;
-
-            // Get direction from player to target
-            Vector2 direction = (targetItemPosition.Value - PlatformerManager.Instance.PlayerPosition).normalized;
-
-            // Convert to angle (Unity uses a different rotation system, so adjust accordingly)
+            Vector3 targetPosition = mainCamera.WorldToScreenPoint(targetItemPosition.Value);
+            Vector3 fromPosition = mainCamera.WorldToScreenPoint(playerPosition);
+            fromPosition.z = 0;
+            targetPosition.z = 0;
+            Vector3 direction = (targetPosition - fromPosition).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if (angle < 0)
+                angle += 360;
+            arrowToRotate.localEulerAngles = new Vector3(0, 0, angle);
 
-            // Rotate the UI arrow to point towards the target
-            arrowUI.rotation = Quaternion.Euler(0, 0, angle);
+            float borderSize = borderPadding;
+            Vector3 cappedTargetScreenPosition = targetPosition;
 
-            // Keep Arrow Inside Screen (Optional)
-            KeepArrowOnScreen(direction);
-        }
+            if (cappedTargetScreenPosition.x <= borderSize)
+                cappedTargetScreenPosition.x = borderSize;
+            if (cappedTargetScreenPosition.y <= borderSize)
+                cappedTargetScreenPosition.y = borderSize;
+            if (cappedTargetScreenPosition.x >= Screen.width - borderSize)
+                cappedTargetScreenPosition.x = Screen.width - borderSize;
+            if (cappedTargetScreenPosition.y >= Screen.height - borderSize)
+                cappedTargetScreenPosition.y = Screen.height - borderSize;
 
-        void KeepArrowOnScreen(Vector2 direction)
-        {
-            Vector3 screenPos = screenCenter + (Vector3)(direction * 2000f); // Adjust 200f to position arrow near screen edge
-
-            // Clamp arrow within the screen bounds
-            screenPos.x = Mathf.Clamp(screenPos.x, 50, Screen.width - 50);
-            screenPos.y = Mathf.Clamp(screenPos.y, 50, Screen.height - 50);
-
-            arrowUI.position = screenPos;
+            rectTransform.position = cappedTargetScreenPosition;
+            rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0f);
         }
         
-        internal void UpdateDirection(Vector3 position, List<MainItem> mainItems)
+        
+        
+        
+        internal void UpdateRoomTargetPosition(Vector3 position, List<MainItem> mainItems)
         {
-            Debug.Log($"UpdateDirection: {position}");
             targetItemPosition = position;
             if (mainItems.Count == 1)
             {

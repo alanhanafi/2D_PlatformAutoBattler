@@ -42,49 +42,6 @@ namespace Edgar.Unity.Examples.Scripts
             // Move the player to the spawn position
             var player = GameObject.FindWithTag("Player");
             player.transform.position = spawnPosition.position;
-
-            /*
-            List<List<RoomInPathData>> roomsDataList = new List<List<RoomInPathData>>();
-            foreach (var doorInstance in entranceRoomInstance.Doors)
-            {
-                var pathData = new List<RoomInPathData>(){new(null,entranceRoomInstance.Position,new []{doorInstance.ConnectedRoomInstance.Position})};
-                // fill list
-                
-                var nextRoomInstance = doorInstance.ConnectedRoomInstance;
-                var nextRoomManager = nextRoomInstance.RoomTemplateInstance.transform.Find("Room Manager")
-                    .GetComponent<RoomManager>();
-
-                if (nextRoomManager.MainItem != null)
-                {
-                    pathData.Add(new(entranceRoomInstance.Position,nextRoomInstance.Position,null));
-                    foreach (var roomInPathData in pathData)
-                    {
-                        var itemDoorInfo =roomInPathData.ItemDoorInfoList?.FirstOrDefault(item => item.MainItem is null);
-                        if(itemDoorInfo != null)
-                            itemDoorInfo.MainItem = nextRoomManager.MainItem;
-                    }
-                }else if (nextRoomInstance.Doors.Count > 2) // At least two available paths to two different items
-                {
-                    IEnumerable<RoomInstanceGrid2D> roomInstancesToExplore = nextRoomInstance.Doors.Where(door=>door.ConnectedRoomInstance!=entranceRoomInstance).Select(door=>door.ConnectedRoomInstance);
-                    foreach (var VARIABLE in COLLECTION)
-                    {
-                        
-                    }
-                    (var roomInstanceToExplore in roomInstancesToExplore)
-                    {
-                        
-                    }
-                }
-                else
-                {
-                    
-                }
-                
-                
-                
-                
-                roomsDataList.Add(pathData);
-            }*/
         }
 
         private void RemoveWallsFromDoors(DungeonGeneratorLevelGrid2D level)

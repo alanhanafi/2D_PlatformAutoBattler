@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Room Set
   m_EditorClassIdentifier: 
   RoomTemplates:
-  - {fileID: 2317301991054277076, guid: 5918cf08e322a6043b605d6a7b266cef, type: 3}
   - {fileID: 2317301991054277076, guid: ce1b24a6da5df7547ae5a139a74ccd6f, type: 3}
   - {fileID: 2317301991054277076, guid: 1575bc5e6ab126a4f831ae156af5396c, type: 3}
   - {fileID: 2317301991054277076, guid: 1004cb4a97399594dad288397073b16a, type: 3}
