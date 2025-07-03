@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Platformer.Terrain
 {
+    /// <summary>
+    /// Use object pooling to spawn the same object continuously.
+    /// </summary>
     public class ObjectFactory : MonoBehaviour
     {
         [SerializeField] private GameObject spawnedObject;
@@ -26,7 +29,7 @@ namespace Platformer.Terrain
             if (timer >= spawnDelayInSeconds)
             {
                 GameObject firstInactiveSpawnedObject = spawnedObjects.FirstOrDefault(obj=>!obj.activeSelf);
-                if (firstInactiveSpawnedObject != null)
+                if (firstInactiveSpawnedObject is not null)
                 {
                     firstInactiveSpawnedObject.transform.position = spawnTransform.position;
                     firstInactiveSpawnedObject.gameObject.SetActive(true);

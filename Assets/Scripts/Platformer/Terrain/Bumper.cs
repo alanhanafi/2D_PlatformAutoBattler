@@ -48,13 +48,11 @@ namespace Platformer.Terrain
 
         private async UniTask UpdateBumperHeight(CancellationToken cancellationToken)
         {
-            //private bool isUpdatingBumper
-            
             float t = 0f;
             
             float currentBumperHeight = spriteRenderer.size.y;
             
-            // Go up
+            // Bump
             while (t < 1)
             {
                 t += Time.deltaTime*lerpSpeed;
@@ -67,7 +65,7 @@ namespace Platformer.Terrain
             // Wait while up
             await UniTask.WaitForSeconds(maxHeightDuration, cancellationToken: cancellationToken);
             
-            // Go down
+            // Fall
             t = 0f;
             while (t < 1)
             {

@@ -38,12 +38,7 @@ namespace Shared
         {
             return layerMask == (layerMask | (1 << layer));
         }
-
-        /// <summary>
-        /// Changes the alpha of the color of a sprite renderer.
-        /// </summary>
-        /// <param name="spriteRenderer"></param>
-        /// <param name="newAlpha"></param>
+        
         public static void ChangeAlpha(SpriteRenderer spriteRenderer, float newAlpha)
         {
             var newColor = spriteRenderer.color;

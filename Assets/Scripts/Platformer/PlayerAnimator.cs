@@ -3,11 +3,9 @@ using UnityEngine;
 
 namespace Platformer
 {
-    /// <summary>
-    /// VERY primitive animator example.
-    /// </summary>
     public class PlayerAnimator : MonoBehaviour
     {
+        // TODO : Update naming for Serialize Fields
         [Header("References")] [SerializeField]
         private Animator _anim;
 

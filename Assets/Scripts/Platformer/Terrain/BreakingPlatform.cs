@@ -26,19 +26,17 @@ namespace Platformer.Terrain
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (isBreaking)
+            if (isBreaking || !other.gameObject.CompareTag("Player") 
+                           || other.transform.position.y < transform.position.y)
                 return;
-            if (other.gameObject.CompareTag("Player"))
-            {
-                Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                if (other.transform.position.y < transform.position.y)
-                    return;
-                Debug.Log($"Player is landing on the platform");
-                Functions.ChangeAlpha(spriteRenderer,breakingPlatformAlpha);
-                DisableBreakingPlatformAsync().Forget();
-            }
+            Functions.ChangeAlpha(spriteRenderer,breakingPlatformAlpha);
+            DisableBreakingPlatformAsync().Forget();
         }
 
+        /// <summary>
+        /// Disable the breaking platform making it unusable after a delay.
+        /// Re enables the platform after a delay.
+        /// </summary>
         private async UniTask DisableBreakingPlatformAsync()
         {
             isBreaking = true;

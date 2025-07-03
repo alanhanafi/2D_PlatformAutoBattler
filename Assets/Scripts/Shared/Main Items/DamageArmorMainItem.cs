@@ -15,7 +15,6 @@ namespace Shared.Main_Items
         internal override void OnDealingDamage(object sender,
             (AutoBattlePlayerState target, int damage, bool isDirect) eventArgs)
         {
-            return;
         }
 
         internal override void OnReceivingDamage(object sender, 
@@ -24,7 +23,7 @@ namespace Shared.Main_Items
             if (!eventArgs.isDirect)
                 return;
             AutoBattlePlayerState receiver = sender as AutoBattlePlayerState;
-            receiver.IncreaseAttackDamage((int)Math.Round(receiver.AttackDamage *attackIncreasePercent/100f, MidpointRounding.AwayFromZero)) ;
+            receiver?.IncreaseAttackDamage((int)Math.Round(receiver.AttackDamage *attackIncreasePercent/100f, MidpointRounding.AwayFromZero)) ;
         }
     }
 }

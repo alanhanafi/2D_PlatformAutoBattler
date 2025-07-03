@@ -4,12 +4,12 @@ namespace AutoBattle
 {
     public class PoisonState
     {
-        internal const float PoisonTimeTrigger = 1f;
+        private const float PoisonTimeTrigger = 1f;
         
         internal bool IsPoisoned => poisonValue > 0;
         
-        internal int poisonValue;
-        internal float poisonTimer;
+        private int poisonValue;
+        private float poisonTimer;
 
         internal void PassTime(float secondsPassed, AutoBattlePlayerState poisonedPlayer)
         {

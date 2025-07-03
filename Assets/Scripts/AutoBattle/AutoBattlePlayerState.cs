@@ -78,12 +78,12 @@ namespace AutoBattle
             playerView.PlayAttackAnimation();
         }
 
-        internal void ShowDamageText(int damageToDisplay)
+        private void ShowDamageText(int damageToDisplay)
         {
             playerView.ShowDamageText(damageToDisplay);
         }
 
-        internal void TakeDamage(int damage)
+        private void TakeDamage(int damage)
         {
             UpdateHealth(CurrentHealth - damage);
             playerView.PlayHitFx();
@@ -119,7 +119,7 @@ namespace AutoBattle
         }
         
         
-        internal void DealDamage(AutoBattlePlayerState target, int damage, bool isDirect)
+        private void DealDamage(AutoBattlePlayerState target, int damage, bool isDirect)
         {
             if (MainItemsList.Any(item => item is CritMainItem))
                 damage = (int)Math.Round(damage*critMultiplier, MidpointRounding.AwayFromZero);

@@ -16,7 +16,7 @@ namespace Platformer
 
         internal EventHandler OnSandboxExit;
         
-        static internal SandboxManager Instance { get; private set; }
+        internal static SandboxManager Instance { get; private set; }
 
         private void Awake()
         {

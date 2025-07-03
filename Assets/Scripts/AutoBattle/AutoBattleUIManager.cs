@@ -24,6 +24,10 @@ namespace AutoBattle
         [SerializeField] private TextMeshProUGUI playerHealthText;
         [SerializeField] private TextMeshProUGUI enemyHealthText;
         
+        [SerializeField] private string drawText = "DRAW";
+        [SerializeField] private string victoryText = "YOU WON !";
+        [SerializeField] private string defeatText = "YOU LOST !";
+        
         [SerializeField] private Transform playerMainItemsUIContainer;
         [SerializeField] private Transform enemyMainItemsUIContainer;
 
@@ -74,15 +78,15 @@ namespace AutoBattle
             switch (playerState.IsDead)
             {
                 case true when enemyState.IsDead:
-                    endGameText.text = "DRAW !";
+                    endGameText.text = drawText;
                     break;
                 case true:
-                    endGameText.text = "YOU LOST !";
+                    endGameText.text = defeatText;
                     break;
                 default:
                 {
                     if(enemyState.IsDead)
-                        endGameText.text = "YOU WON !";
+                        endGameText.text = victoryText;
                     break;
                 }
             }

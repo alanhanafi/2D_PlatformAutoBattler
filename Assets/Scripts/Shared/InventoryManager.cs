@@ -6,6 +6,7 @@ using Platformer;
 using Shared.Main_Items;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Shared
 {
@@ -29,7 +30,7 @@ namespace Shared
         [SerializeField] private BonusItem baseDamageBonusItem;
         [SerializeField] private BonusItem baseAttackSpeedItem;
 
-        [SerializeField] private InventorySet[] EnemyInventorySet;
+        [FormerlySerializedAs("EnemyInventorySet")] [SerializeField] private InventorySet[] enemyInventorySet;
         
         internal int EnemyHealthBonusCount => EnemyBonusItemList.Count(item => item.BonusType == BonusType.Health);
         internal int EnemyDamageBonusCount => EnemyBonusItemList.Count(item => item.BonusType == BonusType.Damage);
@@ -62,19 +63,19 @@ namespace Shared
         private void InitializeEnemyItems(Difficulty difficulty)
         {
             EnemyBonusItemList = new List<BonusItem>();
-            for (int i = 0; i < EnemyInventorySet[(int)difficulty].DamageBonusCount; i++)
+            for (int i = 0; i < enemyInventorySet[(int)difficulty].DamageBonusCount; i++)
             {
                 EnemyBonusItemList.Add(baseDamageBonusItem);
             }
-            for (int i = 0; i < EnemyInventorySet[(int)difficulty].HealthBonusCount; i++)
+            for (int i = 0; i < enemyInventorySet[(int)difficulty].HealthBonusCount; i++)
             {
                 EnemyBonusItemList.Add(baseHealthBonusItem);
             }
-            for (int i = 0; i < EnemyInventorySet[(int)difficulty].AttackSpeedBonusCount; i++)
+            for (int i = 0; i < enemyInventorySet[(int)difficulty].AttackSpeedBonusCount; i++)
             {
                 EnemyBonusItemList.Add(baseAttackSpeedItem);
             }
-            EnemyMainItemList = EnemyInventorySet[(int)difficulty].MainItems;
+            EnemyMainItemList = enemyInventorySet[(int)difficulty].MainItems;
         }
 
         internal List<MainItem> PlayerMainItemList { get; } = new();
@@ -94,7 +95,6 @@ namespace Shared
         internal void AddBonusItem(PickupBonusItem pickupBonusItem)
         {
             PlayerBonusItemList.Add(pickupBonusItem.BonusItem);
-            Debug.Log($"BonusItemList {PlayerBonusItemList.Count}");
             switch (pickupBonusItem.BonusItem.BonusType)
             {
                 case BonusType.Health:

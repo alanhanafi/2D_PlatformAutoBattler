@@ -170,10 +170,14 @@ namespace Platformer
                 EndSpeedrun();
         }
 
+        /// <summary>
+        /// Replay the game in hard difficulty
+        /// </summary>
         public void ReplayGameInHardMode()
         {
             AutoBattleGameManager.ReplayGame((int)Difficulty.Hard);
         }
+        
         private void OpenMenu()
         {
             Functions.ShowCursor();

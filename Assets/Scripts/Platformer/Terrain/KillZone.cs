@@ -11,14 +11,13 @@ namespace Platformer.Terrain
         
         public virtual void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
-            {
-                Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
-                if (isSandbox)
-                    SandboxManager.Instance.RespawnPlayer();
-                else
-                    PlatformerManager.Instance.KillPlayer();
-            }
+            if (!other.gameObject.CompareTag("Player"))
+                return;
+            Debug.Log($"Player {other.gameObject.name} collided with {gameObject.name}");
+            if (isSandbox)
+                SandboxManager.Instance.RespawnPlayer();
+            else
+                PlatformerManager.Instance.KillPlayer();
         }
     }
 }

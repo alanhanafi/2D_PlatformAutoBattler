@@ -9,7 +9,7 @@ namespace Platformer.Terrain
 
         void Update()
         {
-            // Rotate the obstacle around the Z-axis
+            // Rotate the obstacle around the Z-axis because all falling obstacles are rotating objects for now (circular saw)
             transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
         }
 

@@ -1,2 +1,2 @@
 # 2D_PlatformAutoBattler
- 2D plateformer autobattler
+ 2D platformer autobattler

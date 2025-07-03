@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Platformer
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class PlayerController : MonoBehaviour, IPlayerController
     {
-        [SerializeField] private ScriptableStats _stats;
+        [FormerlySerializedAs("_stats")] [SerializeField] private ScriptableStats stats;
         [SerializeField] private PlatformerInput platformerInput;
         [SerializeField] private bool areInitialInputsLocked = true;
-        private Rigidbody2D _rb;
-        private CapsuleCollider2D _col;
+        private Rigidbody2D rb;
+        private CapsuleCollider2D col;
         private FrameInput _frameInput= new()
         {
             JumpDown = false,
@@ -31,18 +32,18 @@ namespace Platformer
 
         #endregion
 
-        private float _time;
+        private float time;
         
         private bool areInputsLocked = true;
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
-            _col = GetComponent<CapsuleCollider2D>();
+            rb = GetComponent<Rigidbody2D>();
+            col = GetComponent<CapsuleCollider2D>();
 
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
             // Prevent player from jumping with inputs locked
-            _timeJumpWasPressed = - _stats.JumpBuffer;
+            timeJumpWasPressed = - stats.JumpBuffer;
             areInputsLocked = areInitialInputsLocked;
         }
         
@@ -50,7 +51,7 @@ namespace Platformer
         {
             if (areInputsLocked)
                 return;
-            _time += Time.deltaTime;
+            time += Time.deltaTime;
             GatherInput();
         }
 
@@ -63,16 +64,16 @@ namespace Platformer
                 Move = platformerInput.GetMovementVector()
             };
 
-            if (_stats.SnapInput)
+            if (stats.SnapInput)
             {
-                _frameInput.Move.x = Mathf.Abs(_frameInput.Move.x) < _stats.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.x);
-                _frameInput.Move.y = Mathf.Abs(_frameInput.Move.y) < _stats.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.y);
+                _frameInput.Move.x = Mathf.Abs(_frameInput.Move.x) < stats.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.x);
+                _frameInput.Move.y = Mathf.Abs(_frameInput.Move.y) < stats.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.y);
             }
 
             if (_frameInput.JumpDown)
             {
-                _jumpToConsume = true;
-                _timeJumpWasPressed = _time;
+                jumpToConsume = true;
+                timeJumpWasPressed = time;
             }
         }
         
@@ -104,15 +105,15 @@ namespace Platformer
         private void CheckCollisions()
         {
             Physics2D.queriesStartInColliders = false;
-            int collidableLayers = ~_stats.PlayerLayer;
+            int collidableLayers = ~stats.PlayerLayer;
             collidableLayers &= ~(1 << LayerMask.NameToLayer($"IsTrigger"));
             
             int ceilingCollidableLayers = collidableLayers & ~(1 << LayerMask.NameToLayer($"Platform"));
             // Ground and Ceiling
-            groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _stats.GrounderDistance, collidableLayers);
-            RaycastHit2D ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _stats.GrounderDistance, ceilingCollidableLayers);
-            bool rightWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.right, _stats.GrounderDistance, collidableLayers);
-            bool leftWallHit =Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.left, _stats.GrounderDistance,collidableLayers);
+            groundHit = Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.down, stats.GrounderDistance, collidableLayers);
+            RaycastHit2D ceilingHit = Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.up, stats.GrounderDistance, ceilingCollidableLayers);
+            bool rightWallHit =Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.right, stats.GrounderDistance, collidableLayers);
+            bool leftWallHit =Physics2D.CapsuleCast(col.bounds.center, col.size, col.direction, 0, Vector2.left, stats.GrounderDistance,collidableLayers);
 
             
             
@@ -123,9 +124,9 @@ namespace Platformer
             if (!isGrounded && groundHit)
             {
                 isGrounded = true;
-                _coyoteUsable = true;
-                _bufferedJumpUsable = true;
-                _endedJumpEarly = false;
+                coyoteUsable = true;
+                bufferedJumpUsable = true;
+                endedJumpEarly = false;
                 GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
                 IsWallSliding = false;
             }
@@ -133,7 +134,7 @@ namespace Platformer
             else if (isGrounded && !groundHit)
             {
                 isGrounded = false;
-                frameLeftGrounded = _time;
+                frameLeftGrounded = time;
                 GroundedChanged?.Invoke(false, 0);
             }
 
@@ -143,8 +144,8 @@ namespace Platformer
                 {
                     IsWallSliding = true;
                     IsOnLeftWall = leftWallHit;
-                    _bufferedJumpUsable = true;
-                    _endedJumpEarly = false;
+                    bufferedJumpUsable = true;
+                    endedJumpEarly = false;
                     WallSlidingChanged?.Invoke(true);
                 }else if (IsWallSliding && !rightWallHit && !leftWallHit)
                 {
@@ -161,40 +162,40 @@ namespace Platformer
 
         #region Jumping
 
-        private bool _jumpToConsume;
-        private bool _bufferedJumpUsable;
-        private bool _endedJumpEarly;
-        private bool _coyoteUsable;
-        private float _timeJumpWasPressed;
-        private float _timeWallJumpingStarted;
+        private bool jumpToConsume;
+        private bool bufferedJumpUsable;
+        private bool endedJumpEarly;
+        private bool coyoteUsable;
+        private float timeJumpWasPressed;
+        private float timeWallJumpingStarted;
 
-        private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _stats.JumpBuffer;
-        private bool CanUseCoyote => _coyoteUsable && !isGrounded && _time < frameLeftGrounded + _stats.CoyoteTime;
-        private bool IsWallJumping => !isGrounded && !IsWallSliding && _time < _timeWallJumpingStarted + _stats.WallJumpLockTime;
+        private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + stats.JumpBuffer;
+        private bool CanUseCoyote => coyoteUsable && !isGrounded && time < frameLeftGrounded + stats.CoyoteTime;
+        private bool IsWallJumping => !isGrounded && !IsWallSliding && time < timeWallJumpingStarted + stats.WallJumpLockTime;
 
         private void HandleJump()
         {
-            if (!_endedJumpEarly && !isGrounded && !IsWallSliding && !_frameInput.JumpHeld && _rb.linearVelocity.y > 0) _endedJumpEarly = true;
+            if (!endedJumpEarly && !isGrounded && !IsWallSliding && !_frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
 
-            if (!_jumpToConsume && !HasBufferedJump) return;
+            if (!jumpToConsume && !HasBufferedJump) return;
 
             if (isGrounded || IsWallSliding || CanUseCoyote) ExecuteJump();
 
-            _jumpToConsume = false;
+            jumpToConsume = false;
         }
 
         private void ExecuteJump()
         {
             hasUsedBumper = false;
-            _endedJumpEarly = false;
-            _timeJumpWasPressed = 0;
-            _bufferedJumpUsable = false;
-            _coyoteUsable = false;
-            _frameVelocity.y = IsWallSliding ? _stats.WallJumpYPower:_stats.JumpPower;
+            endedJumpEarly = false;
+            timeJumpWasPressed = 0;
+            bufferedJumpUsable = false;
+            coyoteUsable = false;
+            _frameVelocity.y = IsWallSliding ? stats.WallJumpYPower:stats.JumpPower;
             if (IsWallSliding)
             {
-                _frameVelocity.x = IsOnLeftWall ? _stats.WallJumpXPower : -_stats.WallJumpXPower;
-                _timeWallJumpingStarted = _time;
+                _frameVelocity.x = IsOnLeftWall ? stats.WallJumpXPower : -stats.WallJumpXPower;
+                timeWallJumpingStarted = time;
                 WallJumped?.Invoke();
             }
             Jumped?.Invoke();
@@ -210,11 +211,11 @@ namespace Platformer
         public void ExecuteBumper()
         {
             hasUsedBumper = true;
-            _endedJumpEarly = false;
-            _timeJumpWasPressed = 0;
-            _bufferedJumpUsable = false;
-            _coyoteUsable = false;
-            _frameVelocity.y = _stats.BumperPower;
+            endedJumpEarly = false;
+            timeJumpWasPressed = 0;
+            bufferedJumpUsable = false;
+            coyoteUsable = false;
+            _frameVelocity.y = stats.BumperPower;
             // TODO : Check if we need a jumped event or something else
             Jumped?.Invoke();
         }
@@ -232,17 +233,17 @@ namespace Platformer
             
             if (_frameInput.Move.x == 0)
             {
-                var deceleration = isGrounded ? _stats.GroundDeceleration : _stats.AirDeceleration;
+                var deceleration = isGrounded ? stats.GroundDeceleration : stats.AirDeceleration;
                 if (groundHit && groundHit.collider.name == "Ice")
                     deceleration /= 10;
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
             }
             else
             {
-                float acceleration = _stats.Acceleration;
+                float acceleration = stats.Acceleration;
                 if (groundHit && groundHit.collider.name == "Ice")
                     acceleration /= 10;
-                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * _stats.MaxSpeed, acceleration * Time.fixedDeltaTime);
+                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * stats.MaxSpeed, acceleration * Time.fixedDeltaTime);
             }
         }
 
@@ -254,34 +255,34 @@ namespace Platformer
         {
             if (isGrounded && _frameVelocity.y <= 0f)
             {
-                _frameVelocity.y = _stats.GroundingForce;
+                _frameVelocity.y = stats.GroundingForce;
             }
             else if (IsWallSliding && _frameVelocity.y < 0f)
             {
-                float wallSlidingYTargetVelocity = -_stats.MaxSlideSpeed;
+                float wallSlidingYTargetVelocity = -stats.MaxSlideSpeed;
                 if(_frameInput.Move.y < 0f)
-                    wallSlidingYTargetVelocity = -_stats.MaxFallSpeed;
-                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, wallSlidingYTargetVelocity, _stats.SlideAcceleration * Time.fixedDeltaTime);
+                    wallSlidingYTargetVelocity = -stats.MaxFallSpeed;
+                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, wallSlidingYTargetVelocity, stats.SlideAcceleration * Time.fixedDeltaTime);
                 if (_frameVelocity.y < wallSlidingYTargetVelocity)
                     _frameVelocity.y = wallSlidingYTargetVelocity;
             }
             else
             {
-                var inAirGravity = _stats.FallAcceleration;
-                if (_endedJumpEarly && _frameVelocity.y > 0 && !hasUsedBumper) 
-                    inAirGravity *= _stats.JumpEndEarlyGravityModifier;
-                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
+                var inAirGravity = stats.FallAcceleration;
+                if (endedJumpEarly && _frameVelocity.y > 0 && !hasUsedBumper) 
+                    inAirGravity *= stats.JumpEndEarlyGravityModifier;
+                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
             }
         }
 
         #endregion
 
-        private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
+        private void ApplyMovement() => rb.linearVelocity = _frameVelocity;
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (_stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
+            if (stats == null) Debug.LogWarning("Please assign a ScriptableStats asset to the Player Controller's Stats slot", this);
         }
 #endif
     }

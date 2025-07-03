@@ -14,7 +14,8 @@ namespace AutoBattle
         [SerializeField]
         private float gameStartDelay = 2f;
         
-        // Delay between each timer is raised, allows to get both players' action that would occur at the same time and allow a draw
+        // Delay between each timer event is raised,
+        // allows to get both players' action that would occur at the same time and allow a draw.
         [SerializeField]
         private float timerEventDelay = 0.1f;
         
@@ -55,13 +56,12 @@ namespace AutoBattle
             if (!IsAutoBattleRunning)
                 return;
             currentTimer += Time.deltaTime;
-            if (currentTimer >= timerEventDelay)
-            {
-                OnTimePassed?.Invoke(this, timerEventDelay);
-                currentTimer -= timerEventDelay;
-                if(playerState.IsDead || enemyState.IsDead)
-                    EndGame();
-            }
+            if (!(currentTimer >= timerEventDelay)) 
+                return;
+            OnTimePassed?.Invoke(this, timerEventDelay);
+            currentTimer -= timerEventDelay;
+            if(playerState.IsDead || enemyState.IsDead)
+                EndGame();
         }
 
         private async UniTask StartGameAfterDelayAsync()
@@ -89,7 +89,7 @@ namespace AutoBattle
         }
         
 
-        internal void StartGame()
+        private void StartGame()
         {
             IsAutoBattleRunning = true;
             OnGameStarted?.Invoke(this, EventArgs.Empty);
@@ -101,10 +101,20 @@ namespace AutoBattle
             OnGameEnded?.Invoke(this, EventArgs.Empty);
         }
 
+        internal static void ReplayGame(Difficulty replayDifficulty)
+        {
+            ReplayGame((int)replayDifficulty);
+        }
+        
+        /// <summary>
+        /// Replay the game in a specified difficulty setup.
+        /// We need to take an int as a parameter to be called from the editor.
+        /// </summary>
+        /// <param name="difficulty">The difficulty of the replayed game</param>
         public static void ReplayGame(int difficulty)
         {
-            if(difficulty<0)
-                difficulty = 0;
+            if(difficulty<(int)Difficulty.Easy)
+                difficulty = (int)Difficulty.Easy;
             if(difficulty>(int)Difficulty.Hard)
                 difficulty = (int)Difficulty.Hard;
             if(InventoryManager.Instance != null)
