@@ -10,20 +10,24 @@ namespace Platformer
         [FormerlySerializedAs("_stats")] [SerializeField] private ScriptableStats stats;
         [SerializeField] private PlatformerInput platformerInput;
         [SerializeField] private bool areInitialInputsLocked = true;
+        
+        [SerializeField] private bool isDoubleJumpActive;
+        [SerializeField] private bool isFast;
+        [SerializeField] private float fastMaxSpeedValue = 15;
         private Rigidbody2D rb;
         private CapsuleCollider2D col;
-        private FrameInput _frameInput= new()
+        private FrameInput frameInput= new()
         {
             JumpDown = false,
             JumpHeld = false,
             Move = new Vector2(0, 0)
         };
-        private Vector2 _frameVelocity;
-        private bool _cachedQueryStartInColliders;
+        private Vector2 frameVelocity;
+        private bool cachedQueryStartInColliders;
 
         #region Interface
 
-        public Vector2 FrameInput => _frameInput.Move;
+        public Vector2 FrameInput => frameInput.Move;
         public event Action<bool, float> GroundedChanged;
         public event Action<bool> WallSlidingChanged;
         
@@ -41,7 +45,7 @@ namespace Platformer
             rb = GetComponent<Rigidbody2D>();
             col = GetComponent<CapsuleCollider2D>();
 
-            _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+            cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
             // Prevent player from jumping with inputs locked
             timeJumpWasPressed = - stats.JumpBuffer;
             areInputsLocked = areInitialInputsLocked;
@@ -57,7 +61,7 @@ namespace Platformer
 
         private void GatherInput()
         {
-            _frameInput = new FrameInput
+            frameInput = new FrameInput
             {
                 JumpDown = platformerInput.GetJumpPressed(),
                 JumpHeld = platformerInput.GetJumpDown(),
@@ -66,11 +70,11 @@ namespace Platformer
 
             if (stats.SnapInput)
             {
-                _frameInput.Move.x = Mathf.Abs(_frameInput.Move.x) < stats.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.x);
-                _frameInput.Move.y = Mathf.Abs(_frameInput.Move.y) < stats.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(_frameInput.Move.y);
+                frameInput.Move.x = Mathf.Abs(frameInput.Move.x) < stats.HorizontalDeadZoneThreshold ? 0 : Mathf.Sign(frameInput.Move.x);
+                frameInput.Move.y = Mathf.Abs(frameInput.Move.y) < stats.VerticalDeadZoneThreshold ? 0 : Mathf.Sign(frameInput.Move.y);
             }
 
-            if (_frameInput.JumpDown)
+            if (frameInput.JumpDown)
             {
                 jumpToConsume = true;
                 timeJumpWasPressed = time;
@@ -118,16 +122,17 @@ namespace Platformer
             
             
             // Hit a Ceiling
-            if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
+            if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);
 
             // Landed on the Ground
             if (!isGrounded && groundHit)
             {
                 isGrounded = true;
+                canDoubleJump = false;
                 coyoteUsable = true;
                 bufferedJumpUsable = true;
                 endedJumpEarly = false;
-                GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
+                GroundedChanged?.Invoke(true, Mathf.Abs(frameVelocity.y));
                 IsWallSliding = false;
             }
             // Left the Ground
@@ -143,6 +148,7 @@ namespace Platformer
                 if (!IsWallSliding && (rightWallHit || leftWallHit))
                 {
                     IsWallSliding = true;
+                    canDoubleJump = false;
                     IsOnLeftWall = leftWallHit;
                     bufferedJumpUsable = true;
                     endedJumpEarly = false;
@@ -154,7 +160,7 @@ namespace Platformer
                 }
             }
 
-            Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
+            Physics2D.queriesStartInColliders = cachedQueryStartInColliders;
         }
 
         #endregion
@@ -168,18 +174,21 @@ namespace Platformer
         private bool coyoteUsable;
         private float timeJumpWasPressed;
         private float timeWallJumpingStarted;
+        private bool canDoubleJump;
 
         private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + stats.JumpBuffer;
         private bool CanUseCoyote => coyoteUsable && !isGrounded && time < frameLeftGrounded + stats.CoyoteTime;
         private bool IsWallJumping => !isGrounded && !IsWallSliding && time < timeWallJumpingStarted + stats.WallJumpLockTime;
 
+        private bool CanDoubleJump => canDoubleJump && isDoubleJumpActive;
+
         private void HandleJump()
         {
-            if (!endedJumpEarly && !isGrounded && !IsWallSliding && !_frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
+            if (!endedJumpEarly && !isGrounded && !IsWallSliding && !frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
 
             if (!jumpToConsume && !HasBufferedJump) return;
 
-            if (isGrounded || IsWallSliding || CanUseCoyote) ExecuteJump();
+            if (isGrounded || IsWallSliding || CanUseCoyote || CanDoubleJump) ExecuteJump();
 
             jumpToConsume = false;
         }
@@ -187,18 +196,24 @@ namespace Platformer
         private void ExecuteJump()
         {
             hasUsedBumper = false;
-            endedJumpEarly = false;
-            timeJumpWasPressed = 0;
-            bufferedJumpUsable = false;
-            coyoteUsable = false;
-            _frameVelocity.y = IsWallSliding ? stats.WallJumpYPower:stats.JumpPower;
+            SetJumpVariablesAfterJump();
+            frameVelocity.y = IsWallSliding ? stats.WallJumpYPower:stats.JumpPower;
             if (IsWallSliding)
             {
-                _frameVelocity.x = IsOnLeftWall ? stats.WallJumpXPower : -stats.WallJumpXPower;
+                frameVelocity.x = IsOnLeftWall ? stats.WallJumpXPower : -stats.WallJumpXPower;
                 timeWallJumpingStarted = time;
                 WallJumped?.Invoke();
             }
             Jumped?.Invoke();
+        }
+
+        private void SetJumpVariablesAfterJump()
+        {
+            canDoubleJump = !canDoubleJump;
+            endedJumpEarly = false;
+            timeJumpWasPressed = 0;
+            bufferedJumpUsable = false;
+            coyoteUsable = false;
         }
 
         #endregion
@@ -207,19 +222,15 @@ namespace Platformer
 
         // Determines if the upward velocity is caused by the bumper or the jump
         private bool hasUsedBumper = false;
-        
+
         public void ExecuteBumper()
         {
             hasUsedBumper = true;
-            endedJumpEarly = false;
-            timeJumpWasPressed = 0;
-            bufferedJumpUsable = false;
-            coyoteUsable = false;
-            _frameVelocity.y = stats.BumperPower;
+            SetJumpVariablesAfterJump();
+            frameVelocity.y = stats.BumperPower;
             // TODO : Check if we need a jumped event or something else
             Jumped?.Invoke();
         }
-        
 
         #endregion
 
@@ -231,19 +242,20 @@ namespace Platformer
             if (IsWallJumping)
                 return;
             
-            if (_frameInput.Move.x == 0)
+            if (frameInput.Move.x == 0)
             {
                 var deceleration = isGrounded ? stats.GroundDeceleration : stats.AirDeceleration;
                 if (groundHit && groundHit.collider.name == "Ice")
                     deceleration /= 10;
-                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
+                frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
             }
             else
             {
                 float acceleration = stats.Acceleration;
                 if (groundHit && groundHit.collider.name == "Ice")
                     acceleration /= 10;
-                _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * stats.MaxSpeed, acceleration * Time.fixedDeltaTime);
+                float maxSpeed = isFast? fastMaxSpeedValue:stats.MaxSpeed;
+                frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, frameInput.Move.x * maxSpeed, acceleration * Time.fixedDeltaTime);
             }
         }
 
@@ -253,31 +265,31 @@ namespace Platformer
 
         private void HandleGravity()
         {
-            if (isGrounded && _frameVelocity.y <= 0f)
+            if (isGrounded && frameVelocity.y <= 0f)
             {
-                _frameVelocity.y = stats.GroundingForce;
+                frameVelocity.y = stats.GroundingForce;
             }
-            else if (IsWallSliding && _frameVelocity.y < 0f)
+            else if (IsWallSliding && frameVelocity.y < 0f)
             {
                 float wallSlidingYTargetVelocity = -stats.MaxSlideSpeed;
-                if(_frameInput.Move.y < 0f)
+                if(frameInput.Move.y < 0f)
                     wallSlidingYTargetVelocity = -stats.MaxFallSpeed;
-                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, wallSlidingYTargetVelocity, stats.SlideAcceleration * Time.fixedDeltaTime);
-                if (_frameVelocity.y < wallSlidingYTargetVelocity)
-                    _frameVelocity.y = wallSlidingYTargetVelocity;
+                frameVelocity.y = Mathf.MoveTowards(frameVelocity.y, wallSlidingYTargetVelocity, stats.SlideAcceleration * Time.fixedDeltaTime);
+                if (frameVelocity.y < wallSlidingYTargetVelocity)
+                    frameVelocity.y = wallSlidingYTargetVelocity;
             }
             else
             {
                 var inAirGravity = stats.FallAcceleration;
-                if (endedJumpEarly && _frameVelocity.y > 0 && !hasUsedBumper) 
+                if (endedJumpEarly && frameVelocity.y > 0 && !hasUsedBumper) 
                     inAirGravity *= stats.JumpEndEarlyGravityModifier;
-                _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
+                frameVelocity.y = Mathf.MoveTowards(frameVelocity.y, -stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
             }
         }
 
         #endregion
 
-        private void ApplyMovement() => rb.linearVelocity = _frameVelocity;
+        private void ApplyMovement() => rb.linearVelocity = frameVelocity;
 
 #if UNITY_EDITOR
         private void OnValidate()

@@ -132,6 +132,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 237391798}
     - target: {fileID: 1544650614272011792, guid: 88097b566ad1fdd489d7ee77465b57aa, type: 3}
+      propertyPath: isDoubleJumpActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544650614272011792, guid: 88097b566ad1fdd489d7ee77465b57aa, type: 3}
       propertyPath: areInitialInputsLocked
       value: 0
       objectReference: {fileID: 0}
