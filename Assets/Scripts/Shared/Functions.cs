@@ -1,4 +1,5 @@
 ﻿using System;
+using Platformer;
 using TMPro;
 using UnityEditor;
 #if UNITY_EDITOR
@@ -26,6 +27,11 @@ namespace Shared
         internal static int GetUpRoundedValue(float floatValue)
         {
             return (int)Math.Round(floatValue,MidpointRounding.AwayFromZero);
+        }
+
+        internal static int GetEnumMemberCount(Type enumType)
+        {
+            return Enum.GetNames(enumType).Length;
         }
         
         /// <summary>

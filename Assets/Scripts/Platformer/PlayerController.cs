@@ -10,10 +10,10 @@ namespace Platformer
         [FormerlySerializedAs("_stats")] [SerializeField] private ScriptableStats stats;
         [SerializeField] private PlatformerInput platformerInput;
         [SerializeField] private bool areInitialInputsLocked = true;
-        
-        [SerializeField] private bool isDoubleJumpActive;
-        [SerializeField] private bool isFast;
         [SerializeField] private float fastMaxSpeedValue = 15;
+        
+        internal bool IsDoubleJumpActive { get; set; }
+        internal bool IsFast { get; set; }
         private Rigidbody2D rb;
         private CapsuleCollider2D col;
         private FrameInput frameInput= new()
@@ -180,17 +180,29 @@ namespace Platformer
         private bool CanUseCoyote => coyoteUsable && !isGrounded && time < frameLeftGrounded + stats.CoyoteTime;
         private bool IsWallJumping => !isGrounded && !IsWallSliding && time < timeWallJumpingStarted + stats.WallJumpLockTime;
 
-        private bool CanDoubleJump => canDoubleJump && isDoubleJumpActive;
+        private bool CanDoubleJump => canDoubleJump && IsDoubleJumpActive 
+                                      || coyoteUsable; // Allows to double jump while falling
 
         private void HandleJump()
         {
-            if (!endedJumpEarly && !isGrounded && !IsWallSliding && !frameInput.JumpHeld && rb.linearVelocity.y > 0) endedJumpEarly = true;
+            if (!endedJumpEarly && !isGrounded && !IsWallSliding && !frameInput.JumpHeld && rb.linearVelocity.y > 0) 
+                endedJumpEarly = true;
 
-            if (!jumpToConsume && !HasBufferedJump) return;
+            if (!jumpToConsume && !HasBufferedJump) 
+                return;
 
-            if (isGrounded || IsWallSliding || CanUseCoyote || CanDoubleJump) ExecuteJump();
+            if (isGrounded || IsWallSliding || CanUseCoyote) 
+                ExecuteJump();
+            else if (CanDoubleJump)
+                ExecuteDoubleJump();
 
             jumpToConsume = false;
+        }
+
+        private void ExecuteDoubleJump()
+        {
+            ExecuteJump();
+            canDoubleJump = false;
         }
 
         private void ExecuteJump()
@@ -209,7 +221,7 @@ namespace Platformer
 
         private void SetJumpVariablesAfterJump()
         {
-            canDoubleJump = !canDoubleJump;
+            canDoubleJump = true;
             endedJumpEarly = false;
             timeJumpWasPressed = 0;
             bufferedJumpUsable = false;
@@ -254,7 +266,7 @@ namespace Platformer
                 float acceleration = stats.Acceleration;
                 if (groundHit && groundHit.collider.name == "Ice")
                     acceleration /= 10;
-                float maxSpeed = isFast? fastMaxSpeedValue:stats.MaxSpeed;
+                float maxSpeed = IsFast? fastMaxSpeedValue:stats.MaxSpeed;
                 frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, frameInput.Move.x * maxSpeed, acceleration * Time.fixedDeltaTime);
             }
         }

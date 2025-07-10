@@ -10,6 +10,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Platformer
 {
@@ -31,6 +32,7 @@ namespace Platformer
         [SerializeField] private MainItemDirection[] mainItemDirections;
         [SerializeField] private GameObject mainCanvas;
         [SerializeField] private GameObject mainMenu;
+        [SerializeField] private TextMeshProUGUI mapTypeText;
 
         public EventHandler OnGameStart;
         public EventHandler OnRespawn;
@@ -46,6 +48,8 @@ namespace Platformer
         private bool isGenerating;
         private bool isMenuOpen;
         public Transform StartRoomTransform { get; set; }
+        
+        internal MapType CurrentMapType { get; private set; }
         
         
         
@@ -116,6 +120,9 @@ namespace Platformer
 
         private async UniTask WaitForZoomThenStartGame()
         {
+            // Start game on a new map
+            SetupGame();
+            
             if (skipFirstPhase)
             {
                 baseMapVirtualCamera.Priority -= 2;
@@ -142,6 +149,24 @@ namespace Platformer
             StartGame();
         }
 
+        private void SetupGame()
+        {
+            CurrentMapType = (MapType)Random.Range(0,Functions.GetEnumMemberCount(typeof(MapType)));
+            switch (CurrentMapType)
+            {
+                case MapType.Basic:
+                    break;
+                case MapType.DoubleJump:
+                    playerController.IsDoubleJumpActive = true;
+                    break;
+                case MapType.SpeedBoost:
+                    playerController.IsFast = true;
+                    break;
+            }
+            mapTypeText.text = CurrentMapType + " map";
+            mapTypeText.gameObject.SetActive(true);
+        }
+
         private void StartGame()
         {
             UnlockInputs();
@@ -149,6 +174,7 @@ namespace Platformer
             OnGameStart?.Invoke(this, EventArgs.Empty);
             UpdateTimer(gameTimer);
             timerText.gameObject.SetActive(true);
+            mapTypeText.gameObject.SetActive(false);
             mainCanvas.SetActive(true);
         }
 
@@ -282,5 +308,7 @@ namespace Platformer
         {
             this.respawnPosition = respawnPosition;
         }
+        
+        internal enum MapType {Basic, DoubleJump, SpeedBoost}
     }
 }
