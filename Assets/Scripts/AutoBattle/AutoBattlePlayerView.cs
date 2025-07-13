@@ -53,5 +53,11 @@ namespace AutoBattle
             }
             damageTextList.First(obj => !obj.gameObject.activeSelf).ShowDamageText(damageToDisplay);
         }
+
+        internal void Initialize(DifficultyInfo currentDifficultyInfo)
+        {
+            animator.runtimeAnimatorController = currentDifficultyInfo.AnimatorController;
+            spriteRenderer.flipX = currentDifficultyInfo.FlipX;
+        }
     }
 }

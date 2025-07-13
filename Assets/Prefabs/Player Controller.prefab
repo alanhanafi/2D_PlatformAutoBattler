@@ -47,8 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61c64124c8575748994f087b9dc1b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 04a93e7e10a12a54fb01e6369173fba1, type: 2}
+  stats: {fileID: 11400000, guid: 04a93e7e10a12a54fb01e6369173fba1, type: 2}
   platformerInput: {fileID: 0}
+  areInitialInputsLocked: 0
+  fastMaxSpeedValue: 15
 --- !u!50 &1544650614272011793
 Rigidbody2D:
   serializedVersion: 5
@@ -10029,6 +10031,7 @@ MonoBehaviour:
   _launchParticles: {fileID: 2969068312669941334}
   _moveParticles: {fileID: 2969068311631949152}
   _landParticles: {fileID: 2969068312368229178}
+  _doubleJumpParticles: {fileID: 2969068313322230352}
   _footsteps:
   - {fileID: 8300000, guid: 5d94063f45167b04ab62585e436da58c, type: 3}
   - {fileID: 8300000, guid: b5803c17557c59c40bf3a6d69cb46cb3, type: 3}
@@ -29588,7 +29591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2969068313184073012
 Transform:
   m_ObjectHideFlags: 0
@@ -34627,7 +34630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &388479912145608203
 Transform:
   m_ObjectHideFlags: 0

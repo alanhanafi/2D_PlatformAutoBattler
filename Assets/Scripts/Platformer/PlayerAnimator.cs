@@ -21,6 +21,7 @@ namespace Platformer
         [SerializeField] private ParticleSystem _launchParticles;
         [SerializeField] private ParticleSystem _moveParticles;
         [SerializeField] private ParticleSystem _landParticles;
+        [SerializeField] private ParticleSystem _doubleJumpParticles;
 
         [Header("Audio Clips")] [SerializeField]
         private AudioClip[] _footsteps;
@@ -41,6 +42,7 @@ namespace Platformer
         private void OnEnable()
         {
             player.Jumped += OnJumped;
+            player.DoubleJumped += OnDoubleJumped;
             player.GroundedChanged += OnGroundedChanged;
             player.WallSlidingChanged += OnWallSlidingChanged;
             player.WallJumped += OnWallJump;
@@ -50,6 +52,7 @@ namespace Platformer
         private void OnDisable()
         {
             player.Jumped -= OnJumped;
+            player.DoubleJumped -= OnDoubleJumped;
             player.GroundedChanged -= OnGroundedChanged;
             player.WallSlidingChanged -= OnWallSlidingChanged;
             player.WallJumped -= OnWallJump;
@@ -116,12 +119,20 @@ namespace Platformer
 
 
             if (grounded) // Avoid coyote
-            {
-                SetColor(_jumpParticles);
-                SetColor(_launchParticles);
                 _jumpParticles.Play();
-            }
         }
+        
+
+        private void OnDoubleJumped()
+        {
+            Debug.Log($"OnDoubleJumped");
+            _anim.SetTrigger(JumpKey);
+            _anim.ResetTrigger(GroundedKey);
+            _anim.SetBool(WallSlidingKey,false);
+            
+            _doubleJumpParticles.Play();
+        }
+
 
         private void OnGroundedChanged(bool grounded, float impact)
         {
@@ -130,7 +141,7 @@ namespace Platformer
             if (grounded)
             {
                 DetectGroundColor();
-                SetColor(_landParticles);
+                //SetColor(_landParticles);
 
                 _anim.SetTrigger(GroundedKey);
                 _anim.SetBool(WallSlidingKey,false);

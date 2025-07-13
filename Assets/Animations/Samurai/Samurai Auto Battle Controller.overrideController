@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Samurai Auto Battle Controller
+  m_Controller: {fileID: 9100000, guid: c08d99d8d3019d546aeb5b7e9e6de664, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -5252816984213320552, guid: 3d946ca397519044fb9d035deed261b4, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: c4e87b2ef847cb442b5b9ebdf92ded07, type: 2}
+  - m_OriginalClip: {fileID: -6239216113759591374, guid: 6ab299a1a74c4f94e933af63004d9751, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: e6f5bfec7518561478376659da7a0f19, type: 2}

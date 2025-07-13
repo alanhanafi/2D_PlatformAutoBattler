@@ -33,6 +33,7 @@ namespace Platformer
         
         public event Action WallJumped;
         public event Action Jumped;
+        public event Action DoubleJumped;
 
         #endregion
 
@@ -180,7 +181,7 @@ namespace Platformer
         private bool CanUseCoyote => coyoteUsable && !isGrounded && time < frameLeftGrounded + stats.CoyoteTime;
         private bool IsWallJumping => !isGrounded && !IsWallSliding && time < timeWallJumpingStarted + stats.WallJumpLockTime;
 
-        private bool CanDoubleJump => canDoubleJump && IsDoubleJumpActive 
+        private bool CanDoubleJump => canDoubleJump //&& IsDoubleJumpActive 
                                       || coyoteUsable; // Allows to double jump while falling
 
         private void HandleJump()
@@ -202,6 +203,7 @@ namespace Platformer
         private void ExecuteDoubleJump()
         {
             ExecuteJump();
+            DoubleJumped?.Invoke();
             canDoubleJump = false;
         }
 
@@ -323,6 +325,7 @@ namespace Platformer
         public event Action<bool, float> GroundedChanged;
 
         public event Action Jumped;
+        public event Action DoubleJumped;
         public event Action<bool> WallSlidingChanged;
         public event Action WallJumped;
         public Vector2 FrameInput { get; }

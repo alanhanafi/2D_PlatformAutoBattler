@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Shared;
 using UnityEngine;
@@ -8,8 +9,13 @@ namespace AutoBattle
 {
     public class AutoBattleGameManager : MonoBehaviour
     {
+        internal static Difficulty CurrentDifficulty = Difficulty.Easy;
+        
         [SerializeField] private AutoBattlePlayerState playerState;
         [SerializeField] private AutoBattlePlayerState enemyState;
+        [SerializeField] private DifficultyInfo[] difficultyInfos;
+        
+        private DifficultyInfo CurrentDifficultyInfo => difficultyInfos.FirstOrDefault(difficultyInfo => difficultyInfo.Difficulty == CurrentDifficulty);
 
         [SerializeField]
         private float gameStartDelay = 2f;
@@ -45,10 +51,17 @@ namespace AutoBattle
 
         private void Start()
         {
+            InitializeAutoBattle();
+            StartGameAfterDelayAsync().Forget();
+        }
+
+        private void InitializeAutoBattle()
+        {
             Functions.ShowCursor();
             InitializePlayersStats();
             AutoBattleUIManager.Instance.Initialize(playerState,enemyState);
-            StartGameAfterDelayAsync().Forget();
+            enemyState.Initialize(CurrentDifficultyInfo);
+            playerState.Initialize(CurrentDifficultyInfo);
         }
 
         private void Update()
@@ -119,7 +132,7 @@ namespace AutoBattle
                 difficulty = (int)Difficulty.Hard;
             if(InventoryManager.Instance != null)
                 Destroy(InventoryManager.Instance.gameObject);
-            InventoryManager.CurrentDifficulty = (Difficulty)difficulty;
+            CurrentDifficulty = (Difficulty)difficulty;
             SceneManager.LoadScene("Sandbox");
         }
     }

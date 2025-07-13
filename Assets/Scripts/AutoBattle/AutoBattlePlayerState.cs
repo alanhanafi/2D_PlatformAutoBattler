@@ -47,14 +47,13 @@ namespace AutoBattle
 
         private Team enemyTeam => team == Team.Enemy ? Team.Player : Team.Enemy;
 
-        private void Awake()
+        internal void Initialize(DifficultyInfo currentDifficultyInfo)
         {
             playerView = GetComponent<AutoBattlePlayerView>();
-        }
-
-        private void Start()
-        {
             AutoBattleGameManager.Instance.OnTimePassed += OnTimePassing;
+            // Only change the view of the enemy on start for now
+            if(team == Team.Enemy)
+                playerView.Initialize(currentDifficultyInfo);
         }
 
         private void OnTimePassing(object sender, float timePassed)

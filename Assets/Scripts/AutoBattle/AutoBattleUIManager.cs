@@ -53,6 +53,8 @@ namespace AutoBattle
             AutoBattleGameManager.Instance.OnGameEnded += OnGameEnding;
 
             var inventoryManager = InventoryManager.Instance;
+            if (inventoryManager is null)
+                return;
             foreach (MainItem allyMainItem in inventoryManager.PlayerMainItemList)
             {
                 Instantiate(mainItemUIPrefab, playerMainItemsUIContainer).GetComponent<MainItemUI>().Initialize(allyMainItem);

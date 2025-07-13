@@ -12,8 +12,6 @@ namespace Shared
 {
     public class InventoryManager : MonoBehaviour
     {
-        internal static Difficulty CurrentDifficulty = Difficulty.Easy;
-        
         [SerializeField] private PickupItemPopup pickupItemPopup;
         
         [SerializeField] private GameObject mainItemUIGameObject;
@@ -57,7 +55,7 @@ namespace Shared
 
         private void Start()
         {
-            InitializeEnemyItems(CurrentDifficulty);
+            InitializeEnemyItems(AutoBattleGameManager.CurrentDifficulty);
         }
 
         private void InitializeEnemyItems(Difficulty difficulty)
